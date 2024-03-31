@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "471169727193",
+    "project_id": "ledgerstacks-2f9e6",
+    "storage_bucket": "ledgerstacks-2f9e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:471169727193:android:cf6463a78832addfacdcc8",
+        "android_client_info": {
+          "package_name": "com.example.ledger_stacks"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSbHMF9B6XwxyyDeEaYKYo88_989K3LNA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
