@@ -93,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                             ))
                       ],
                     ),
+                    //Button for Login
                     Padding(
                       padding: EdgeInsets.only(top: 30.h),
                       child: ButtonRaL(buttonText: "Login", onPressed: () {}),
