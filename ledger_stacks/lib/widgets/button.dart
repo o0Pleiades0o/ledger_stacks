@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../constants/color.dart';
 
 //button for Register and Login
 class ButtonRaL extends StatelessWidget {
@@ -8,28 +11,28 @@ class ButtonRaL extends StatelessWidget {
   const ButtonRaL({
     required this.buttonText,
     required this.onPressed,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 323,
-      height: 65,
+    return SizedBox(
+      width: 300.w,
+      height: 45.h,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
+          backgroundColor: kYellow,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(18.r),
           ),
         ),
         child: Text(
           buttonText,
           style: TextStyle(
-            color: Colors.black,
-            fontSize: 20,
+            color: Colors.white,
+            fontSize: 20.sp,
             fontWeight: FontWeight.w700,
-            height: 0,
           ),
         ),
       ),

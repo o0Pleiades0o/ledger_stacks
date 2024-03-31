@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ledger_stacks/widgets/Textfield.dart';
-import 'package:ledger_stacks/widgets/button.dart';
+
+import '../constants/color.dart';
+import '../widgets/button.dart';
+import '../widgets/textform.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -20,13 +22,13 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.purple.shade500,
+        backgroundColor: kViolet,
         body: Column(
           children: [
             const Spacer(),
             //Header for Register
             Padding(
-              padding: const EdgeInsets.only(bottom: 25),
+              padding: EdgeInsets.only(bottom: 25.h),
               child: Column(
                 children: [
                   Text(
@@ -58,17 +60,24 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               //inside for Textfield
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: EdgeInsets.all(20.h),
                 child: Column(
                   children: [
                     TextFieldGeneral(
-                        controller: usernameController, labelText: "Username"),
+                      controller: usernameController,
+                      labelText: "Username",
+                      icon: Icons.person,
+                    ),
                     TextFieldGeneral(
-                        controller: emailController, labelText: "Email"),
+                      controller: emailController,
+                      labelText: "Email",
+                      icon: Icons.mail,
+                    ),
                     TextFieldPassword(
-                        controller: passwordController,
-                        labelText: "Email",
-                        obscureText: false),
+                      controller: passwordController,
+                      labelText: "password",
+                      icon: Icons.lock,
+                    ),
                     Padding(
                       padding: EdgeInsets.only(top: 30.h),
                       child:
@@ -83,7 +92,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               text: 'Already have an account ? ',
                               style: TextStyle(
                                 color: Color(0xFF595959),
-                                fontSize: 10.sp,
+                                fontSize: 12.sp,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -91,7 +100,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               text: 'Login now',
                               style: TextStyle(
                                 color: Color(0xFF595959),
-                                fontSize: 10.sp,
+                                fontSize: 12.sp,
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
