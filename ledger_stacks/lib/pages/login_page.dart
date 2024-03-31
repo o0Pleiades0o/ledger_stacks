@@ -63,8 +63,6 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     TextFieldGeneral(
-                        controller: usernameController, labelText: "Username"),
-                    TextFieldGeneral(
                         controller: emailController, labelText: "Email"),
                     TextFieldPassword(
                         controller: passwordController,
