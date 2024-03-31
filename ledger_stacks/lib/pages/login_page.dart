@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: [
             SizedBox(
-              height: 200.h,
+              height: 190.h,
             ),
             //Header for Login
             Padding(
@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               //inside for Textfield
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 60.h, horizontal: 35.w),
+                padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 35.w),
                 child: Column(
                   children: [
                     TextFieldGeneral(
@@ -87,12 +87,13 @@ class _LoginPageState extends State<LoginPage> {
                             child: Text(
                               "Forgot Password?",
                               style: TextStyle(
-                                color: kDarkgray,
+                                color: Colors.blueAccent,
                                 fontSize: 12.sp,
                               ),
                             ))
                       ],
                     ),
+                    //Button for Login
                     Padding(
                       padding: EdgeInsets.only(top: 30.h),
                       child: ButtonRaL(buttonText: "Login", onPressed: () {}),
