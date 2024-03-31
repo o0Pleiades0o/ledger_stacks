@@ -30,7 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
           children: [
             SizedBox(
-              height: 200.h,
+              height: 190.h,
             ),
             //Header for Register
             Padding(
@@ -66,7 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               //inside for Textfield
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 60.h, horizontal: 35.w),
+                padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 35.w),
                 child: Column(
                   children: [
                     TextFieldGeneral(
