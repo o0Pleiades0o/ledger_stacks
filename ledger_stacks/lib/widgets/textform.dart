@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class TextFieldGeneral extends StatelessWidget {
   final TextEditingController controller;
   final String labelText;
+  final String? Function(String?)? validator;
+  final void Function(String?)? onSaved;
   final IconData icon;
 
   const TextFieldGeneral({
@@ -11,6 +13,8 @@ class TextFieldGeneral extends StatelessWidget {
     required this.controller,
     required this.labelText,
     required this.icon,
+    this.validator,
+    this.onSaved,
   });
 
   @override
@@ -20,6 +24,8 @@ class TextFieldGeneral extends StatelessWidget {
       children: [
         TextFormField(
           controller: controller,
+          onSaved: onSaved,
+          validator: validator,
           decoration: InputDecoration(
             labelText: labelText,
             prefixIcon: Icon(icon),
@@ -34,6 +40,8 @@ class TextFieldGeneral extends StatelessWidget {
 class TextFieldPassword extends StatefulWidget {
   final TextEditingController controller;
   final String labelText;
+  final String? Function(String?)? validator;
+  final void Function(String?)? onSaved;
   final IconData icon;
 
   const TextFieldPassword({
@@ -41,6 +49,8 @@ class TextFieldPassword extends StatefulWidget {
     required this.controller,
     required this.labelText,
     required this.icon,
+    this.validator,
+    this.onSaved,
   });
 
   @override
@@ -63,6 +73,8 @@ class _TextFieldPasswordState extends State<TextFieldPassword> {
       children: [
         TextFormField(
           controller: widget.controller,
+          onSaved: widget.onSaved,
+          validator: widget.validator,
           decoration: InputDecoration(
             labelText: widget.labelText,
             prefixIcon: Icon(widget.icon),

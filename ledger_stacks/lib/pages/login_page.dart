@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ledger_stacks/constants/color.dart';
-import 'package:ledger_stacks/widgets/Textfield.dart';
+import 'package:ledger_stacks/pages/register_page.dart';
 import 'package:ledger_stacks/widgets/button.dart';
+
+import '../widgets/textform.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -22,9 +24,12 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kViolet,
-      body: Column(
+      body: SingleChildScrollView(
+        child: Column(
           children: [
-            const Spacer(),
+            SizedBox(
+              height: 200.h,
+            ),
             //Header for Login
             Padding(
               padding: const EdgeInsets.only(bottom: 25),
@@ -59,42 +64,66 @@ class _LoginPageState extends State<LoginPage> {
               ),
               //inside for Textfield
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: EdgeInsets.symmetric(vertical: 60.h, horizontal: 35.w),
                 child: Column(
                   children: [
                     TextFieldGeneral(
-                        controller: emailController, labelText: "Email"),
+                      controller: emailController,
+                      labelText: "Email",
+                      icon: Icons.mail,
+                    ),
                     TextFieldPassword(
-                        controller: passwordController,
-                        labelText: "Password",
-                        obscureText: false),
-                    Padding(
-                      padding: EdgeInsets.only(top: 30.h),
-                      child:
-                          ButtonRaL(buttonText: "Login", onPressed: () {}),
+                      controller: passwordController,
+                      labelText: "password",
+                      icon: Icons.lock,
+                    ),
+                    Row(
+                      children: [
+                        const Spacer(),
+                        GestureDetector(
+                            onTap: () {
+                              debugPrint("Pressed");
+                            },
+                            child: Text(
+                              "Forgot Password?",
+                              style: TextStyle(
+                                color: kDarkgray,
+                                fontSize: 12.sp,
+                              ),
+                            ))
+                      ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 15.h),
-                      child: Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'Create account? ',
-                              style: TextStyle(
-                                color: Color(0xFF595959),
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w500,
+                      padding: EdgeInsets.only(top: 30.h),
+                      child: ButtonRaL(buttonText: "Login", onPressed: () {}),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 12.h),
+                      child: GestureDetector(
+                        onTap: () => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RegisterPage())),
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Create account? ',
+                                style: TextStyle(
+                                  color: kDarkgray,
+                                  fontSize: 12.sp,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: 'Register now',
-                              style: TextStyle(
-                                color: Color(0xFF595959),
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w900,
+                              TextSpan(
+                                text: 'Register now',
+                                style: TextStyle(
+                                  color: kDarkgray,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     )
@@ -104,6 +133,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ],
         ),
+      ),
     );
   }
 }

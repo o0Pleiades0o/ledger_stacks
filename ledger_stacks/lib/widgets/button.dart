@@ -39,3 +39,28 @@ class ButtonRaL extends StatelessWidget {
     );
   }
 }
+
+class KBackButton extends StatelessWidget {
+  final VoidCallback onPressed;
+
+  const KBackButton({super.key, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: kYellow,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+        child: const Icon(
+          Icons.arrow_back,
+          color: Colors.white,
+        ),
+      ),
+    );
+  }
+}

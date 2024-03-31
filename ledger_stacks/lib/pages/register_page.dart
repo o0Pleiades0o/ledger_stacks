@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ledger_stacks/pages/login_page.dart';
 
 import '../constants/color.dart';
 import '../widgets/button.dart';
@@ -19,13 +20,18 @@ TextEditingController passwordController = TextEditingController();
 TextEditingController usernameController = TextEditingController();
 
 class _RegisterPageState extends State<RegisterPage> {
+  bool isCheck = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: kViolet,
-        body: Column(
+        body: SingleChildScrollView(
+            child: Column(
           children: [
-            const Spacer(),
+            SizedBox(
+              height: 200.h,
+            ),
             //Header for Register
             Padding(
               padding: EdgeInsets.only(bottom: 25.h),
@@ -60,7 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               //inside for Textfield
               child: Padding(
-                padding: EdgeInsets.all(20.h),
+                padding: EdgeInsets.symmetric(vertical: 60.h, horizontal: 35.w),
                 child: Column(
                   children: [
                     TextFieldGeneral(
@@ -78,6 +84,23 @@ class _RegisterPageState extends State<RegisterPage> {
                       labelText: "password",
                       icon: Icons.lock,
                     ),
+                    //end inside for Textfield
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: isCheck,
+                          onChanged: (isChecked) {
+                            setState(() {
+                              isCheck = isChecked!;
+                            });
+                          },
+                        ),
+                        Text(
+                          "I agree with the terms and conditions",
+                          style: TextStyle(fontSize: 12.sp),
+                        ),
+                      ],
+                    ),
                     Padding(
                       padding: EdgeInsets.only(top: 30.h),
                       child:
@@ -85,26 +108,31 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 15.h),
-                      child: Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: 'Already have an account ? ',
-                              style: TextStyle(
-                                color: Color(0xFF595959),
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w500,
+                      child: GestureDetector(
+                        onTap: () => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginPage())),
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Already have an account ? ',
+                                style: TextStyle(
+                                  color: kDarkgray,
+                                  fontSize: 12.sp,
+                                ),
                               ),
-                            ),
-                            TextSpan(
-                              text: 'Login now',
-                              style: TextStyle(
-                                color: Color(0xFF595959),
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w900,
+                              TextSpan(
+                                text: 'Login now',
+                                style: TextStyle(
+                                  color: kDarkgray,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     )
@@ -113,6 +141,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ],
-        ));
+        )));
   }
 }
