@@ -62,8 +62,8 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    TextFieldGeneral(
                         controller: emailController, labelText: "Email"),
+                    TextFieldGeneral(
                     TextFieldPassword(
                         controller: passwordController,
                         labelText: "Password",
