@@ -1,15 +1,15 @@
-class user {
+class User {
   String username;
   String email;
   String password;
 
-  user({required this.username, required this.email, required this.password});
+  User({required this.username, required this.email, required this.password});
 
-  Map<String, dynamic> toJson(){
+  Map<String, dynamic> toJson() {
     return {
       'username': username,
       'email': email,
       'password': password,
-    }
+    };
   }
 }
