@@ -67,12 +67,10 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 35.w),
                 child: Column(
                   children: [
-                        controller: emailController, labelText: "Email"),
-                    TextFieldGeneral(
-                    TextFieldGeneral(
-                      controller: emailController,
-                      labelText: "Email",
-                      icon: Icons.mail,
+                        TextFieldGeneral(
+                      controller: usernameController,
+                      labelText: "Username",
+                      icon: Icons.person,
                     ),
                     TextFieldPassword(
                       controller: passwordController,
