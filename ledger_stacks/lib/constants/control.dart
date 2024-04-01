@@ -1,3 +1,4 @@
+//RegExp Control
 bool isValidEmail(String email) {
   final RegExp regex = RegExp(
     r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
@@ -17,4 +18,35 @@ bool validatePassword(String password) {
   final RegExp passwordRegExp = RegExp(r'^.{8,}$');
 
   return passwordRegExp.hasMatch(password);
+}
+
+//Validator Control
+String? validateUsernameField(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Username is required';
+  }
+  if (!validateUsername(value)) {
+    return 'Invalid username';
+  }
+  return null;
+}
+
+String? validateEmailField(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Email is required';
+  }
+  if (!isValidEmail(value)) {
+    return 'Invalid email address';
+  }
+  return null;
+}
+
+String? validatePasswordField(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Password is required';
+  }
+  if (!validatePassword(value)) {
+    return 'Password must be at least 8 characters long';
+  }
+  return null;
 }
