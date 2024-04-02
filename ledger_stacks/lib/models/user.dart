@@ -1,21 +1,23 @@
-class User {
-  String id;
-  String username;
-  String email;
-  String password;
+class UserModel {
+  late int id;
+  late String username;
+  late String email;
+  late String password;
+  late String imageAvatar;
 
-  User(
-      {required this.id,
-      required this.username,
-      required this.email,
-      required this.password});
+  UserModel({
+    required this.id,
+    required this.username,
+    required this.email,
+    required this.password,
+    required this.imageAvatar,
+  });
 
-  Map<String, dynamic> toJson() {
-    return {
-      'String': id,
-      'username': username,
-      'email': email,
-      'password': password,
-    };
+  UserModel.fromDocumentSnapshot(String id, Map<String, dynamic> json) {
+    this.id = int.parse(id);
+    username = json["username"] ?? '';
+    email = json["email"] ?? '';
+    password = json["password"] ?? '';
+    imageAvatar = json["imageAvatar"] ?? '';
   }
 }
