@@ -108,7 +108,7 @@ class RegisterPage extends GetWidget<AuthController> {
                       Padding(
                         padding: EdgeInsets.only(top: 15.h),
                         child: GestureDetector(
-                          onTap: () => Get.off(const LoginPage()),
+                          onTap: () => Get.off(() => const LoginPage()),
                           child: Text.rich(
                             TextSpan(
                               children: [

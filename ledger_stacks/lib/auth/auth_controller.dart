@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:ledger_stacks/pages/home/home_page.dart';
-import 'package:ledger_stacks/util/root.dart';
+import 'package:ledger_stacks/auth/user_controller.dart';
+import 'package:ledger_stacks/models/user.dart';
+import 'package:ledger_stacks/pages/login/login_page.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
   Rx<User?> firebaseUser = Rx<User?>(null);
 
   String get user => firebaseUser.value?.email ?? '';
@@ -17,12 +20,24 @@ class AuthController extends GetxController {
 
   void register(String email, String password) async {
     try {
-      await auth.createUserWithEmailAndPassword(
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+        //await user uid then sead uid to userCredential
         email: email,
         password: password,
       );
-      //Get.back();
-      Get.offAll(() => const Root());
+      // Create a new instance of UserModel
+      UserModel user = UserModel(
+        id: userCredential.user!.uid,
+        username: username,
+        email: email,
+        password: password,
+        imageAvatar: '',
+      );
+      // Call Function to Save the user data to Firestore
+      if (await UserController().createUser(user)) {
+        Get.find<UserController>().user = user;
+        Get.back();
+      }
     } catch (e) {
       Get.snackbar(
         "Error creating account",
@@ -36,8 +51,10 @@ class AuthController extends GetxController {
 
   void login(String email, String password) async {
     try {
-      await auth.signInWithEmailAndPassword(email: email, password: password);
-      Get.offAll(() => const HomePage());
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      Get.find<UserController>().user =
+          (await UserController().getUser(userCredential.user!.uid))!;
     } catch (e) {
       Get.snackbar(
         "Error login account",
@@ -52,6 +69,7 @@ class AuthController extends GetxController {
   void signOut() async {
     try {
       await auth.signOut();
+      Get.find<UserController>().clear();
     } catch (e) {
       Get.snackbar(
         "Error signing out",
