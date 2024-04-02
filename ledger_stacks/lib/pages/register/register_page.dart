@@ -1,45 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ledger_stacks/pages/login_page.dart';
+import 'package:get/get.dart';
+import 'package:ledger_stacks/auth/auth_controller.dart';
+import 'package:ledger_stacks/pages/login/login_page.dart';
+import 'package:ledger_stacks/pages/register/register_controller.dart';
 
-import '../constants/color.dart';
-import '../constants/control.dart';
-import '../widgets/button.dart';
-import '../widgets/textform.dart';
+import '../../constants/color.dart';
+import '../../util/util.dart';
+import '../../widgets/button.dart';
+import '../../widgets/textform.dart';
 
-class RegisterPage extends StatefulWidget {
+class RegisterPage extends GetWidget<AuthController> {
   const RegisterPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
-}
-
-String email = "", password = "", username = "";
-
-TextEditingController emailController = TextEditingController();
-TextEditingController passwordController = TextEditingController();
-TextEditingController usernameController = TextEditingController();
-
-final _formkey = GlobalKey<FormState>();
-
-class _RegisterPageState extends State<RegisterPage> {
-  bool isCheck = false;
-
-  @override
   Widget build(BuildContext context) {
+    final RegisterController registerController = Get.put(RegisterController());
+    final AuthController authController = Get.put(AuthController());
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: kViolet,
         body: SingleChildScrollView(
             child: Form(
-          key: _formkey,
+          key: registerController.formKey,
           child: Column(
             children: [
               SizedBox(
                 height: 190.h,
               ),
-              //Header for Register
               Padding(
+                //Header for Register
                 padding: EdgeInsets.only(bottom: 25.h),
                 child: Column(
                   children: [
@@ -56,11 +47,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ],
                 ),
-              ),
-              //Box for Textfield
+              ), //Box for Textfield
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 450.h,
+                height: Get.height * 0.8,
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
@@ -69,8 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       topRight: Radius.circular(45.r),
                     ),
                   ),
-                ),
-                //inside for Textfield
+                ), //inside for Textfield
                 child: Padding(
                   padding:
                       EdgeInsets.symmetric(vertical: 30.h, horizontal: 35.w),
@@ -78,51 +67,48 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: [
                       TextFieldGeneral(
                         validator: validateUsernameField,
-                        controller: usernameController,
+                        controller: registerController.usernameController,
                         labelText: "Username",
                         icon: Icons.person,
                       ),
                       TextFieldGeneral(
                         validator: validateEmailField,
-                        controller: emailController,
+                        controller: registerController.emailController,
                         labelText: "Email",
                         icon: Icons.mail,
                       ),
                       TextFieldPassword(
                         validator: validatePasswordField,
-                        controller: passwordController,
+                        controller: registerController.passwordController,
                         labelText: "password",
                         icon: Icons.lock,
                       ),
-                      //end inside for Textfield
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: isCheck,
-                            onChanged: (isChecked) {
-                              setState(() {
-                                isCheck = isChecked!;
-                              });
-                            },
-                          ),
-                          Text(
-                            "I agree with the terms and conditions",
-                            style: TextStyle(fontSize: 12.sp),
-                          ),
-                        ],
-                      ),
+                      TextFieldPassword(
+                        validator: (value) => validateConfirmPasswordField(
+                            value, registerController.passwordController.text),
+                        controller:
+                            registerController.confirmPasswordController,
+                        labelText: "Confirm password",
+                        icon: Icons.lock,
+                      ), //end inside for Textfield
                       Padding(
                         padding: EdgeInsets.only(top: 30.h),
-                        child:
-                            ButtonRaL(buttonText: "Register", onPressed: () {}),
+                        child: ButtonRaL(
+                            buttonText: "Register",
+                            onPressed: () {
+                              if (registerController.formKey.currentState!
+                                  .validate()) {
+                                authController.register(
+                                  registerController.emailController.text,
+                                  registerController.passwordController.text,
+                                );
+                              }
+                            }),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 15.h),
                         child: GestureDetector(
-                          onTap: () => Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LoginPage())),
+                          onTap: () => Get.off(const LoginPage()),
                           child: Text.rich(
                             TextSpan(
                               children: [

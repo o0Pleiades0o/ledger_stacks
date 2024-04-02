@@ -1,3 +1,14 @@
+import 'package:get/get.dart';
+
+//Update the observable value
+class IsObscureController extends GetxController {
+  var isObscure = true.obs;
+
+  void togglePasswordVisibility() {
+    isObscure.value = !isObscure.value;
+  }
+}
+
 //RegExp Control
 bool isValidEmail(String email) {
   final RegExp regex = RegExp(
@@ -47,6 +58,19 @@ String? validatePasswordField(String? value) {
   }
   if (!validatePassword(value)) {
     return 'Password must be at least 8 characters long';
+  }
+  return null;
+}
+
+String? validateConfirmPasswordField(String? value, String password) {
+  if (value == null || value.isEmpty) {
+    return 'Confirm Password is required';
+  }
+  if (!validatePassword(value)) {
+    return 'Confirm Password must be at least 8 characters long';
+  }
+  if (value != password) {
+    return 'Password does not match';
   }
   return null;
 }
