@@ -100,4 +100,26 @@ class AuthController extends GetxController {
       );
     }
   }
+
+  void restPassword(String email) async {
+    Get.put(UserController());
+    debugPrint("Email : $email");
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+      Get.snackbar(
+        "Success",
+        "Password reset email has been sent",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } catch (e) {
+      debugPrint("Firebase error: $e");
+      Get.snackbar(
+        "Error",
+        e is FirebaseAuthException
+            ? e.message ?? 'Unknown error'
+            : e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
 }

@@ -87,7 +87,7 @@ class LoginPage extends GetWidget<AuthController> {
                           const Spacer(),
                           GestureDetector(
                               onTap: () {
-                                Get.off(const ForgetPassPage());
+                                Get.off(() => const ForgetPassPage());
                               },
                               child: Text(
                                 "Forgot Password?",
@@ -151,9 +151,3 @@ class LoginPage extends GetWidget<AuthController> {
     );
   }
 }
-
-String email = "", password = "", username = "";
-
-TextEditingController emailController = TextEditingController();
-TextEditingController passwordController = TextEditingController();
-TextEditingController usernameController = TextEditingController();
