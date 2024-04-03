@@ -2,10 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ledger_stacks/auth/bindings/auth_binding.dart';
-import 'package:ledger_stacks/util/root.dart';
+import 'package:ledger_stacks/pages/login/login_page.dart';
 
 import '../constants/color.dart';
+import 'auth/bindings/auth_binding.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +20,9 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -30,13 +32,12 @@ class MyApp extends StatelessWidget {
         builder: (_, child) {
           return GetMaterialApp(
             initialBinding: AuthBinding(),
-            title: 'Flutter Demo',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: kViolet),
               useMaterial3: true,
             ),
-            home: const Root(),
+            home: const LoginPage(),
           );
         });
   }

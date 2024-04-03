@@ -1,16 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/models/user.dart';
-import 'package:ledger_stacks/pages/login/login_page.dart';
+
+import '../pages/home/home_page.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   Rx<User?> firebaseUser = Rx<User?>(null);
 
-  String get user => firebaseUser.value?.email ?? '';
+  late User _user;
+  User get user => _user;
+  String? get uid => _user.uid;
 
   @override
   void onInit() {
@@ -18,7 +22,9 @@ class AuthController extends GetxController {
     firebaseUser.bindStream(auth.userChanges());
   }
 
-  void register(String email, String password) async {
+  void register(String email, String password, String username) async {
+    Get.put(UserController());
+
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
         //await user uid then sead uid to userCredential
@@ -27,7 +33,7 @@ class AuthController extends GetxController {
       );
       // Create a new instance of UserModel
       UserModel user = UserModel(
-        id: userCredential.user!.uid,
+        id: userCredential.user?.uid,
         username: username,
         email: email,
         password: password,
@@ -36,9 +42,10 @@ class AuthController extends GetxController {
       // Call Function to Save the user data to Firestore
       if (await UserController().createUser(user)) {
         Get.find<UserController>().user = user;
-        Get.back();
+        Get.offAll(() => const HomePage());
       }
     } catch (e) {
+      debugPrint("Firebase error: $e");
       Get.snackbar(
         "Error creating account",
         e is FirebaseAuthException
@@ -50,12 +57,25 @@ class AuthController extends GetxController {
   }
 
   void login(String email, String password) async {
+    Get.put(UserController());
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
-      Get.find<UserController>().user =
-          (await UserController().getUser(userCredential.user!.uid))!;
+      UserModel? user =
+          await UserController().getUser(userCredential.user!.uid);
+      if (user != null) {
+        Get.find<UserController>().user = user;
+        Get.offAll(() => const HomePage());
+      } else {
+        // Handle the case when user is null
+        Get.snackbar(
+          "Error",
+          "User not found",
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
     } catch (e) {
+      debugPrint("Firebase error: $e");
       Get.snackbar(
         "Error login account",
         e is FirebaseAuthException

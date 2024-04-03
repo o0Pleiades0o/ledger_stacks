@@ -99,9 +99,9 @@ class RegisterPage extends GetWidget<AuthController> {
                               if (registerController.formKey.currentState!
                                   .validate()) {
                                 authController.register(
-                                  registerController.emailController.text,
-                                  registerController.passwordController.text,
-                                );
+                                    registerController.emailController.text,
+                                    registerController.passwordController.text,
+                                    registerController.usernameController.text);
                               }
                             }),
                       ),

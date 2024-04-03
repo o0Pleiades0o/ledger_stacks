@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:ledger_stacks/pages/Forget_password/forget_pass_page.dart';
 import 'package:ledger_stacks/pages/login/login_controller.dart';
 import 'package:ledger_stacks/pages/register/register_page.dart';
 
@@ -11,7 +12,9 @@ import '../../widgets/button.dart';
 import '../../widgets/textform.dart';
 
 class LoginPage extends GetWidget<AuthController> {
-  const LoginPage({super.key});
+  const LoginPage({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +87,7 @@ class LoginPage extends GetWidget<AuthController> {
                           const Spacer(),
                           GestureDetector(
                               onTap: () {
-                                debugPrint("Pressed");
+                                Get.off(const ForgetPassPage());
                               },
                               child: Text(
                                 "Forgot Password?",

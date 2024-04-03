@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ledger_stacks/auth/auth_controller.dart';
-import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/pages/home/home_page.dart';
 import 'package:ledger_stacks/pages/login/login_page.dart';
+
+import '../auth/auth_controller.dart';
+import '../auth/user_controller.dart';
 
 class Root extends GetWidget<AuthController> {
   const Root({super.key});
@@ -15,11 +16,11 @@ class Root extends GetWidget<AuthController> {
         Get.put<UserController>(UserController());
       },
       builder: (_) {
-        final authController = Get.find<AuthController>();
-        final isUserLoggedIn = authController.firebaseUser.value != null &&
-            authController.user.isNotEmpty == true;
-
-        return isUserLoggedIn ? const HomePage() : const LoginPage();
+        if (Get.find<AuthController>().user.uid.isNotEmpty) {
+          return const HomePage();
+        } else {
+          return const LoginPage();
+        }
       },
     );
   }
