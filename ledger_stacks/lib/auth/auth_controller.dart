@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -31,12 +34,14 @@ class AuthController extends GetxController {
         email: email,
         password: password,
       );
+      //Hash password before uploading to firestore
+      String hashedPassword = sha256.convert(utf8.encode(password)).toString();
       // Create a new instance of UserModel
       UserModel user = UserModel(
         id: userCredential.user?.uid,
         username: username,
         email: email,
-        password: password,
+        password: hashedPassword,
         imageAvatar: '',
       );
       // Call Function to Save the user data to Firestore

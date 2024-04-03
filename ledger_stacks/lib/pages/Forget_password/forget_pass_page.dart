@@ -11,7 +11,7 @@ import '../../constants/color.dart';
 import '../../util/util.dart';
 import '../../widgets/button.dart';
 
-class ForgetPassPage extends GetWidget<AuthController> {
+class ForgetPassPage extends GetView<AuthController> {
   const ForgetPassPage({super.key});
 
   @override

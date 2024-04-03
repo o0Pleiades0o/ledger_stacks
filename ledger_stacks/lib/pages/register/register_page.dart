@@ -10,7 +10,7 @@ import '../../util/util.dart';
 import '../../widgets/button.dart';
 import '../../widgets/textform.dart';
 
-class RegisterPage extends GetWidget<AuthController> {
+class RegisterPage extends GetView<AuthController> {
   const RegisterPage({super.key});
 
   @override

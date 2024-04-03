@@ -11,7 +11,7 @@ import '../../util/util.dart';
 import '../../widgets/button.dart';
 import '../../widgets/textform.dart';
 
-class LoginPage extends GetWidget<AuthController> {
+class LoginPage extends GetView<AuthController> {
   const LoginPage({
     super.key,
   });
