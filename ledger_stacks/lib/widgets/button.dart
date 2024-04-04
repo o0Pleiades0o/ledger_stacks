@@ -111,3 +111,28 @@ class SignInWithGoogleBT extends StatelessWidget {
     );
   }
 }
+
+class EditButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  const EditButton({super.key, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 45.h,
+      width: 45.w,
+      child: Center(
+        // Center widget added here
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(backgroundColor: kYellow),
+          child: Icon(
+            FontAwesomeIcons.pencil,
+            color: Colors.white,
+            size: 15.sp,
+          ),
+        ),
+      ),
+    );
+  }
+}

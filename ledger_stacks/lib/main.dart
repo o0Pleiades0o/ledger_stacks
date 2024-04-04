@@ -2,7 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ledger_stacks/pages/profile/proflie_page.dart';
+import 'package:ledger_stacks/auth/user_controller.dart';
+import 'package:ledger_stacks/pages/login/login_page.dart';
+import 'package:ledger_stacks/pages/profile/edit_profile/edit_profile_page.dart';
+import 'package:ledger_stacks/util/root.dart';
 
 import '../constants/color.dart';
 import 'auth/bindings/auth_binding.dart';
@@ -16,6 +19,7 @@ void main() async {
     messagingSenderId: "471169727193",
     projectId: "ledgerstacks-2f9e6",
   ));
+  Get.put(UserController(), permanent: true);
   runApp(const MyApp());
 }
 
@@ -37,7 +41,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: kViolet),
               useMaterial3: true,
             ),
-            home: const Proflie(),
+            home: const Root(),
           );
         });
   }

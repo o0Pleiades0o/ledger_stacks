@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/auth/auth_controller.dart';
@@ -12,7 +13,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AuthController authController = Get.put(AuthController());
+    final userController = Get.find<UserController>();
+    final authController = Get.find<AuthController>();
 
     return Scaffold(
       body: Center(
@@ -22,15 +24,7 @@ class HomePage extends StatelessWidget {
             children: <Widget>[
               const Text('Hello, World!'),
               const Text('This is Home Page'),
-              GetX<UserController>(
-                builder: (_) {
-                  if (_.user.email != null) {
-                    return Text(_.user.email ?? 'No email available');
-                  } else {
-                    return const CircularProgressIndicator();
-                  }
-                },
-              ),
+              Text(userController.user.email?.toString() ?? 'No email'),
               ButtonRaL(
                   buttonText: "Sign out",
                   onPressed: () {

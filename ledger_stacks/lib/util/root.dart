@@ -1,24 +1,42 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/pages/home/home_page.dart';
 import 'package:ledger_stacks/pages/login/login_page.dart';
+import 'package:path/path.dart';
 
 import '../auth/auth_controller.dart';
 
-class Root extends GetWidget<AuthController> {
+class Root extends GetView<AuthController> {
   const Root({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
+    //   return StreamBuilder<User?>(
+    //     stream: FirebaseAuth.instance.authStateChanges(),
+    //     builder: (context, snapshot) {
+    //       if (snapshot.connectionState == ConnectionState.waiting) {
+    //         return const CircularProgressIndicator();
+    //       }
+    //       final user = snapshot.data;
+    //       debugPrint("Print debut $user");
+    //       if (user != null) {
+    //         return const HomePage();
+    //       } else {
+    //         return const LoginPage();
+    //       }
+    //     },
+    //   );
+    // }
+
+    return FutureBuilder(
+      future: controller.islogin(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+        if (snapshot.connectionState != ConnectionState.done) {
+          return Center(child: const CircularProgressIndicator());
         }
-        final user = snapshot.data;
-        if (user != null) {
+        if (controller.user != null) {
           return const HomePage();
         } else {
           return const LoginPage();
@@ -26,17 +44,4 @@ class Root extends GetWidget<AuthController> {
       },
     );
   }
-
-  // return GetX(
-  //   initState: (_) async {
-  //     Get.put<UserController>(UserController());
-  //   },
-  //   builder: (_) {
-  //     if (Get.find<AuthController>().user.uid.isNotEmpty) {
-  //       return const HomePage();
-  //     } else {
-  //       return const LoginPage();
-  //     }
-  //   },
-  // );
 }
