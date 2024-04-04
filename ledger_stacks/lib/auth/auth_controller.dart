@@ -127,4 +127,7 @@ class AuthController extends GetxController {
       );
     }
   }
+
+  //Sign IN with google function
+  void signInWithGoogle() {}
 }
