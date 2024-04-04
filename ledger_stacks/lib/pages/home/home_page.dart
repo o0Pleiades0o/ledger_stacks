@@ -16,26 +16,29 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       body: Center(
-        child: Column(
-          children: <Widget>[
-            const Text('Hello, World!'),
-            const Text('This is Home Page'),
-            GetX<UserController>(
-              builder: (_) {
-                if (_.user.email != null) {
-                  return Text(_.user.email ?? 'No email available');
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              },
-            ),
-            ButtonRaL(
-                buttonText: "Sign out",
-                onPressed: () {
-                  authController.signOut();
-                  Get.offAll(() => const LoginPage());
-                })
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: Column(
+            children: <Widget>[
+              const Text('Hello, World!'),
+              const Text('This is Home Page'),
+              GetX<UserController>(
+                builder: (_) {
+                  if (_.user.email != null) {
+                    return Text(_.user.email ?? 'No email available');
+                  } else {
+                    return const CircularProgressIndicator();
+                  }
+                },
+              ),
+              ButtonRaL(
+                  buttonText: "Sign out",
+                  onPressed: () {
+                    authController.signOut();
+                    Get.offAll(() => const LoginPage());
+                  })
+            ],
+          ),
         ),
       ),
     );

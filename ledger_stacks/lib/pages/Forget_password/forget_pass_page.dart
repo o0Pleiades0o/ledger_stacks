@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ledger_stacks/pages/Forget_password/forget_pass_controller.dart';
+import 'package:ledger_stacks/pages/forget_password/forget_pass_controller.dart';
 import 'package:ledger_stacks/pages/login/login_page.dart';
 import 'package:ledger_stacks/pages/register/register_page.dart';
 import 'package:ledger_stacks/widgets/textform.dart';

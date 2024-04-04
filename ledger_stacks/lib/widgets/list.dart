@@ -26,22 +26,22 @@ class ListsWithCards extends StatelessWidget {
 class CardList extends StatelessWidget {
   final List<String> listData;
 
-  CardList({required this.listData});
+  const CardList({super.key, required this.listData});
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(10.0),
+      margin: const EdgeInsets.all(10.0),
       child: Column(
         children: [
           ListTile(
             title: Text('List ${listData[0]}'),
           ),
-          Divider(),
+          const Divider(),
           ListView.builder(
             itemCount: listData.length,
             shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return ListTile(
                 title: Text(listData[index]),
