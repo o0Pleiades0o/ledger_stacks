@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:ledger_stacks/util/util.dart';
 
 class TextFieldGeneral extends StatelessWidget {
   final TextEditingController controller;
@@ -37,7 +39,7 @@ class TextFieldGeneral extends StatelessWidget {
   }
 }
 
-class TextFieldPassword extends StatefulWidget {
+class TextFieldPassword extends StatelessWidget {
   final TextEditingController controller;
   final String labelText;
   final String? Function(String?)? validator;
@@ -54,36 +56,35 @@ class TextFieldPassword extends StatefulWidget {
   });
 
   @override
-  State<TextFieldPassword> createState() => _TextFieldPasswordState();
-}
-
-class _TextFieldPasswordState extends State<TextFieldPassword> {
-  bool isObscure = true;
-
-  void togglePasswordVisibility() {
-    setState(() {
-      isObscure = !isObscure;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final IsObscureController passwordController =
+        Get.put(IsObscureController());
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        TextFormField(
-          controller: widget.controller,
-          onSaved: widget.onSaved,
-          validator: widget.validator,
-          decoration: InputDecoration(
-            labelText: widget.labelText,
-            prefixIcon: Icon(widget.icon),
-            suffixIcon: GestureDetector(
-              onTap: togglePasswordVisibility,
-              child: Icon(isObscure ? Icons.visibility : Icons.visibility_off),
-            ),
-          ),
-          obscureText: isObscure,
+        GetX<IsObscureController>(
+          init: passwordController,
+          builder: (isObscureController) {
+            return TextFormField(
+              controller: controller,
+              onSaved: onSaved,
+              validator: validator,
+              decoration: InputDecoration(
+                labelText: labelText,
+                prefixIcon: Icon(icon),
+                suffixIcon: GestureDetector(
+                  onTap: isObscureController.togglePasswordVisibility,
+                  child: Icon(
+                    isObscureController.isObscure.value
+                        ? Icons.visibility
+                        : Icons.visibility_off,
+                  ),
+                ),
+              ),
+              obscureText: isObscureController.isObscure.value,
+            );
+          },
         ),
         SizedBox(height: 15.h),
       ],

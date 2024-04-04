@@ -1,8 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ledger_stacks/constants/color.dart';
-import 'package:ledger_stacks/pages/login_page.dart';
+import 'package:get/get.dart';
+import 'package:ledger_stacks/pages/login/login_page.dart';
+
+import '../constants/color.dart';
+import 'auth/bindings/auth_binding.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,9 +20,9 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
+  const MyApp({
+    super.key,
+  });
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -27,8 +30,8 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (_, child) {
-          return MaterialApp(
-            title: 'Flutter Demo',
+          return GetMaterialApp(
+            initialBinding: AuthBinding(),
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: kViolet),

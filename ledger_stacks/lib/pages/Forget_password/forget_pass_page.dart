@@ -1,51 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ledger_stacks/pages/Forget_password/forget_pass_page.dart';
-import 'package:ledger_stacks/pages/login/login_controller.dart';
+import 'package:ledger_stacks/pages/Forget_password/forget_pass_controller.dart';
+import 'package:ledger_stacks/pages/login/login_page.dart';
 import 'package:ledger_stacks/pages/register/register_page.dart';
+import 'package:ledger_stacks/widgets/textform.dart';
 
 import '../../auth/auth_controller.dart';
 import '../../constants/color.dart';
 import '../../util/util.dart';
 import '../../widgets/button.dart';
-import '../../widgets/textform.dart';
 
-class LoginPage extends GetView<AuthController> {
-  const LoginPage({
-    super.key,
-  });
+class ForgetPassPage extends GetView<AuthController> {
+  const ForgetPassPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final LoginController loginController = Get.put(LoginController());
+    final ForgetPassController forgetPassController =
+        Get.put(ForgetPassController());
     final AuthController authController = Get.put(AuthController());
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: kViolet,
+      appBar: AppBar(
+        backgroundColor: kViolet,
+        leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.white),
+            onPressed: () {
+              Get.off(() => const LoginPage());
+            }),
+      ),
       body: SingleChildScrollView(
         child: Form(
-          key: loginController.formKey,
+          key: forgetPassController.formKey,
           child: Column(
             children: [
               SizedBox(
                 height: 190.h,
               ),
-              //Header for Login
+              //Header for Password
               Padding(
                 padding: const EdgeInsets.only(bottom: 25),
                 child: Column(
                   children: [
                     Text(
-                      "Login",
+                      "Recovery Password",
                       style: TextStyle(
                           fontSize: 30.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),
                     Text(
-                      "Welcome to Ledger Stacks",
+                      "Enter your email address",
                       style: TextStyle(fontSize: 15.sp, color: Colors.white),
                     ),
                   ],
@@ -54,7 +61,7 @@ class LoginPage extends GetView<AuthController> {
               //Box for Textfield
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 450.h,
+                height: 400.h,
                 decoration: ShapeDecoration(
                   color: Colors.white,
                   shape: RoundedRectangleBorder(
@@ -72,82 +79,23 @@ class LoginPage extends GetView<AuthController> {
                     children: [
                       TextFieldGeneral(
                         validator: validateEmailField,
-                        controller: loginController.emailController,
+                        controller: forgetPassController.emailController,
                         labelText: "Email",
                         icon: Icons.mail,
-                      ),
-                      TextFieldPassword(
-                        validator: validatePasswordField,
-                        controller: loginController.passwordController,
-                        labelText: "password",
-                        icon: Icons.lock,
-                      ),
-                      Row(
-                        children: [
-                          const Spacer(),
-                          GestureDetector(
-                              onTap: () {
-                                Get.off(() => const ForgetPassPage());
-                              },
-                              child: Text(
-                                "Forgot Password?",
-                                style: TextStyle(
-                                  color: Colors.blueAccent,
-                                  fontSize: 12.sp,
-                                ),
-                              ))
-                        ],
                       ),
                       //Button for Login
                       Padding(
                         padding: EdgeInsets.only(top: 30.h),
                         child: ButtonRaL(
-                            buttonText: "Login",
+                            buttonText: "Submit",
                             onPressed: () {
-                              if (loginController.formKey.currentState!
+                              if (forgetPassController.formKey.currentState!
                                   .validate()) {
-                                authController.login(
-                                  loginController.emailController.text,
-                                  loginController.passwordController.text,
-                                );
+                                authController.restPassword(
+                                    forgetPassController.emailController.text);
                               }
                             }),
                       ),
-                      //Divider
-                      // Padding(
-                      //   padding: EdgeInsets.symmetric(vertical: 25.h),
-                      //   child: Row(
-                      //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      //       children: [
-                      //         Expanded(
-                      //           child: Divider(
-                      //             color: kDarkgray,
-                      //             thickness: 2,
-                      //           ),
-                      //         ),
-                      //         Padding(
-                      //           padding: EdgeInsets.symmetric(horizontal: 5.w),
-                      //           child: Text(
-                      //             "Or",
-                      //             style: TextStyle(
-                      //               color: kViolet,
-                      //               fontSize: 15.sp,
-                      //               fontWeight: FontWeight.w700,
-                      //             ),
-                      //           ),
-                      //         ),
-                      //         Expanded(
-                      //           child: Divider(
-                      //             color: kDarkgray,
-                      //             thickness: 2,
-                      //           ),
-                      //         ),
-                      //       ]),
-                      // ),
-                      //end Divider
-                      //Button signInWithGoogle
-                      // SignInWithGoogleBT(
-                      //     onPressed: () {}, buttonText: "Login with Google"),
                       Padding(
                         padding: EdgeInsets.only(top: 12.h),
                         child: GestureDetector(
@@ -156,7 +104,7 @@ class LoginPage extends GetView<AuthController> {
                             TextSpan(
                               children: [
                                 TextSpan(
-                                  text: "Don't have an account? ",
+                                  text: 'Create account? ',
                                   style: TextStyle(
                                     color: kDarkgray,
                                     fontSize: 12.sp,
