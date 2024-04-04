@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/pages/login/login_page.dart';
+import 'package:ledger_stacks/pages/mylist/mylist_page.dart';
 
 import '../constants/color.dart';
 import 'auth/bindings/auth_binding.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: kViolet),
               useMaterial3: true,
             ),
-            home: const LoginPage(),
+            home: const Mylist(),
           );
         });
   }
