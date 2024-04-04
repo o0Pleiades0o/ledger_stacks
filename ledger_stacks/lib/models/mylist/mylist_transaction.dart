@@ -1,0 +1,61 @@
+import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:ledger_stacks/models/MyList/mylist.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+
+
+class MyListTable {
+  late final Database database;
+
+  MyListTable() {
+    initializeDatabase();
+  }
+
+  Future<void> initializeDatabase() async {
+    WidgetsFlutterBinding.ensureInitialized();
+
+    database = await openDatabase(
+      join(await getDatabasesPath(), 'MyList_database.db'),
+      onCreate: (db, version) {
+        return db.execute(
+          'CREATE TABLE MyList(itemName TEXT PRIMARY KEY, amount REAL, listType TEXT, listFreq TEXT)',
+        );
+      },
+      version: 1,
+    );
+  }
+
+  Future<void> insertMyList(MyList myList) async {
+    await database.insert(
+      'MyList',
+      myList.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<List<MyList>> getMyList() async {
+    final List<Map<String, Object?>> myListMaps = await database.query('MyList');
+    return myListMaps.map((map) => MyList.fromMap(map)).toList();
+  }
+
+  Future<void> updateMyList(MyList myList) async {
+    await database.update(
+      'MyList',
+      myList.toMap(),
+      where: 'itemName = ?',
+      whereArgs: [myList.itemName],
+    );
+  }
+
+  Future<void> deleteMyList(String itemName) async {
+    await database.delete(
+      'MyList',
+      where: 'itemName = ?',
+      whereArgs: [itemName],
+    );
+  }
+}
+
+
+
