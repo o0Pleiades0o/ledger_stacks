@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../constants/color.dart';
 
@@ -60,6 +61,51 @@ class KBackButton extends StatelessWidget {
         child: const Icon(
           Icons.arrow_back,
           color: Colors.white,
+        ),
+      ),
+    );
+  }
+}
+
+//button SignInWithGoogle
+class SignInWithGoogleBT extends StatelessWidget {
+  final VoidCallback onPressed;
+  final String buttonText;
+
+  const SignInWithGoogleBT({
+    super.key,
+    required this.onPressed,
+    required this.buttonText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 300.w,
+      height: 40.h,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.r),
+            ),
+            shadowColor: Colors.black12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const Icon(
+              FontAwesomeIcons.google,
+            ),
+            Text(
+              buttonText,
+              style: TextStyle(
+                color: kViolet,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
         ),
       ),
     );
