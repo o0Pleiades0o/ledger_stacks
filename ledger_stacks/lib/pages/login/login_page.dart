@@ -113,6 +113,41 @@ class LoginPage extends GetView<AuthController> {
                               }
                             }),
                       ),
+                      //Divider
+                      // Padding(
+                      //   padding: EdgeInsets.symmetric(vertical: 25.h),
+                      //   child: Row(
+                      //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      //       children: [
+                      //         Expanded(
+                      //           child: Divider(
+                      //             color: kDarkgray,
+                      //             thickness: 2,
+                      //           ),
+                      //         ),
+                      //         Padding(
+                      //           padding: EdgeInsets.symmetric(horizontal: 5.w),
+                      //           child: Text(
+                      //             "Or",
+                      //             style: TextStyle(
+                      //               color: kViolet,
+                      //               fontSize: 15.sp,
+                      //               fontWeight: FontWeight.w700,
+                      //             ),
+                      //           ),
+                      //         ),
+                      //         Expanded(
+                      //           child: Divider(
+                      //             color: kDarkgray,
+                      //             thickness: 2,
+                      //           ),
+                      //         ),
+                      //       ]),
+                      // ),
+                      //end Divider
+                      //Button signInWithGoogle
+                      // SignInWithGoogleBT(
+                      //     onPressed: () {}, buttonText: "Login with Google"),
                       Padding(
                         padding: EdgeInsets.only(top: 12.h),
                         child: GestureDetector(
@@ -121,7 +156,7 @@ class LoginPage extends GetView<AuthController> {
                             TextSpan(
                               children: [
                                 TextSpan(
-                                  text: 'Create account? ',
+                                  text: "Don't have an account? ",
                                   style: TextStyle(
                                     color: kDarkgray,
                                     fontSize: 12.sp,
