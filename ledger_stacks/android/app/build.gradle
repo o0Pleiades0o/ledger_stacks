@@ -43,8 +43,8 @@ android {
 
     defaultConfig {
         applicationId "com.example.ledger_stacks"
-        minSdkVersion flutter.minSdkVersion
-        targetSdkVersion flutter.targetSdkVersion
+        minSdkVersion 21
+        targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
