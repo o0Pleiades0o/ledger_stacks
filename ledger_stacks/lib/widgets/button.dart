@@ -32,7 +32,7 @@ class ButtonRaL extends StatelessWidget {
           buttonText,
           style: TextStyle(
             color: Colors.white,
-            fontSize: 20.sp,
+            fontSize: 15.sp,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -101,7 +101,7 @@ class SignInWithGoogleBT extends StatelessWidget {
               buttonText,
               style: TextStyle(
                 color: kViolet,
-                fontSize: 16.sp,
+                fontSize: 15.sp,
                 fontWeight: FontWeight.w700,
               ),
             ),
