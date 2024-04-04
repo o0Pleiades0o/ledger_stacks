@@ -45,7 +45,6 @@ android {
         applicationId "com.example.ledger_stacks"
         minSdkVersion 21
         targetSdkVersion 33
-        multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
