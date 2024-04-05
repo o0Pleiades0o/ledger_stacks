@@ -1,10 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/pages/home/home_page.dart';
 import 'package:ledger_stacks/pages/login/login_page.dart';
-import 'package:path/path.dart';
 
 import '../auth/auth_controller.dart';
 
@@ -13,28 +10,11 @@ class Root extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
-    //   return StreamBuilder<User?>(
-    //     stream: FirebaseAuth.instance.authStateChanges(),
-    //     builder: (context, snapshot) {
-    //       if (snapshot.connectionState == ConnectionState.waiting) {
-    //         return const CircularProgressIndicator();
-    //       }
-    //       final user = snapshot.data;
-    //       debugPrint("Print debut $user");
-    //       if (user != null) {
-    //         return const HomePage();
-    //       } else {
-    //         return const LoginPage();
-    //       }
-    //     },
-    //   );
-    // }
-
     return FutureBuilder(
       future: controller.islogin(),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
-          return Center(child: const CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
         if (controller.user != null) {
           return const HomePage();

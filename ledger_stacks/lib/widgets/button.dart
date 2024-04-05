@@ -49,18 +49,19 @@ class KBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: kYellow,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+    return Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: SizedBox(
+        child: GestureDetector(
+          onTap: onPressed,
+          child: Container(
+            decoration: BoxDecoration(
+                color: kYellow, borderRadius: BorderRadius.circular(10.r)),
+            child: const Icon(
+              FontAwesomeIcons.angleLeft,
+              color: Colors.white,
+            ),
           ),
-        ),
-        child: const Icon(
-          Icons.arrow_back,
-          color: Colors.white,
         ),
       ),
     );
@@ -119,17 +120,16 @@ class EditButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 45.h,
-      width: 45.w,
-      child: Center(
-        // Center widget added here
-        child: ElevatedButton(
-          onPressed: onPressed,
-          style: ElevatedButton.styleFrom(backgroundColor: kYellow),
+      height: 45,
+      width: 45,
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+          decoration: BoxDecoration(color: kYellow, shape: BoxShape.circle),
           child: Icon(
-            FontAwesomeIcons.pencil,
+            Icons.edit,
             color: Colors.white,
-            size: 15.sp,
+            size: 18.sp,
           ),
         ),
       ),
