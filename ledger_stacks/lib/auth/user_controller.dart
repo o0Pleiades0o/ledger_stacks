@@ -49,4 +49,18 @@ class UserController extends GetxController {
   void clear() {
     userModel.value = UserModel();
   }
+
+  Future<UserModel?> updateUser() async {
+    try {
+      Get.snackbar(
+        "Success",
+        "Updated User successfully",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return null;
+    } catch (e) {
+      debugPrint('Error getting user data: $e');
+      return null;
+    }
+  }
 }

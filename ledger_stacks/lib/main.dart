@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
-import 'package:ledger_stacks/pages/profile/edit_profile/edit_profile_page.dart';
+import 'package:ledger_stacks/util/root.dart';
 //import 'package:ledger_stacks/util/root.dart';
 
 import '../constants/color.dart';
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: kViolet),
               useMaterial3: true,
             ),
-            home: const EditProflie(),
+            home: const Root(),
           );
         });
   }

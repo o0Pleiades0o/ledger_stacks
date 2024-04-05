@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/pages/profile/edit_profile/edit_profile_controller.dart';
 import 'package:ledger_stacks/widgets/button.dart';
 
@@ -14,11 +15,12 @@ class EditProflie extends StatelessWidget {
   Widget build(BuildContext context) {
     final EditProflieController editProflieController =
         Get.put(EditProflieController());
-
     return Scaffold(
-      appBar: AppBar(
-          leading: KBackButton(
-        onPressed: () {},
+      appBar: AppBar(leading: KBackButton(
+        onPressed: () {
+          debugPrint('Back Pressed');
+          Get.back();
+        },
       )),
       body: Form(
         key: editProflieController.formKey,
@@ -60,7 +62,14 @@ class EditProflie extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 25.h),
-                    child: ButtonRaL(buttonText: 'Update', onPressed: () {}),
+                    child: ButtonRaL(
+                        buttonText: 'Update',
+                        onPressed: () {
+                          if (editProflieController.formKey.currentState!
+                              .validate()) {
+                            UserController().updateUser();
+                          }
+                        }),
                   )
                 ],
               ),
