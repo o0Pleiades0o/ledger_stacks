@@ -6,6 +6,9 @@ import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/constants/color.dart';
 import 'package:ledger_stacks/pages/profile/edit_profile/edit_profile_page.dart';
 
+import '../../util/navigation_bar.dart';
+import 'Home_pages_content/main_content.dart';
+
 //import 'package:ledger_stacks/widgets/button.dart';
 
 class HomePage extends StatelessWidget {
@@ -47,73 +50,85 @@ class HomePage extends StatelessWidget {
             style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold)),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          children: <Widget>[
-            //show Stat percent
-            Container(
-              height: 175.h,
-              width: Get.width,
-              decoration: BoxDecoration(
-                  color: kDarkgray, borderRadius: BorderRadius.circular(18.r)),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.h),
-              child: Row(
-                children: [
-                  Column(
+          padding: const EdgeInsets.all(20),
+          child: Stack(children: [
+            Column(
+              children: <Widget>[
+                //show Stat percent
+                Container(
+                  height: 135.h,
+                  width: Get.width,
+                  decoration: BoxDecoration(
+                      color: kDarkgray,
+                      borderRadius: BorderRadius.circular(18.r)),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10.h),
+                  child: Row(
                     children: [
-                      //show income
-                      Padding(
-                        padding: EdgeInsets.only(right: 10.w),
-                        child: Container(
-                          height: 100.h,
-                          width: 170.w,
-                          decoration: BoxDecoration(
-                              color: kDarkgray,
-                              borderRadius: BorderRadius.circular(18.r)),
-                        ),
+                      Column(
+                        children: [
+                          //show income
+                          Padding(
+                            padding: EdgeInsets.only(right: 10.w),
+                            child: Container(
+                              height: 100.h,
+                              width: 170.w,
+                              decoration: BoxDecoration(
+                                  color: kDarkgray,
+                                  borderRadius: BorderRadius.circular(18.r)),
+                            ),
+                          ),
+                          //show Expenses
+                          Padding(
+                            padding: EdgeInsets.only(right: 10.w, top: 10.h),
+                            child: Container(
+                              height: 100.h,
+                              width: 170.w,
+                              decoration: BoxDecoration(
+                                  color: kDarkgray,
+                                  borderRadius: BorderRadius.circular(18.r)),
+                            ),
+                          ),
+                        ],
                       ),
-                      //show Expenses
-                      Padding(
-                        padding: EdgeInsets.only(right: 10.w, top: 10.h),
-                        child: Container(
-                          height: 100.h,
-                          width: 170.w,
-                          decoration: BoxDecoration(
-                              color: kDarkgray,
-                              borderRadius: BorderRadius.circular(18.r)),
-                        ),
+                      //show percent left
+                      Container(
+                        height: 215.h,
+                        width: 145.w,
+                        decoration: BoxDecoration(
+                            color: kDarkgray,
+                            borderRadius: BorderRadius.circular(18.r)),
                       ),
                     ],
                   ),
-                  //show percent left
-                  Container(
-                    height: 215.h,
-                    width: 145.w,
-                    decoration: BoxDecoration(
-                        color: kDarkgray,
-                        borderRadius: BorderRadius.circular(18.r)),
-                  ),
-                ],
-              ),
+                ),
+                //show Graph
+                Container(
+                  height: 125.h,
+                  width: Get.width,
+                  decoration: BoxDecoration(
+                      color: kDarkgray,
+                      borderRadius: BorderRadius.circular(18.r)),
+                ),
+                // ButtonRaL(
+                //     buttonText: "Sign out",
+                //     onPressed: () {
+                //       authController.signOut();
+                //       Get.offAll(() => const LoginPage());
+                //     }),
+              ],
             ),
-            //show Graph
-            Container(
-              height: 125.h,
-              width: Get.width,
-              decoration: BoxDecoration(
-                  color: kDarkgray, borderRadius: BorderRadius.circular(18.r)),
-            ),
-            // ButtonRaL(
-            //     buttonText: "Sign out",
-            //     onPressed: () {
-            //       authController.signOut();
-            //       Get.offAll(() => const LoginPage());
-            //     }),
-          ],
-        ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Navigation_Bar(),
+            )
+          ])),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
