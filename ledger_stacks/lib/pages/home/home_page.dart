@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/constants/color.dart';
 import 'package:ledger_stacks/pages/profile/edit_profile/edit_profile_page.dart';
+
 //import 'package:ledger_stacks/widgets/button.dart';
 
 class HomePage extends StatelessWidget {
@@ -15,7 +16,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userController = Get.find<UserController>();
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kGray,
