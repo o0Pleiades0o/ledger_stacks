@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
 
 class EditProflieController extends GetxController {
@@ -8,6 +9,8 @@ class EditProflieController extends GetxController {
 
   late TextEditingController emailController;
   late TextEditingController usernameController;
+
+  var selectImagePath = ''.obs;
 
   @override
   void onInit() {
@@ -23,5 +26,15 @@ class EditProflieController extends GetxController {
     emailController.dispose();
     usernameController.dispose();
     super.onClose();
+  }
+
+  void getImage(ImageSource imageSource) async {
+    final pickedFile = await ImagePicker().pickImage(source: imageSource);
+    if (pickedFile != null) {
+      selectImagePath.value = pickedFile.path;
+    } else {
+      Get.snackbar('Error', 'No image selected',
+          snackPosition: SnackPosition.BOTTOM);
+    }
   }
 }

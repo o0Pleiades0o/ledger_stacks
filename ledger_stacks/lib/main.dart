@@ -37,8 +37,9 @@ class MyApp extends StatelessWidget {
             initialBinding: AuthBinding(),
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: kViolet),
               useMaterial3: true,
+              colorScheme: ColorScheme.fromSeed(seedColor: kViolet)
+                  .copyWith(background: kGray),
             ),
             home: const Root(),
           );
