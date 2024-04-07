@@ -6,8 +6,8 @@ import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/constants/color.dart';
 import 'package:ledger_stacks/pages/profile/edit_profile/edit_profile_page.dart';
 
-import '../../util/navigation_bar.dart';
-import 'Home_pages_content/main_content.dart';
+import '../../widgets/floating_action_button.dart';
+import '../../widgets/navigation_bar.dart';
 
 //import 'package:ledger_stacks/widgets/button.dart';
 
@@ -121,13 +121,10 @@ class HomePage extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Navigation_Bar(),
+              child: navigationBar(),
             )
           ])),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: const CustomFloatingActionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
