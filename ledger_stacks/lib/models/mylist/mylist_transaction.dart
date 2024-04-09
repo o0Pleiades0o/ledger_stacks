@@ -6,14 +6,17 @@ import 'package:sqflite/sqflite.dart';
 
 
 class MyListTable {
+
+  MyListTable._(); //การสร้างคลาสแบบGlobal
+  static MyListTable of = MyListTable._();
+
   late final Database database;
 
-  MyListTable() {
+  /*MyListTable() {
     initializeDatabase();
-  }
+  }*/
 
   Future<void> initializeDatabase() async {
-    WidgetsFlutterBinding.ensureInitialized();
 
     database = await openDatabase(
       join(await getDatabasesPath(), 'MyList_database.db'),
@@ -24,6 +27,7 @@ class MyListTable {
       },
       version: 1,
     );
+    print('initializeDatabase');
   }
 
   Future<void> insertMyList(MyList myList) async {
@@ -33,6 +37,7 @@ class MyListTable {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
+ 
 
   Future<List<MyList>> getMyList() async {
     final List<Map<String, Object?>> myListMaps = await database.query('MyList');
