@@ -4,7 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/models/MyList/mylist.dart';
 import 'package:ledger_stacks/models/mylist/mylist_transaction.dart';
-import 'package:ledger_stacks/pages/test.dart';
+import 'package:ledger_stacks/pages/register/test.dart';
+//import 'package:ledger_stacks/pages/test.dart';
 
 import '../constants/color.dart';
 import 'auth/bindings/auth_binding.dart';
