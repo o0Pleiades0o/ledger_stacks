@@ -31,19 +31,19 @@ class HomePage extends StatelessWidget {
             },
             child: CircleAvatar(
                 radius: 25.r,
-                child: ClipOval(
-                  child: userController.user.imageAvatar == ""
-                      ? Image.asset(
-                          'lib/assets/images/user Icon.png',
-                          fit: BoxFit.cover,
-                        )
-                      : Image.network(
-                          userController.user.imageAvatar!,
-                          fit: BoxFit.cover,
-                          height: 50.r,
-                          width: 50.r,
-                        ),
-                )),
+                child: Obx(() => ClipOval(
+                      child: userController.user.imageAvatar == ""
+                          ? Image.asset(
+                              'lib/assets/images/user Icon.png',
+                              fit: BoxFit.cover,
+                            )
+                          : Image.network(
+                              userController.user.imageAvatar!,
+                              fit: BoxFit.cover,
+                              height: 50.r,
+                              width: 50.r,
+                            ),
+                    ))),
           ),
         ),
         title: Text('Hello! ${userController.user.username}',

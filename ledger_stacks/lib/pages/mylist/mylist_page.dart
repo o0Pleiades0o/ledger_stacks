@@ -20,7 +20,7 @@ class _MylistPage extends State<Mylist> {
       //เนื้อหาต้องอยู่ในนี้
       backgroundColor: kGray,
       appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: kGray,
           centerTitle: true,
           title: const Text(
             "My List",

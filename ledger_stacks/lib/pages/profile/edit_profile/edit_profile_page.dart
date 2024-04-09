@@ -42,27 +42,27 @@ class EditProflie extends StatelessWidget {
                       children: <Widget>[
                         CircleAvatar(
                             radius: 100.r,
-                            child: ClipOval(
-                              child: userController.user.imageAvatar == ""
-                                  ? Image.asset(
-                                      'lib/assets/images/user Icon.png',
-                                      fit: BoxFit.cover)
-                                  : Obx(() => editProflieController
-                                          .selectImagePath.value.isNotEmpty
-                                      ? Image.file(
-                                          File(editProflieController
-                                              .selectImagePath.value),
-                                          fit: BoxFit.cover,
-                                          height: 200.r,
-                                          width: 200.r,
-                                        )
-                                      : Image.network(
-                                          userController.user.imageAvatar!,
-                                          fit: BoxFit.cover,
-                                          height: 200.r,
-                                          width: 200.r,
-                                        )),
-                            )),
+                            child: Obx(() => ClipOval(
+                                  child: userController.user.imageAvatar == ""
+                                      ? Image.asset(
+                                          'lib/assets/images/user Icon.png',
+                                          fit: BoxFit.cover)
+                                      : Obx(() => editProflieController
+                                              .selectImagePath.value.isNotEmpty
+                                          ? Image.file(
+                                              File(editProflieController
+                                                  .selectImagePath.value),
+                                              fit: BoxFit.cover,
+                                              height: 200.r,
+                                              width: 200.r,
+                                            )
+                                          : Image.network(
+                                              userController.user.imageAvatar!,
+                                              fit: BoxFit.cover,
+                                              height: 200.r,
+                                              width: 200.r,
+                                            )),
+                                ))),
                         Padding(
                           padding: EdgeInsets.only(right: 20.w),
                           child: EditButton(onPressed: () {
