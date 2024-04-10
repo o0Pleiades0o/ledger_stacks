@@ -22,6 +22,7 @@ class HomePage extends StatelessWidget {
     final userController = Get.find<UserController>();
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 80.h,
         backgroundColor: kGray,
         leadingWidth: 70.w,
         leading: Padding(
@@ -33,8 +34,8 @@ class HomePage extends StatelessWidget {
             child: AvatarUser(
               userController: userController,
               radius: 25,
-              height: 50,
-              width: 50,
+              height: 60,
+              width: 60,
             ),
           ),
         ),
@@ -101,12 +102,6 @@ class HomePage extends StatelessWidget {
                       color: kDarkgray,
                       borderRadius: BorderRadius.circular(18.r)),
                 ),
-                // ButtonRaL(
-                //     buttonText: "Sign out",
-                //     onPressed: () {
-                //       authController.signOut();
-                //       Get.offAll(() => const LoginPage());
-                //     }),
               ],
             ),
             Align(

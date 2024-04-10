@@ -16,7 +16,7 @@ class CardLedger extends StatelessWidget {
       children: [
         //card
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.h),
+          padding: EdgeInsets.only(bottom: 10.h),
           child: Container(
             height: 136.h,
             width: Get.width,

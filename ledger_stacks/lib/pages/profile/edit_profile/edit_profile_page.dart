@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -23,6 +21,7 @@ class EditProflie extends StatelessWidget {
     final UserController userController = Get.put(UserController());
     return Scaffold(
       appBar: AppBar(
+          toolbarHeight: 75.h,
           backgroundColor: kGray,
           leading: KBackButton(
             onPressed: () {
@@ -42,27 +41,31 @@ class EditProflie extends StatelessWidget {
                       children: <Widget>[
                         CircleAvatar(
                             radius: 100.r,
-                            child: Obx(() => ClipOval(
-                                  child: userController.user.imageAvatar == ""
+                            child: ClipOval(
+                                child: Obx(
+                              () => editProflieController.selectedImage.value !=
+                                      null
+                                  ? Image.file(
+                                      editProflieController
+                                          .selectedImage.value!,
+                                      fit: BoxFit.cover,
+                                      height: 200.r,
+                                      width: 200.r,
+                                    )
+                                  : userController.user.imageAvatar == ""
                                       ? Image.asset(
                                           'lib/assets/images/user Icon.png',
                                           fit: BoxFit.cover)
-                                      : Obx(() => editProflieController
-                                              .selectImagePath.value.isNotEmpty
-                                          ? Image.file(
-                                              File(editProflieController
-                                                  .selectImagePath.value),
-                                              fit: BoxFit.cover,
-                                              height: 200.r,
-                                              width: 200.r,
-                                            )
-                                          : Image.network(
-                                              userController.user.imageAvatar!,
-                                              fit: BoxFit.cover,
-                                              height: 200.r,
-                                              width: 200.r,
-                                            )),
-                                ))),
+                                      : Obx(
+                                          () => Image.network(
+                                            userController.user.imageAvatar ??
+                                                '',
+                                            fit: BoxFit.cover,
+                                            height: 200.r,
+                                            width: 200.r,
+                                          ),
+                                        ),
+                            ))),
                         Padding(
                           padding: EdgeInsets.only(right: 20.w),
                           child: EditButton(onPressed: () {
@@ -98,8 +101,7 @@ class EditProflie extends StatelessWidget {
                               userController.updateUser(
                                 editProflieController.emailController.text,
                                 editProflieController.usernameController.text,
-                                null,
-                                editProflieController.selectImagePath.value,
+                                editProflieController.selectedImage.value,
                               );
                             }
                           }),

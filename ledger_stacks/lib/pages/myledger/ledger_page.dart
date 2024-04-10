@@ -14,6 +14,7 @@ class MyLedger extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          toolbarHeight: 75.h,
           backgroundColor: kViolet,
           leading: KBackButton(
             onPressed: () {

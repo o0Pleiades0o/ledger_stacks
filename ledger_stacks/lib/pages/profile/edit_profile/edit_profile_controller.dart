@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,7 +12,7 @@ class EditProflieController extends GetxController {
   late TextEditingController emailController;
   late TextEditingController usernameController;
 
-  var selectImagePath = ''.obs;
+  Rx<File?> selectedImage = Rx<File?>(null);
 
   @override
   void onInit() {
@@ -31,7 +33,7 @@ class EditProflieController extends GetxController {
   void getImage(ImageSource imageSource) async {
     final pickedFile = await ImagePicker().pickImage(source: imageSource);
     if (pickedFile != null) {
-      selectImagePath.value = pickedFile.path;
+      selectedImage.value = File(pickedFile.path); // Update the Rx<File?> value
     } else {
       Get.snackbar('Error', 'No image selected',
           snackPosition: SnackPosition.BOTTOM);

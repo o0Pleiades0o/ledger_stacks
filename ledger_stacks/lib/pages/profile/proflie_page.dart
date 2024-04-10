@@ -21,6 +21,7 @@ class Proflie extends StatelessWidget {
     final authController = Get.find<AuthController>();
     return Scaffold(
       appBar: AppBar(
+          toolbarHeight: 75.h,
           backgroundColor: kGray,
           leading: KBackButton(onPressed: () {
             Get.offAll(() => const HomePage());
