@@ -22,6 +22,7 @@ class CardLedger extends StatelessWidget {
             width: Get.width,
             decoration: BoxDecoration(
               color: Colors.white,
+              border: Border.all(color: Colors.black87, width: 1),
               borderRadius: BorderRadius.circular(18.r),
             ),
             child: Padding(

@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
-import 'package:ledger_stacks/constants/color.dart';
 import 'package:ledger_stacks/pages/profile/edit_profile/edit_profile_controller.dart';
 import 'package:ledger_stacks/pages/profile/proflie_page.dart';
 import 'package:ledger_stacks/widgets/button.dart';
@@ -20,9 +19,10 @@ class EditProflie extends StatelessWidget {
         Get.put(EditProflieController());
     final UserController userController = Get.put(UserController());
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
           toolbarHeight: 75.h,
-          backgroundColor: kGray,
+          backgroundColor: Colors.white,
           leading: KBackButton(
             onPressed: () {
               Get.off(() => const Proflie());

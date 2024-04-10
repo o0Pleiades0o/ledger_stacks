@@ -13,6 +13,7 @@ class MyLedger extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
           toolbarHeight: 75.h,
           backgroundColor: kViolet,
@@ -50,7 +51,8 @@ class MyLedger extends StatelessWidget {
             //card
             child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18.r), color: kGray),
+                  borderRadius: BorderRadius.circular(18.r),
+                  color: Colors.white),
               child: ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
