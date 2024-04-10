@@ -7,11 +7,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/constants/color.dart';
 import 'package:ledger_stacks/pages/profile/edit_profile/edit_profile_controller.dart';
+import 'package:ledger_stacks/pages/profile/proflie_page.dart';
 import 'package:ledger_stacks/widgets/button.dart';
 
 import '../../../util/util.dart';
 import '../../../widgets/textform.dart';
-import '../../home/home_page.dart';
 
 class EditProflie extends StatelessWidget {
   const EditProflie({super.key});
@@ -26,7 +26,7 @@ class EditProflie extends StatelessWidget {
           backgroundColor: kGray,
           leading: KBackButton(
             onPressed: () {
-              Get.off(() => const HomePage());
+              Get.off(() => const Proflie());
             },
           )),
       body: SingleChildScrollView(

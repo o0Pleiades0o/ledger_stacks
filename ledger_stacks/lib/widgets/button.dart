@@ -136,3 +136,57 @@ class EditButton extends StatelessWidget {
     );
   }
 }
+
+class CusNavigationBotton extends StatelessWidget {
+  const CusNavigationBotton({
+    super.key,
+    required this.onPressed,
+    required this.iconSuffix,
+    required this.text,
+    this.iconTrailing,
+  });
+  final VoidCallback onPressed;
+  final String text;
+  final IconData iconSuffix;
+  final IconData? iconTrailing;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 20.h),
+      child: SizedBox(
+        height: 45.h,
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: kViolet,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.r),
+                )),
+            onPressed: onPressed,
+            child: Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: 20.w),
+                  child: Icon(
+                    iconSuffix,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  text,
+                  style: TextStyle(color: Colors.white, fontSize: 18.sp),
+                ),
+                const Spacer(),
+                Padding(
+                  padding: EdgeInsets.only(right: 10.w),
+                  child: Icon(
+                    iconTrailing,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            )),
+      ),
+    );
+  }
+}

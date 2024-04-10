@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-//import 'package:ledger_stacks/auth/auth_controller.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/constants/color.dart';
-import 'package:ledger_stacks/pages/profile/edit_profile/edit_profile_page.dart';
+//import 'package:ledger_stacks/pages/profile/edit_profile/edit_profile_page.dart';
+import 'package:ledger_stacks/pages/profile/proflie_page.dart';
 
+import '../../widgets/avatar_user.dart';
 import '../../widgets/floating_action_button.dart';
 import '../../widgets/navigation_bar.dart';
 
@@ -27,23 +28,14 @@ class HomePage extends StatelessWidget {
           padding: EdgeInsets.only(left: 10.h),
           child: GestureDetector(
             onTap: () {
-              Get.off(() => const EditProflie());
+              Get.off(() => const Proflie());
             },
-            child: CircleAvatar(
-                radius: 25.r,
-                child: Obx(() => ClipOval(
-                      child: userController.user.imageAvatar == ""
-                          ? Image.asset(
-                              'lib/assets/images/user Icon.png',
-                              fit: BoxFit.cover,
-                            )
-                          : Image.network(
-                              userController.user.imageAvatar!,
-                              fit: BoxFit.cover,
-                              height: 50.r,
-                              width: 50.r,
-                            ),
-                    ))),
+            child: AvatarUser(
+              userController: userController,
+              radius: 25,
+              height: 50,
+              width: 50,
+            ),
           ),
         ),
         title: Text('Hello! ${userController.user.username}',
@@ -65,23 +57,21 @@ class HomePage extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 10.h),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Column(
                         children: [
                           //show income
-                          Padding(
-                            padding: EdgeInsets.only(right: 10.w),
-                            child: Container(
-                              height: 100.h,
-                              width: 170.w,
-                              decoration: BoxDecoration(
-                                  color: kDarkgray,
-                                  borderRadius: BorderRadius.circular(18.r)),
-                            ),
+                          Container(
+                            height: 100.h,
+                            width: 170.w,
+                            decoration: BoxDecoration(
+                                color: kDarkgray,
+                                borderRadius: BorderRadius.circular(18.r)),
                           ),
                           //show Expenses
                           Padding(
-                            padding: EdgeInsets.only(right: 10.w, top: 10.h),
+                            padding: EdgeInsets.only(top: 10.h),
                             child: Container(
                               height: 100.h,
                               width: 170.w,
