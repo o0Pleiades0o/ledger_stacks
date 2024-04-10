@@ -172,7 +172,11 @@ class CusNavigationBotton extends StatelessWidget {
                 ),
                 Text(
                   text,
-                  style: TextStyle(color: Colors.white, fontSize: 18.sp),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 const Spacer(),
                 Icon(
