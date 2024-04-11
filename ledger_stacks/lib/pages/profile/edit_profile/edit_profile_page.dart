@@ -1,17 +1,14 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
-import 'package:ledger_stacks/constants/color.dart';
 import 'package:ledger_stacks/pages/profile/edit_profile/edit_profile_controller.dart';
+import 'package:ledger_stacks/pages/profile/proflie_page.dart';
 import 'package:ledger_stacks/widgets/button.dart';
 
 import '../../../util/util.dart';
 import '../../../widgets/textform.dart';
-import '../../home/home_page.dart';
 
 class EditProflie extends StatelessWidget {
   const EditProflie({super.key});
@@ -22,11 +19,13 @@ class EditProflie extends StatelessWidget {
         Get.put(EditProflieController());
     final UserController userController = Get.put(UserController());
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-          backgroundColor: kGray,
+          toolbarHeight: 75.h,
+          backgroundColor: Colors.white,
           leading: KBackButton(
             onPressed: () {
-              Get.off(() => const HomePage());
+              Get.off(() => const Proflie());
             },
           )),
       body: SingleChildScrollView(
@@ -43,26 +42,30 @@ class EditProflie extends StatelessWidget {
                         CircleAvatar(
                             radius: 100.r,
                             child: ClipOval(
-                              child: userController.user.imageAvatar == ""
-                                  ? Image.asset(
-                                      'lib/assets/images/user Icon.png',
-                                      fit: BoxFit.cover)
-                                  : Obx(() => editProflieController
-                                          .selectImagePath.value.isNotEmpty
-                                      ? Image.file(
-                                          File(editProflieController
-                                              .selectImagePath.value),
-                                          fit: BoxFit.cover,
-                                          height: 200.r,
-                                          width: 200.r,
-                                        )
-                                      : Image.network(
-                                          userController.user.imageAvatar!,
-                                          fit: BoxFit.cover,
-                                          height: 200.r,
-                                          width: 200.r,
-                                        )),
-                            )),
+                                child: Obx(
+                              () => editProflieController.selectedImage.value !=
+                                      null
+                                  ? Image.file(
+                                      editProflieController
+                                          .selectedImage.value!,
+                                      fit: BoxFit.cover,
+                                      height: 200.r,
+                                      width: 200.r,
+                                    )
+                                  : userController.user.imageAvatar == ""
+                                      ? Image.asset(
+                                          'lib/assets/images/user Icon.png',
+                                          fit: BoxFit.cover)
+                                      : Obx(
+                                          () => Image.network(
+                                            userController.user.imageAvatar ??
+                                                '',
+                                            fit: BoxFit.cover,
+                                            height: 200.r,
+                                            width: 200.r,
+                                          ),
+                                        ),
+                            ))),
                         Padding(
                           padding: EdgeInsets.only(right: 20.w),
                           child: EditButton(onPressed: () {
@@ -98,8 +101,7 @@ class EditProflie extends StatelessWidget {
                               userController.updateUser(
                                 editProflieController.emailController.text,
                                 editProflieController.usernameController.text,
-                                null,
-                                editProflieController.selectImagePath.value,
+                                editProflieController.selectedImage.value,
                               );
                             }
                           }),

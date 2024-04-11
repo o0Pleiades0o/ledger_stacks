@@ -23,20 +23,12 @@ Widget navigationBar() {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           //Icon go to Ledger
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () => Get.off(() => const MyLedger()),
-                child: Icon(
-                  FontAwesomeIcons.addressBook,
-                  size: 25.sp,
-                  color: kViolet,
-                ),
-              ),
-              Text('My Ledger',
-                  style: TextStyle(color: kViolet, fontSize: 10.sp)),
-            ],
+          IconAndText(
+            onPressed: () {
+              Get.off(() => const MyLedger());
+            },
+            text: 'My Ledger',
+            icon: FontAwesomeIcons.solidAddressBook,
           ),
           Icon(
             FontAwesomeIcons.circle,
@@ -44,21 +36,51 @@ Widget navigationBar() {
             color: Colors.white,
           ),
           //Icon go to MyList
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () => Get.off(() => const Mylist()),
-                child: Icon(
-                  FontAwesomeIcons.clipboardList,
-                  size: 25.sp,
-                  color: kViolet,
-                ),
-              ),
-              Text('My List',
-                  style: TextStyle(color: kViolet, fontSize: 10.sp)),
-            ],
+          IconAndText(
+            onPressed: () {
+              Get.off(() => const Mylist());
+            },
+            text: 'My List',
+            icon: FontAwesomeIcons.clipboardList,
           ),
         ],
       ));
+}
+
+class IconAndText extends StatelessWidget {
+  const IconAndText({
+    super.key,
+    required this.onPressed,
+    required this.text,
+    required this.icon,
+  });
+  final VoidCallback onPressed;
+  final String text;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        GestureDetector(
+          onTap: onPressed,
+          child: Icon(
+            icon,
+            size: 25.sp,
+            color: kViolet,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 2.h),
+          child: Text(text,
+              style: TextStyle(
+                color: kViolet,
+                fontSize: 10.sp,
+                fontWeight: FontWeight.w700,
+              )),
+        ),
+      ],
+    );
+  }
 }

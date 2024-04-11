@@ -50,17 +50,15 @@ class KBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(6.0),
-      child: SizedBox(
-        child: GestureDetector(
-          onTap: onPressed,
-          child: Container(
-            decoration: BoxDecoration(
-                color: kYellow, borderRadius: BorderRadius.circular(10.r)),
-            child: const Icon(
-              FontAwesomeIcons.angleLeft,
-              color: Colors.white,
-            ),
+      padding: EdgeInsets.only(top: 20.h, bottom: 20, left: 10),
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+          decoration: BoxDecoration(
+              color: kYellow, borderRadius: BorderRadius.circular(10.r)),
+          child: const Icon(
+            FontAwesomeIcons.angleLeft,
+            color: Colors.white,
           ),
         ),
       ),
@@ -132,6 +130,61 @@ class EditButton extends StatelessWidget {
             size: 18.sp,
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CusNavigationBotton extends StatelessWidget {
+  const CusNavigationBotton({
+    super.key,
+    required this.onPressed,
+    required this.iconSuffix,
+    required this.text,
+    this.iconTrailing,
+  });
+  final VoidCallback onPressed;
+  final String text;
+  final IconData iconSuffix;
+  final IconData? iconTrailing;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(top: 20.h),
+      child: SizedBox(
+        height: 45.h,
+        child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: kViolet,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.r),
+                )),
+            onPressed: onPressed,
+            child: Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: 20.w),
+                  child: Icon(
+                    iconSuffix,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  text,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const Spacer(),
+                Icon(
+                  iconTrailing,
+                  color: Colors.white,
+                ),
+              ],
+            )),
       ),
     );
   }
