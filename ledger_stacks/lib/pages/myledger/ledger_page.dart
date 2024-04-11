@@ -51,7 +51,7 @@ class MyLedger extends StatelessWidget {
             //card
             child: Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18.r),
+                  borderRadius: BorderRadius.circular(36.r),
                   color: Colors.white),
               child: ListView.builder(
                 itemCount: 5,
