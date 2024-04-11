@@ -21,17 +21,21 @@ class AvatarUser extends StatelessWidget {
     return CircleAvatar(
         radius: radius.r,
         child: Obx(() => ClipOval(
+                child: Container(
+              color: Colors.white,
               child: userController.user.imageAvatar == ""
                   ? Image.asset(
-                      'lib/assets/images/user Icon.png',
+                      'lib/assets/images/user2.png',
                       fit: BoxFit.cover,
                     )
-                  : Image.network(
-                      userController.user.imageAvatar!,
-                      fit: BoxFit.cover,
-                      height: height.r,
-                      width: width.r,
+                  : Obx(
+                      () => Image.network(
+                        userController.user.imageAvatar!,
+                        fit: BoxFit.cover,
+                        height: height.r,
+                        width: width.r,
+                      ),
                     ),
-            )));
+            ))));
   }
 }

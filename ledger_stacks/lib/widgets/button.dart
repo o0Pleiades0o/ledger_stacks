@@ -50,17 +50,15 @@ class KBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(6.0),
-      child: SizedBox(
-        child: GestureDetector(
-          onTap: onPressed,
-          child: Container(
-            decoration: BoxDecoration(
-                color: kYellow, borderRadius: BorderRadius.circular(10.r)),
-            child: const Icon(
-              FontAwesomeIcons.angleLeft,
-              color: Colors.white,
-            ),
+      padding: EdgeInsets.only(top: 20.h, bottom: 20, left: 10),
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+          decoration: BoxDecoration(
+              color: kYellow, borderRadius: BorderRadius.circular(10.r)),
+          child: const Icon(
+            FontAwesomeIcons.angleLeft,
+            color: Colors.white,
           ),
         ),
       ),
@@ -174,15 +172,16 @@ class CusNavigationBotton extends StatelessWidget {
                 ),
                 Text(
                   text,
-                  style: TextStyle(color: Colors.white, fontSize: 18.sp),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 const Spacer(),
-                Padding(
-                  padding: EdgeInsets.only(right: 10.w),
-                  child: Icon(
-                    iconTrailing,
-                    color: Colors.white,
-                  ),
+                Icon(
+                  iconTrailing,
+                  color: Colors.white,
                 ),
               ],
             )),

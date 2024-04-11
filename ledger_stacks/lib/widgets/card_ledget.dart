@@ -16,16 +16,23 @@ class CardLedger extends StatelessWidget {
       children: [
         //card
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 10.h),
+          padding: EdgeInsets.only(bottom: 10.h),
           child: Container(
-            height: 136.h,
+            height: 150.h,
             width: Get.width,
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(18.r),
-            ),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(36.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF4b4b4b).withOpacity(0.08),
+                    offset: const Offset(0, 8),
+                    blurRadius: 10,
+                    spreadRadius: 6,
+                  )
+                ]),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 10.h),
+              padding: EdgeInsets.symmetric(horizontal: 45.w, vertical: 20.h),
               child: Column(
                 children: [
                   Row(
@@ -37,15 +44,23 @@ class CardLedger extends StatelessWidget {
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 10.h),
-                        child: Text(
-                          "Fab.",
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w700,
+                      Column(
+                        children: [
+                          Text(
+                            "Feb.",
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                        ),
+                          Text(
+                            "2024",
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
                       )
                     ],
                   ),
@@ -119,8 +134,6 @@ class CardLedger extends StatelessWidget {
         ),
         const Listtile(),
         const Listtile(),
-        const Listtile(),
-        const Listtile(),
       ],
     );
   }
@@ -134,7 +147,9 @@ class Listtile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.h),
+      padding: EdgeInsets.symmetric(
+        horizontal: 15.w,
+      ),
       child: ListTile(
         title: Text(
           "List ${1 + Random().nextInt(4)}",
