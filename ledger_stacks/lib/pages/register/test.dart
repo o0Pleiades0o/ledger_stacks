@@ -2,21 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ledger_stacks/models/MyList/mylist.dart';
 import 'package:ledger_stacks/models/mylist/mylist_transaction.dart'; // Import the MyListTable database class
 
-/*void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensure Flutter is initialized
-
-  final MyListTable myListTable = MyListTable();
-
-  // Initialize the database
-  await myListTable.initializeDatabase();
-
-  // Create a MyList object
-  var newList = MyList(itemName: 'Pen', amount: 5, listType: 'Temporary', listFreq: 'None');
-
-  // Insert the MyList object into the database
-  await myListTable.insertMyList(newList);
-}*/
-
 
 class MyListScreen extends StatelessWidget {
   @override

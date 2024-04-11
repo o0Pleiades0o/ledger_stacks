@@ -15,25 +15,25 @@ class AuthController extends GetxController {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   Rx<User?> firebaseUser = Rx<User?>(null);
 
-  late User _user;
-  User get user => _user;
-  String? get uid => _user.uid;
+  User? _user;
+  User? get user => _user;
+  String? get uid => _user?.uid;
 
   @override
   void onInit() {
     super.onInit();
     firebaseUser.bindStream(auth.userChanges());
+    islogin();
   }
 
   void register(String email, String password, String username) async {
-    Get.put(UserController());
-
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
         //await user uid then sead uid to userCredential
         email: email,
         password: password,
       );
+      userCredential.user?.updateDisplayName("User");
       //Hash password before uploading to firestore
       String hashedPassword = sha256.convert(utf8.encode(password)).toString();
       // Create a new instance of UserModel
@@ -62,7 +62,6 @@ class AuthController extends GetxController {
   }
 
   void login(String email, String password) async {
-    Get.put(UserController());
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -107,7 +106,6 @@ class AuthController extends GetxController {
   }
 
   void restPassword(String email) async {
-    Get.put(UserController());
     debugPrint("Email : $email");
     try {
       await auth.sendPasswordResetEmail(email: email);
@@ -130,4 +128,12 @@ class AuthController extends GetxController {
 
   //Sign IN with google function
   void signInWithGoogle() {}
+//Check user is login?
+  Future<void> islogin() async {
+    _user = auth.currentUser;
+    if (_user != null) {
+      UserModel? user = await UserController().getUser(_user!.uid);
+      Get.find<UserController>().user = user!;
+    } else {}
+  }
 }

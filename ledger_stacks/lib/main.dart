@@ -2,10 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ledger_stacks/models/MyList/mylist.dart';
-import 'package:ledger_stacks/models/mylist/mylist_transaction.dart';
-import 'package:ledger_stacks/pages/register/test.dart';
-//import 'package:ledger_stacks/pages/test.dart';
+import 'package:ledger_stacks/pages/profile/proflie_page.dart';
 
 import '../constants/color.dart';
 import 'auth/bindings/auth_binding.dart';
@@ -19,17 +16,6 @@ void main() async {
     messagingSenderId: "471169727193",
     projectId: "ledgerstacks-2f9e6",
   ));
-  final MyListTable myListTable = MyListTable.of;
-
-  // Initialize the database
-  await myListTable.initializeDatabase();
-
-  // Create a MyList object
-  var newList = MyList(itemName: 'Pen', amount: 5, listType: 'Temporary', listFreq: 'None');
-
-  // Insert the MyList object into the database
-  print('main');
-  await myListTable.insertMyList(newList);
   runApp(const MyApp());
 }
 
@@ -48,10 +34,11 @@ class MyApp extends StatelessWidget {
             initialBinding: AuthBinding(),
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: kViolet),
               useMaterial3: true,
+              colorScheme: ColorScheme.fromSeed(seedColor: kViolet)
+                  .copyWith(background: kGray),
             ),
-            home: MyListScreen(),
+            home: const Proflie(),
           );
         });
   }
