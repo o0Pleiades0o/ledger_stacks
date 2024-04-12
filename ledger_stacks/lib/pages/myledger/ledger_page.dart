@@ -63,11 +63,13 @@ class MyLedger extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: const Row(
+      floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          EditeFAB(),
-          CreateFAB(),
+          const EditeFAB(),
+          CreateFAB(
+            onPressed: () {},
+          ),
         ],
       ),
     );
