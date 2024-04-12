@@ -5,12 +5,11 @@ import 'package:get/get.dart';
 import 'package:ledger_stacks/pages/home/home_page.dart';
 import 'package:ledger_stacks/pages/profile/edit_profile/edit_profile_page.dart';
 
-import '../../auth/auth_controller.dart';
 import '../../auth/user_controller.dart';
 import '../../constants/color.dart';
+import '../../widgets/alert_dialog.dart';
 import '../../widgets/avatar_user.dart';
 import '../../widgets/button.dart';
-import '../login/login_page.dart';
 
 class Proflie extends StatelessWidget {
   const Proflie({super.key});
@@ -18,7 +17,6 @@ class Proflie extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userController = Get.find<UserController>();
-    final authController = Get.find<AuthController>();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -61,8 +59,7 @@ class Proflie extends StatelessWidget {
               ),
               CusNavigationBotton(
                 onPressed: () {
-                  authController.signOut();
-                  Get.offAll(() => const LoginPage());
+                  showMyDialog(context);
                 },
                 text: 'Logout',
                 iconSuffix: Icons.logout,
