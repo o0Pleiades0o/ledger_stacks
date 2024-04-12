@@ -15,7 +15,7 @@ Future<void> showMyDialog(BuildContext context) async {
         content: const SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              Text('Did you want to sign out?'),
+              Text('Do you want to sign out?'),
             ],
           ),
         ),
