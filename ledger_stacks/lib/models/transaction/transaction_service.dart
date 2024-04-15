@@ -1,4 +1,5 @@
-import 'package:flutter/src/widgets/editable_text.dart';
+// ignore: implementation_imports
+import 'package:flutter/material.dart';
 import 'package:ledger_stacks/models/transaction/transaction.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -41,10 +42,12 @@ class TransactionService {
     return transactionData;
   }
 
-  Future<Null> insertValueTransaction(TransactionModel transactionModel, {required TextEditingController controller}) async {
+  Future<Null> insertValueTransaction(TransactionModel transactionModel,
+      {required TextEditingController controller}) async {
     Database database = await connectedDatabase();
     await database.insert(tableDatabase, transactionModel.toMap()).then(
-        (value) => print('### insert Value name ==>> ${transactionModel.name}'));
+        (value) =>
+            debugPrint('### insert Value name ==>> ${transactionModel.name}'));
   }
 
   /*Future<void> deleateValueTransaction(int id) async {
