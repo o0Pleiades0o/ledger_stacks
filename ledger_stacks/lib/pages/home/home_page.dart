@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/constants/color.dart';
+import 'package:ledger_stacks/pages/add_transaction.dart/transaction_page.dart';
 //import 'package:ledger_stacks/pages/profile/edit_profile/edit_profile_page.dart';
 import 'package:ledger_stacks/pages/profile/proflie_page.dart';
 
@@ -109,7 +110,9 @@ class HomePage extends StatelessWidget {
               child: navigationBar(),
             )
           ])),
-      floatingActionButton: CustomFloatingActionButton(onPressed: () {},),
+      floatingActionButton: CustomFloatingActionButton(onPressed: () {
+        Get.off(() => AddTransaction());
+      }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

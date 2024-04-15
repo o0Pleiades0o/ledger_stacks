@@ -4,7 +4,7 @@ import 'package:ledger_stacks/constants/color.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
   const CustomFloatingActionButton({
-    super.key,
+    super.key, required Null Function() onPressed,
   });
 
   @override
