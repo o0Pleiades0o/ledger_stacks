@@ -40,4 +40,17 @@ class TransactionService {
     return transactionData;
   }
 
+  Future<Null> insertValueTransaction(TransactionModel transactionModel) async {
+    Database database = await connectedDatabase();
+    await database.insert(tableDatabase, transactionModel.toMap()).then(
+        (value) => print('### insert Value name ==>> ${transactionModel.name}'));
+  }
+
+  /*Future<void> deleateValueTransaction(int id) async {
+    Database database = await connectedDatabase();
+    await database
+        .delete(tableDatabase, where: '$columnId = $id')
+        .then((value) => print('### Success Delete id ==> $id'));
+  }*/
+
 }

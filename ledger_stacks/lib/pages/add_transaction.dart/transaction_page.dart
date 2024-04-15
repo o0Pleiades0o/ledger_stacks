@@ -30,7 +30,7 @@ class AddTransaction extends StatelessWidget {
           title: Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Text(
-              "New List",
+              "Add New",
               style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
             ),
           )),
@@ -40,8 +40,10 @@ class AddTransaction extends StatelessWidget {
             children: [
               RadioButton(),
               TextFieldGeneral(controller: addTransactionController.nameController, labelText: 'Item Name'),
-              TextFieldGeneral(controller: addTransactionController.nameController, labelText: 'Item Amount'),
-              const DropDown()
+              TextFieldGeneral(controller: addTransactionController.amountController, labelText: 'Item Amount'),
+              AddBotton(onPressed: () {
+                
+              } )
             ],
           )),
     );

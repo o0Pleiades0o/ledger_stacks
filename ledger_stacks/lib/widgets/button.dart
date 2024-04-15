@@ -189,3 +189,23 @@ class CusNavigationBotton extends StatelessWidget {
     );
   }
 }
+
+class AddBotton extends StatelessWidget {
+  final VoidCallback onPressed;
+  const AddBotton({super.key, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40.h,
+      width: 300.w,
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Container(
+          decoration: BoxDecoration(color: kYellow , borderRadius: BorderRadius.circular(15)),
+          child: const Center(child: Text('Add')),
+        ),
+      ),
+    );
+  }
+}
