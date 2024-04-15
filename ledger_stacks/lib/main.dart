@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/util/root.dart';
-//import 'package:ledger_stacks/util/root.dart';
 
 import '../constants/color.dart';
 import 'auth/bindings/auth_binding.dart';

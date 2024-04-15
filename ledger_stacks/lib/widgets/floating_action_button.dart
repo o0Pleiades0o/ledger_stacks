@@ -4,9 +4,11 @@ import 'package:ledger_stacks/constants/color.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
   const CustomFloatingActionButton({
-    super.key,
+    super.key, required this.onPressed,
   });
 
+  final VoidCallback onPressed;
+  
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -16,7 +18,7 @@ class CustomFloatingActionButton extends StatelessWidget {
         height: 60.h,
         child: FittedBox(
           child: FloatingActionButton(
-            onPressed: () {},
+            onPressed: onPressed ,
             backgroundColor: kYellow,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(100.r),
