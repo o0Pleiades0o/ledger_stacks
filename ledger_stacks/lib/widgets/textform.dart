@@ -8,13 +8,13 @@ class TextFieldGeneral extends StatelessWidget {
   final String labelText;
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
-  final IconData icon;
+  final IconData? icon;
 
   const TextFieldGeneral({
     super.key,
     required this.controller,
     required this.labelText,
-    required this.icon,
+    this.icon,
     this.validator,
     this.onSaved,
   });
