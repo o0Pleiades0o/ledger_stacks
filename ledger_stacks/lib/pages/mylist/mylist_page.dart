@@ -70,7 +70,7 @@ class Mylist extends StatelessWidget {
       ), //cost เป็นสำหรับค่าคงที่ ที่ไม่มีการเปลี่ยนแปลง
       floatingActionButton: CreateFAB(
         onPressed: () {
-          Get.off(() => const AddMyList());
+          Get.off(() =>AddMyList());
         },
       ),
     ); //ทำให้หน้่าแอปเป็นสีขาว

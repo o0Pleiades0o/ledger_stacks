@@ -109,7 +109,7 @@ class HomePage extends StatelessWidget {
               child: navigationBar(),
             )
           ])),
-      floatingActionButton: const CustomFloatingActionButton(),
+      floatingActionButton: CustomFloatingActionButton(onPressed: () {},),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

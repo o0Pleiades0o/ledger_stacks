@@ -55,7 +55,7 @@ class KBackButton extends StatelessWidget {
         onTap: onPressed,
         child: Container(
           decoration: BoxDecoration(
-              color: kYellow, borderRadius: BorderRadius.circular(10.r)),
+              color: kViolet, borderRadius: BorderRadius.circular(10.r)),
           child: const Icon(
             FontAwesomeIcons.angleLeft,
             color: Colors.white,
