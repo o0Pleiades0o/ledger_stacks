@@ -52,19 +52,24 @@ class EditProflie extends StatelessWidget {
                                       height: 200.r,
                                       width: 200.r,
                                     )
-                                  : userController.user.imageAvatar == ""
-                                      ? Image.asset(
-                                          'lib/assets/images/user Icon.png',
-                                          fit: BoxFit.cover)
-                                      : Obx(
-                                          () => Image.network(
-                                            userController.user.imageAvatar ??
-                                                '',
-                                            fit: BoxFit.cover,
-                                            height: 200.r,
-                                            width: 200.r,
-                                          ),
-                                        ),
+                                  : Container(
+                                      color: Colors.white,
+                                      child:
+                                          userController.user.imageAvatar == ""
+                                              ? Image.asset(
+                                                  'lib/assets/images/user2.png',
+                                                  fit: BoxFit.cover)
+                                              : Obx(
+                                                  () => Image.network(
+                                                    userController
+                                                            .user.imageAvatar ??
+                                                        '',
+                                                    fit: BoxFit.cover,
+                                                    height: 200.r,
+                                                    width: 200.r,
+                                                  ),
+                                                ),
+                                    ),
                             ))),
                         Padding(
                           padding: EdgeInsets.only(right: 20.w),

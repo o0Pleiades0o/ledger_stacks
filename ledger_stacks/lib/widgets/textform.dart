@@ -9,15 +9,16 @@ class TextFieldGeneral extends StatelessWidget {
   final String? Function(String?)? validator;
   final void Function(String?)? onSaved;
   final IconData icon;
+  final TextInputType? keyboardType;
 
-  const TextFieldGeneral({
-    super.key,
-    required this.controller,
-    required this.labelText,
-    required this.icon,
-    this.validator,
-    this.onSaved,
-  });
+  const TextFieldGeneral(
+      {super.key,
+      required this.controller,
+      required this.labelText,
+      required this.icon,
+      this.validator,
+      this.onSaved,
+      this.keyboardType});
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,7 @@ class TextFieldGeneral extends StatelessWidget {
           controller: controller,
           onSaved: onSaved,
           validator: validator,
+          keyboardType: keyboardType,
           decoration: InputDecoration(
             labelText: labelText,
             prefixIcon: Icon(icon),

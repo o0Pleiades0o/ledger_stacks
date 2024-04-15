@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               useMaterial3: true,
-              colorScheme: ColorScheme.fromSeed(seedColor: kViolet)
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.transparent)
                   .copyWith(background: kGray),
             ),
             home: const Root(),

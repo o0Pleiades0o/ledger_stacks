@@ -5,16 +5,13 @@ import 'package:ledger_stacks/constants/color.dart';
 
 import '../../widgets/button.dart';
 import '../../widgets/floating_action_button.dart';
+import '../../widgets/list.dart';
+import '../add_my_list/add_my_list_page.dart';
 import '../home/home_page.dart';
 
-class Mylist extends StatefulWidget {
+class Mylist extends StatelessWidget {
   const Mylist({super.key});
 
-  @override
-  State<Mylist> createState() => _MylistPage();
-}
-
-class _MylistPage extends State<Mylist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +26,12 @@ class _MylistPage extends State<Mylist> {
               Get.off(() => const HomePage());
             },
           ),
-          title: Text(
-            "My List",
-            style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
+          title: Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Text(
+              "My List",
+              style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
+            ),
           )),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 20.w),
@@ -43,20 +43,36 @@ class _MylistPage extends State<Mylist> {
                     fontSize: 18.sp,
                     color: kDarkgray,
                     fontWeight: FontWeight.bold)),
+            SizedBox(
+              height: 10.h,
+            ),
+            const Expanded(child: Listdata()),
             Text("Temporary List",
                 style: TextStyle(
                     fontSize: 18.sp,
                     color: kDarkgray,
                     fontWeight: FontWeight.bold)),
+            SizedBox(
+              height: 10.h,
+            ),
+            const Expanded(child: Listdata()),
             Text("Auto List",
                 style: TextStyle(
                     fontSize: 18.sp,
                     color: kDarkgray,
-                    fontWeight: FontWeight.bold))
+                    fontWeight: FontWeight.bold)),
+            SizedBox(
+              height: 10.h,
+            ),
+            const Expanded(child: Listdata()),
           ],
         ),
       ), //cost เป็นสำหรับค่าคงที่ ที่ไม่มีการเปลี่ยนแปลง
-      floatingActionButton: const CreateFAB(),
+      floatingActionButton: CreateFAB(
+        onPressed: () {
+          Get.off(() => const AddMyList());
+        },
+      ),
     ); //ทำให้หน้่าแอปเป็นสีขาว
   }
 }

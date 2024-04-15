@@ -33,7 +33,9 @@ class CustomFloatingActionButton extends StatelessWidget {
 }
 
 class CreateFAB extends StatelessWidget {
-  const CreateFAB({super.key});
+  const CreateFAB({super.key, required this.onPressed});
+
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class CreateFAB extends StatelessWidget {
       child: FloatingActionButton(
         backgroundColor: kYellow,
         shape: const CircleBorder(),
-        onPressed: () {},
+        onPressed: onPressed,
         heroTag: 'create',
         child: const Icon(
           Icons.add,

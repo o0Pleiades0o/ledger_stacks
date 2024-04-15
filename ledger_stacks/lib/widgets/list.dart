@@ -1,55 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
-class ListsWithCards extends StatelessWidget {
-  const ListsWithCards({super.key});
+class Listdata extends StatelessWidget {
+  const Listdata({super.key}); // Fixed super constructor call
 
   @override
   Widget build(BuildContext context) {
-    // Sample data for three lists
-    List<List<String>> listsData = [
-      ['Item 1', 'Item 2', 'Item 3'],
-      ['Item A', 'Item B', 'Item C', 'Item D'],
-      ['Item X', 'Item Y', 'Item Z'],
-      ['Item P', 'Item Q', 'Item R'],
-      ['Item M', 'Item N', 'Item O'],
-    ];
+    final List<String> items = ['ค่ารถ', 'ค่าอาหาร', 'ค่าไปเรียน'];
+    final List<String> amount = [
+      '90',
+      '50',
+      '11200'
+    ]; // Added explicit type <String>
 
     return ListView.builder(
-      itemCount: listsData.length,
-      itemBuilder: (context, index) {
-        return CardList(listData: listsData[index]);
+      itemCount: items.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Padding(
+          padding: EdgeInsets.only(bottom: 5.h),
+          child: Container(
+            height: 35.h,
+            width: Get.width,
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(8.r)),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 40.w),
+              child: Row(
+                children: [
+                  Text(
+                    items[index],
+                  ),
+                  const Spacer(),
+                  Text(
+                    amount[index],
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
       },
-    );
-  }
-}
-
-class CardList extends StatelessWidget {
-  final List<String> listData;
-
-  const CardList({super.key, required this.listData});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(10.0),
-      child: Column(
-        children: [
-          ListTile(
-            title: Text('List ${listData[0]}'),
-          ),
-          const Divider(),
-          ListView.builder(
-            itemCount: listData.length,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(listData[index]),
-              );
-            },
-          ),
-        ],
-      ),
     );
   }
 }
