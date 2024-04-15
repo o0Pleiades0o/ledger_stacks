@@ -1,3 +1,4 @@
+import 'package:flutter/src/widgets/editable_text.dart';
 import 'package:ledger_stacks/models/transaction/transaction.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -40,7 +41,7 @@ class TransactionService {
     return transactionData;
   }
 
-  Future<Null> insertValueTransaction(TransactionModel transactionModel) async {
+  Future<Null> insertValueTransaction(TransactionModel transactionModel, {required TextEditingController controller}) async {
     Database database = await connectedDatabase();
     await database.insert(tableDatabase, transactionModel.toMap()).then(
         (value) => print('### insert Value name ==>> ${transactionModel.name}'));
@@ -52,5 +53,4 @@ class TransactionService {
         .delete(tableDatabase, where: '$columnId = $id')
         .then((value) => print('### Success Delete id ==> $id'));
   }*/
-
 }

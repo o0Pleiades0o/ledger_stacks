@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:ledger_stacks/models/transaction/transaction.dart';
+import 'package:ledger_stacks/models/transaction/transaction_service.dart';
 import 'package:ledger_stacks/pages/add_transaction.dart/transaction_controller.dart';
 import 'package:ledger_stacks/pages/home/home_page.dart';
-import 'package:ledger_stacks/widgets/dropdown.dart';
 import 'package:ledger_stacks/widgets/textform.dart';
 
 import '../../constants/color.dart';
@@ -12,7 +13,8 @@ import '../../widgets/radio_button/radio_button.dart';
 
 class AddTransaction extends StatelessWidget {
   AddTransaction({super.key});
-  final AddTransactionController addTransactionController = Get.put(AddTransactionController());
+  final AddTransactionController addTransactionController =
+      Get.put(AddTransactionController());
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +41,24 @@ class AddTransaction extends StatelessWidget {
           child: Column(
             children: [
               RadioButton(),
-              TextFieldGeneral(controller: addTransactionController.nameController, labelText: 'Item Name'),
-              TextFieldGeneral(controller: addTransactionController.amountController, labelText: 'Item Amount'),
+              TextFieldGeneral(
+                  controller: addTransactionController.nameController,
+                  labelText: 'Item Name'),
+              TextFieldGeneral(
+                  controller: addTransactionController.amountController,
+                  labelText: 'Item Amount'),
               AddBotton(onPressed: () {
-                
-              } )
+                TransactionModel transactionModel = TransactionModel(
+                    name: addTransactionController.nameController.text,
+                    amount: double.parse(
+                        addTransactionController.amountController.text));
+                TransactionService()
+                    .insertValueTransaction(transactionModel,
+                        controller: addTransactionController.nameController)
+                    .then((value) {
+                      debugPrint(value.toString());
+                    });
+              })
             ],
           )),
     );
