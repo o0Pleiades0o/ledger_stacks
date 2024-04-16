@@ -5,18 +5,24 @@ import 'package:ledger_stacks/widgets/dropdown/dropdown.dart';
 import 'package:ledger_stacks/widgets/textform.dart';
 
 import '../../constants/color.dart';
+import '../../util/util.dart';
 import '../../widgets/button.dart';
 import '../../widgets/dropdown/dropdown_controller.dart';
 import '../../widgets/radio_button/radio_button.dart';
+import '../../widgets/radio_button/radio_controller.dart';
 import '../mylist/mylist_page.dart';
 import 'add_my_list_controller.dart';
 
 class AddMyList extends GetView {
   AddMyList({super.key});
+  final RadioButtonController radioButtonController =
+      Get.put(RadioButtonController());
   final AddMyListController addMyListController =
       Get.put(AddMyListController());
   final DropDownTypeController dropDownTypeController =
       Get.put(DropDownTypeController());
+  final DropDownFrequencyController dropDownFrequencyController =
+      Get.put(DropDownFrequencyController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,37 +44,63 @@ class AddMyList extends GetView {
               style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
             ),
           )),
-      body: Padding(
-          padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 20.w),
-          child: Column(
-            children: [
-              RadioButton(),
-              TextFieldAddSQL(
-                hintText: "Name",
-                controller: addMyListController.listNameController,
-                textInputAction: TextInputAction.next,
-              ),
-              TextFieldAddSQL(
-                hintText: "Amount",
-                controller: addMyListController.listAmountController,
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.done,
-              ),
-              DropDownType(),
-              Obx(() {
-                if (dropDownTypeController.selectedValue.value == 'Auto') {
-                  return Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      DropDownFrequency(),
-                    ],
-                  );
-                } else {
-                  return const SizedBox();
-                }
-              })
-            ],
-          )),
+      body: SingleChildScrollView(
+        child: Form(
+          key: addMyListController.formKey,
+          child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 20.w),
+              child: Column(
+                children: [
+                  RadioButton(),
+                  TextFieldAddSQL(
+                    hintText: "Name",
+                    validator: validateListNameField,
+                    controller: addMyListController.listNameController,
+                    textInputAction: TextInputAction.next,
+                  ),
+                  TextFieldAddSQL(
+                    hintText: "Amount",
+                    validator: validateListAmountField,
+                    controller: addMyListController.listAmountController,
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.done,
+                  ),
+                  DropDownType(),
+                  Obx(() {
+                    if (dropDownTypeController.selectedValue.value == 'Auto') {
+                      return Column(
+                        children: [
+                          const SizedBox(height: 20),
+                          DropDownFrequency(),
+                        ],
+                      );
+                    } else {
+                      return const SizedBox();
+                    }
+                  }),
+                  const SizedBox(height: 20),
+                  ButtonRaL(
+                    buttonText: "Add",
+                    onPressed: () {
+                      if (addMyListController.formKey.currentState!
+                          .validate()) {
+                        debugPrint(
+                            radioButtonController.selectedCharacter.string);
+                        debugPrint(addMyListController.listNameController.text);
+                        debugPrint(
+                            addMyListController.listAmountController.text);
+                        debugPrint(
+                            dropDownTypeController.selectedValue.toString());
+                        debugPrint(dropDownFrequencyController.selectedValue
+                            .toString());
+                        Get.off(() => const Mylist());
+                      }
+                    },
+                  )
+                ],
+              )),
+        ),
+      ),
     );
   }
 }
