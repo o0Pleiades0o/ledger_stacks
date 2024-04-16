@@ -46,12 +46,12 @@ class AddTransaction extends StatelessWidget {
                   validator: validateTransactionNameField,
                   controller: addTransactionController.nameController,
                   textInputAction: TextInputAction.next,
-                  hintText: 'Item Name'),
+                  hintText: 'Name'),
               TextFieldAddSQL(
                   validator: validateTransactionAmountField,
                   controller: addTransactionController.amountController,
                   textInputAction: TextInputAction.done,
-                  hintText: 'Item Amount'),
+                  hintText: 'Amount'),
               ButtonRaL(
                   buttonText: "Add",
                   onPressed: () {
