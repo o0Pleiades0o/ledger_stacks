@@ -89,3 +89,18 @@ String? validateListAmountField(String? value) {
   }
   return null;
 }
+
+//Add transaction validator
+String? validateTransactionNameField(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Name is required';
+  }
+  return null;
+}
+
+String? validateTransactionAmountField(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Amount is required';
+  }
+  return null;
+}
