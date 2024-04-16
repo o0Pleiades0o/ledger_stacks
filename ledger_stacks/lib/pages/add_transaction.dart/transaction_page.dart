@@ -37,37 +37,47 @@ class AddTransaction extends StatelessWidget {
               style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
             ),
           )),
-      body: Padding(
-          padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 20.w),
-          child: Column(
-            children: [
-              RadioButton(),
-              TextFieldAddSQL(
-                  validator: validateTransactionNameField,
-                  controller: addTransactionController.nameController,
-                  textInputAction: TextInputAction.next,
-                  hintText: 'Name'),
-              TextFieldAddSQL(
-                  validator: validateTransactionAmountField,
-                  controller: addTransactionController.amountController,
-                  textInputAction: TextInputAction.done,
-                  hintText: 'Amount'),
-              ButtonRaL(
-                  buttonText: "Add",
-                  onPressed: () {
-                    TransactionModel transactionModel = TransactionModel(
-                        name: addTransactionController.nameController.text,
-                        amount: double.parse(
-                            addTransactionController.amountController.text));
-                    TransactionService()
-                        .insertValueTransaction(transactionModel,
-                            controller: addTransactionController.nameController)
-                        .then((value) {
-                      debugPrint(value.toString());
-                    });
-                  })
-            ],
-          )),
+      body: SingleChildScrollView(
+        child: Form(
+          key: addTransactionController.formKey,
+          child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 20.w),
+              child: Column(
+                children: [
+                  RadioButton(),
+                  TextFieldAddSQL(
+                      validator: validateTransactionNameField,
+                      controller: addTransactionController.nameController,
+                      textInputAction: TextInputAction.next,
+                      hintText: 'Name'),
+                  TextFieldAddSQL(
+                      validator: validateTransactionAmountField,
+                      controller: addTransactionController.amountController,
+                      textInputAction: TextInputAction.done,
+                      hintText: 'Amount'),
+                  ButtonRaL(
+                      buttonText: "Add",
+                      onPressed: () {
+                        if (addTransactionController.formKey.currentState!
+                            .validate()) {
+                          // TransactionModel transactionModel = TransactionModel(
+                          //     name:
+                          //         addTransactionController.nameController.text,
+                          //     amount: double.parse(addTransactionController
+                          //         .amountController.text));
+                          // TransactionService()
+                          //     .insertValueTransaction(transactionModel,
+                          //         controller:
+                          //             addTransactionController.nameController)
+                          //     .then((value) {
+                          //   debugPrint(value.toString());
+                          // });
+                        }
+                      })
+                ],
+              )),
+        ),
+      ),
     );
   }
 }
