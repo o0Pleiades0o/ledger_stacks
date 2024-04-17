@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
+import 'package:ledger_stacks/util/database/database_service.dart';
 import 'package:ledger_stacks/util/root.dart';
-//import 'package:ledger_stacks/util/root.dart';
 
 import '../constants/color.dart';
 import 'auth/bindings/auth_binding.dart';
@@ -19,6 +19,7 @@ void main() async {
     projectId: "ledgerstacks-2f9e6",
   ));
   Get.put(UserController(), permanent: true);
+  GetInstance().put(() => LedgetStackDB.instance);
   runApp(const MyApp());
 }
 

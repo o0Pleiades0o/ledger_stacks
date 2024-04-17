@@ -74,3 +74,33 @@ String? validateConfirmPasswordField(String? value, String password) {
   }
   return null;
 }
+
+//Add my list validator
+String? validateListNameField(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Name is required';
+  }
+  return null;
+}
+
+String? validateListAmountField(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Amount is required';
+  }
+  return null;
+}
+
+//Add transaction validator
+String? validateTransactionNameField(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Name is required';
+  }
+  return null;
+}
+
+String? validateTransactionAmountField(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Amount is required';
+  }
+  return null;
+}

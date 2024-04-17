@@ -46,7 +46,7 @@ class Mylist extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            const Expanded(child: Listdata()),
+            Expanded(child: Listdata()),
             Text("Temporary List",
                 style: TextStyle(
                     fontSize: 18.sp,
@@ -55,7 +55,7 @@ class Mylist extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            const Expanded(child: Listdata()),
+            Expanded(child: Listdata()),
             Text("Auto List",
                 style: TextStyle(
                     fontSize: 18.sp,
@@ -64,14 +64,22 @@ class Mylist extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            const Expanded(child: Listdata()),
+            Expanded(child: Listdata()),
           ],
         ),
       ), //cost เป็นสำหรับค่าคงที่ ที่ไม่มีการเปลี่ยนแปลง
-      floatingActionButton: CreateFAB(
-        onPressed: () {
-          Get.off(() => const AddMyList());
-        },
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          EditeFAB(
+            onPressed: () {},
+          ),
+          CreateFAB(
+            onPressed: () {
+              Get.off(() => AddMyList());
+            },
+          ),
+        ],
       ),
     ); //ทำให้หน้่าแอปเป็นสีขาว
   }
