@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class TransactionModel {
   final String name;
   final double amount;
@@ -43,31 +41,5 @@ class TransactionModel {
       transactionType: map['transactionType'],
       date: map['date']
     );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory TransactionModel.fromJson(String source) =>
-      TransactionModel.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'TransactionModel(name: $name, amount: $amount, transactionType: $transactionType , date: $date)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is TransactionModel &&
-        other.name == name &&
-        other.amount == amount &&
-        other.transactionType == transactionType &&
-        other.date == date;
-  }
-
-  @override
-  int get hashCode {
-    return name.hashCode ^ amount.hashCode ^ transactionType.hashCode ^ date.hashCode;
   }
 }
