@@ -1,10 +1,14 @@
-// ignore: implementation_imports
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ledger_stacks/models/transaction/transaction.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-class TransactionService {
+class TransactionService extends GetxController {
+
+  TransactionService._();
+  static TransactionService of = TransactionService._();
+
   final String nameDatabase = 'ledgerStrack.db';
   final int version = 1;
   final String tableDatabase = 'tableTransaction';
@@ -13,28 +17,28 @@ class TransactionService {
   final String columnTransactionType = 'transactionType';
   final String columnDate = 'date';
 
-  TransactionService() {
+  late final Database _database;
+  //Default unnamed constructor
+  TransactionService();
+
+  @override
+  void onInit() {
+    super.onInit();
     initialDatabase();
   }
 
   Future<Null> initialDatabase() async {
-    await openDatabase(
+    _database = await openDatabase(
       join(await getDatabasesPath(), nameDatabase),
       onCreate: (db, version) => db.execute(
-          'CREATE TABLE $tableDatabase ($columnName TEXT PRIMARY KEY, $columnAmount INTEGER, $columnTransactionType TEXT, $columnDate DATE'),
+          'CREATE TABLE $tableDatabase ($columnName TEXT PRIMARY KEY, $columnAmount INTEGER, $columnTransactionType TEXT, $columnDate DATE)'),
       version: version,
     );
   }
 
-  Future<Database> connectedDatabase() async {
-    return await openDatabase(join(await getDatabasesPath(), nameDatabase));
-  }
-
   Future<List<TransactionModel>> readSQLite() async {
-    Database database = await connectedDatabase();
     List<TransactionModel> transactionData = [];
-    List<Map<String, dynamic>> maps = await database.query(tableDatabase);
-    //print('### maps on TransactionService ==>> $maps');
+    List<Map<String, dynamic>> maps = await _database.query(tableDatabase);
     for (var item in maps) {
       TransactionModel model = TransactionModel.fromMap(item);
       transactionData.add(model);
@@ -42,18 +46,8 @@ class TransactionService {
     return transactionData;
   }
 
-  Future<Null> insertValueTransaction(TransactionModel transactionModel,
-      {required TextEditingController controller}) async {
-    Database database = await connectedDatabase();
-    await database.insert(tableDatabase, transactionModel.toMap()).then(
-        (value) =>
-            debugPrint('### insert Value name ==>> ${transactionModel.name}'));
+  Future<Null> insertValueTransaction(TransactionModel transactionModel, {required TextEditingController controller}) async {
+    await _database.insert(tableDatabase, transactionModel.toMap());
+    debugPrint('### insert Value name ==>> ${transactionModel.name}');
   }
-
-  /*Future<void> deleateValueTransaction(int id) async {
-    Database database = await connectedDatabase();
-    await database
-        .delete(tableDatabase, where: '$columnId = $id')
-        .then((value) => print('### Success Delete id ==> $id'));
-  }*/
 }

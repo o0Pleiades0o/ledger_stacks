@@ -60,18 +60,18 @@ class AddTransaction extends StatelessWidget {
                       onPressed: () {
                         if (addTransactionController.formKey.currentState!
                             .validate()) {
-                          // TransactionModel transactionModel = TransactionModel(
-                          //     name:
-                          //         addTransactionController.nameController.text,
-                          //     amount: double.parse(addTransactionController
-                          //         .amountController.text));
-                          // TransactionService()
-                          //     .insertValueTransaction(transactionModel,
-                          //         controller:
-                          //             addTransactionController.nameController)
-                          //     .then((value) {
-                          //   debugPrint(value.toString());
-                          // });
+                          TransactionModel transactionModel = TransactionModel(
+                              name:
+                                  addTransactionController.nameController.text,
+                              amount: double.parse(addTransactionController
+                                  .amountController.text));
+                          TransactionService()
+                              .insertValueTransaction(transactionModel,
+                                  controller:
+                                      addTransactionController.nameController)
+                              .then((value) {
+                            debugPrint(value.toString());
+                          });
                         }
                       })
                 ],
