@@ -53,7 +53,6 @@ CREATE TABLE mylist(
     final db = await database;
     final id = await db.insert('mylist', myList.toMap());
     if (id > 0) {
-      // Insert successful
       Get.snackbar(
         'Success',
         'List "${myList.name}" added successfully',
@@ -62,7 +61,6 @@ CREATE TABLE mylist(
         colorText: Colors.white,
       );
     } else {
-      // Insert failed
       Get.snackbar(
         'Error',
         'Failed to add list "${myList.name}"',
