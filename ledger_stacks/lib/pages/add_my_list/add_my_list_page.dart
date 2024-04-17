@@ -81,19 +81,10 @@ class AddMyList extends GetView {
                   const SizedBox(height: 20),
                   ButtonRaL(
                     buttonText: "Add",
-                    onPressed: () {
+                    onPressed: () async {
                       if (addMyListController.formKey.currentState!
                           .validate()) {
-                        debugPrint(
-                            radioButtonController.selectedCharacter.string);
-                        debugPrint(addMyListController.listNameController.text);
-                        debugPrint(
-                            addMyListController.listAmountController.text);
-                        debugPrint(
-                            dropDownTypeController.selectedValue.toString());
-                        debugPrint(dropDownFrequencyController.selectedValue
-                            .toString());
-                        Get.off(() => const Mylist());
+                        await addMyListController.createMylist();
                       }
                     },
                   )
