@@ -20,7 +20,6 @@ class RadioButton extends StatelessWidget {
                   onChanged: (SingingCharacter? value) {
                     if (value != null) {
                       controller.updateCharacter(value);
-                      debugPrint("Selected Character: $value");
                     }
                   },
                 )),
@@ -35,7 +34,6 @@ class RadioButton extends StatelessWidget {
                   onChanged: (SingingCharacter? value) {
                     if (value != null) {
                       controller.updateCharacter(value);
-                      debugPrint("Selected Character: $value");
                     }
                   },
                 )),
