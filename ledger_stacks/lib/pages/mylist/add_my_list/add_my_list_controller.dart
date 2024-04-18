@@ -4,7 +4,7 @@ import 'package:ledger_stacks/util/database/database_service.dart';
 import 'package:ledger_stacks/widgets/dropdown/dropdown_controller.dart';
 import 'package:ledger_stacks/widgets/radio_button/radio_controller.dart';
 
-import '../../models/my_list.dart';
+import '../../../models/my_list.dart';
 
 class AddMyListController extends GetxController {
   final formKey = GlobalKey<FormState>();

@@ -6,8 +6,9 @@ import 'package:ledger_stacks/constants/color.dart';
 import '../../widgets/button.dart';
 import '../../widgets/floating_action_button.dart';
 import '../../widgets/list.dart';
-import '../add_my_list/add_my_list_page.dart';
+import 'add_my_list/add_my_list_page.dart';
 import '../home/home_page.dart';
+import 'edite_my_list/edite_my_list_page.dart';
 
 class Mylist extends StatelessWidget {
   const Mylist({super.key});
@@ -72,7 +73,9 @@ class Mylist extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           EditeFAB(
-            onPressed: () {},
+            onPressed: () {
+              Get.off(() => EditMyList());
+            },
           ),
           CreateFAB(
             onPressed: () {
