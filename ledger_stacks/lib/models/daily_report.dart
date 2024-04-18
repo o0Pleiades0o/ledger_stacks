@@ -11,20 +11,6 @@ class DailyReportModel {
     required this.dailyBalance,
   });
 
-  DailyReportModel copyWith({
-    DateTime? date,
-    double? dailyIncome,
-    double? dailyExpense,
-    double? dailyBalance,
-  }) {
-    return DailyReportModel(
-      date: date ?? this.date,
-      dailyIncome: dailyIncome ?? this.dailyIncome,
-      dailyExpense: dailyExpense ?? this.dailyExpense,
-      dailyBalance: dailyBalance ?? this.dailyBalance,
-    );
-  }
-
   Map<String, dynamic> toMap() {
     return {
       'date': date.toIso8601String(),
