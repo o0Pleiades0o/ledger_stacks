@@ -11,12 +11,12 @@ import '../pages/mylist/mylist_controller.dart';
 class Listdata extends StatelessWidget {
   Listdata({super.key});
 
-  final MyListController controller = Get.put(MyListController());
+  final MyListController myListController = Get.put(MyListController());
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return controller.myLists.isEmpty
+      return myListController.myLists.isEmpty
           ? Center(
               child: Text(
                 "Not Found list data.",
@@ -24,9 +24,9 @@ class Listdata extends StatelessWidget {
               ),
             )
           : ListView.builder(
-              itemCount: controller.myLists.length,
+              itemCount: myListController.myLists.length,
               itemBuilder: (BuildContext context, int index) {
-                final myList = controller.myLists[index];
+                final myList = myListController.myLists[index];
                 return Padding(
                   padding: EdgeInsets.only(bottom: 5.h),
                   child: Slidable(
@@ -44,7 +44,7 @@ class Listdata extends StatelessWidget {
                       SlidableAction(
                         onPressed: (_) {
                           LedgetStackDB.instance
-                              .deleteMyList(myList.id!, controller);
+                              .deleteMyList(myList.id!, myListController);
                         },
                         backgroundColor: kRed.withOpacity(0.8),
                         foregroundColor: Colors.white,
