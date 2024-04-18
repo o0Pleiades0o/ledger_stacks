@@ -15,7 +15,6 @@ class Mylist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //เนื้อหาต้องอยู่ในนี้
       backgroundColor: kGray,
       appBar: AppBar(
           toolbarHeight: 75.h,
@@ -67,12 +66,12 @@ class Mylist extends StatelessWidget {
             Expanded(child: Listdata()),
           ],
         ),
-      ), //cost เป็นสำหรับค่าคงที่ ที่ไม่มีการเปลี่ยนแปลง
+      ),
       floatingActionButton: CreateFAB(
         onPressed: () {
           Get.off(() => AddMyList());
         },
       ),
-    ); //ทำให้หน้่าแอปเป็นสีขาว
+    );
   }
 }

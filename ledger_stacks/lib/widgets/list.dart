@@ -27,11 +27,6 @@ class Listdata extends StatelessWidget {
               itemCount: controller.myLists.length,
               itemBuilder: (BuildContext context, int index) {
                 final myList = controller.myLists[index];
-                debugPrint('Check value id : ${myList.id}');
-                debugPrint('Check value name : ${myList.name}');
-                debugPrint('Check value isIncome : ${myList.isIncome}');
-                debugPrint('Check value type : ${myList.type}');
-                debugPrint('Check value frequency : ${myList.frequency}');
                 return Padding(
                   padding: EdgeInsets.only(bottom: 5.h),
                   child: Slidable(
