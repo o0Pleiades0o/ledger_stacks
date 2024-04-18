@@ -4,7 +4,7 @@ class MyList {
   final double amount;
   final String isIncome;
   final String type;
-  final String frequency;
+  final String? frequency;
 
   MyList({
     this.id,

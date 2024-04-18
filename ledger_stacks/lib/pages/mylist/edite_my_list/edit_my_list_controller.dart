@@ -8,11 +8,4 @@ class EditMyListController extends GetxController {
 
   late TextEditingController listNameController;
   late TextEditingController listAmountController;
-
-  @override
-  void onInit() {
-    listNameController =
-        TextEditingController(text: controller.myLists[0].name);
-    super.onInit();
-  }
 }

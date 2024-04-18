@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:ledger_stacks/constants/color.dart';
 import 'package:ledger_stacks/pages/mylist/edite_my_list/edit_my_list_controller.dart';
 import 'package:ledger_stacks/widgets/button.dart';
-import 'package:ledger_stacks/widgets/textform.dart';
 
 import '../mylist_page.dart';
 
@@ -40,10 +39,8 @@ class EditMyList extends GetView {
           key: editMyListController.formKey,
           child: Padding(
               padding: EdgeInsets.symmetric(vertical: 150, horizontal: 20.w),
-              child: Column(
-                children: [
-                  TextFieldAddSQL(controller: controller, hintText: "test1")
-                ],
+              child: const Column(
+                children: [],
               )),
         ),
       ),
