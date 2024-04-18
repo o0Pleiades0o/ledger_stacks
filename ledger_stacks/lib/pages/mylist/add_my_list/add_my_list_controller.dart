@@ -13,6 +13,15 @@ class AddMyListController extends GetxController {
   final listAmountController = TextEditingController();
 
   final RadioButtonController radioButtonController = Get.find();
+  late final DropDownTypeController dropDownTypeController;
+  late final DropDownFrequencyController dropDownFrequencyController;
+
+  @override
+  void onInit() {
+    dropDownTypeController = Get.put(DropDownTypeController());
+    dropDownFrequencyController = Get.put(DropDownFrequencyController());
+    super.onInit();
+  }
 
   @override
   void onClose() {
@@ -28,9 +37,8 @@ class AddMyListController extends GetxController {
         radioButtonController.selectedCharacter.value == SingingCharacter.income
             ? 'income'
             : 'expense';
-    debugPrint("Check is : $isIncome");
-    final type = DropDownTypeController().selectedValue.value;
-    final frequency = DropDownFrequencyController().selectedValue.value;
+    final type = dropDownTypeController.currentSelectedValue;
+    final frequency = dropDownFrequencyController.currentSelectedValue;
 
     final myList = MyList(
       name: name,

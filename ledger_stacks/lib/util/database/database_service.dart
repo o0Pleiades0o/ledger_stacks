@@ -1,9 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../models/my_list.dart';
+import '../../pages/mylist/mylist_controller.dart';
+import '../../widgets/snackbar.dart';
 
 class LedgetStackDB extends GetxService {
   static final LedgetStackDB instance = LedgetStackDB._internal();
@@ -54,34 +55,62 @@ CREATE TABLE mylist(
     final db = await database;
     final id = await db.insert('mylist', myList.toMap());
     if (id > 0) {
-      Get.snackbar(
-        'Success',
-        'List "${myList.name}" added successfully',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
+      SuccessSnackbar.show(
+        title: 'Success',
+        message: '"${myList.name}" added successfully',
       );
     } else {
-      Get.snackbar(
-        'Error',
-        'Failed to add list "${myList.name}"',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+      ErrorSnackbar.show(
+        title: 'Error',
+        message: 'Failed to add list "${myList.name}"',
       );
     }
     return id;
   }
 
-  Future<int> updateMylist(MyList myList) async {
+  Future<int> updateMylist(MyList myList,
+      [MyListController? myListController]) async {
     final db = await database;
-    return await db.update('Mylist', myList.toMap(),
+    final rowsAffected = await db.update('mylist', myList.toMap(),
         where: 'id = ?', whereArgs: [myList.id]);
+
+    // Check if myListController is not null before calling updateList()
+    if (myListController != null) {
+      myListController.updateList();
+    }
+
+    if (rowsAffected > 0) {
+      SuccessSnackbar.show(
+        title: 'Success',
+        message: '"${myList.name}" updated successfully',
+      );
+    } else {
+      ErrorSnackbar.show(
+        title: 'Error',
+        message: 'Failed to update "${myList.name}"',
+      );
+    }
+    return rowsAffected;
   }
 
-  Future<int> deleteMyList(int id) async {
+  Future<int> deleteMyList(int id, MyListController myListController) async {
     final db = await database;
-    return await db.delete('mylist', where: 'id = ?', whereArgs: [id]);
+    final rowsDeleted =
+        await db.delete('mylist', where: 'id = ?', whereArgs: [id]);
+    myListController.updateList();
+    if (rowsDeleted > 0) {
+      SuccessSnackbar.show(
+        title: 'Success',
+        message: 'deleted successfully',
+      );
+    } else {
+      ErrorSnackbar.show(
+        title: 'Error',
+        message: 'Failed to delete',
+      );
+    }
+    return rowsDeleted;
   }
+
   //Footer CRUD mylist
 }

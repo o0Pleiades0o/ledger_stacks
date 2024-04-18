@@ -8,17 +8,19 @@ import 'package:ledger_stacks/util/util.dart';
 import 'package:ledger_stacks/widgets/button.dart';
 import 'package:ledger_stacks/widgets/textform.dart';
 
+import '../mylist_controller.dart';
 import '../mylist_page.dart';
 
 class EditMyList extends GetView<EditMyListController> {
   final MyList selectedItem;
-
   const EditMyList({super.key, required this.selectedItem});
 
   @override
   Widget build(BuildContext context) {
-    final controller =
-        Get.put(EditMyListController(selectedItem: selectedItem));
+    final editMyListController = Get.put(EditMyListController(
+      selectedItem: selectedItem,
+      myListController: Get.find<MyListController>(),
+    ));
 
     return Scaffold(
       backgroundColor: kGray,
@@ -48,13 +50,13 @@ class EditMyList extends GetView<EditMyListController> {
               children: [
                 TextFieldAddSQL(
                   hintText: "Name",
-                  controller: controller.listNameController,
+                  controller: editMyListController.listNameController,
                   validator: validateListNameField,
                   textInputAction: TextInputAction.next,
                 ),
                 TextFieldAddSQL(
                   hintText: "Amount",
-                  controller: controller.listAmountController,
+                  controller: editMyListController.listAmountController,
                   validator: validateListAmountField,
                   textInputAction: TextInputAction.done,
                 ),
@@ -62,10 +64,7 @@ class EditMyList extends GetView<EditMyListController> {
                     buttonText: "Save",
                     onPressed: () {
                       if (controller.formKey.currentState!.validate()) {
-                        debugPrint(
-                            "Name : ${controller.listNameController.text}");
-                        debugPrint(
-                            "Amount : ${controller.listAmountController.text}");
+                        controller.updateMylist();
                       }
                     }),
               ],
