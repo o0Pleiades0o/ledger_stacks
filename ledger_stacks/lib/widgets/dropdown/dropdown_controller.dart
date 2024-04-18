@@ -17,10 +17,10 @@ class DropDownTypeController extends GetxController {
 //DropDownFrequencyController
 class DropDownFrequencyController extends GetxController {
   final List<String> items = ['Mon - Fri', 'Sat - Sun', '1st day', '15th'];
-  late final Rx<String> selectedValue;
+  late final Rx<String?> selectedValue;
 
   DropDownFrequencyController() {
-    selectedValue = Rx<String>(items.first);
+    selectedValue = Rx<String?>(null);
   }
 
   void updateSelectedValue(String value) {
