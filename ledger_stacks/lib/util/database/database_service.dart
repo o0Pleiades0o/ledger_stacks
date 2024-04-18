@@ -48,8 +48,8 @@ CREATE TABLE transactions(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT,
   amount DOUBLE,
-  transactionType TEXT,
-  date TEXT
+  isIncome TEXT,
+  date DATE
 )
 '''); //transaction
 

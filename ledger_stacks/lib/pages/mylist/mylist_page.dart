@@ -5,7 +5,7 @@ import 'package:ledger_stacks/constants/color.dart';
 
 import '../../widgets/button.dart';
 import '../../widgets/floating_action_button.dart';
-import '../../widgets/list.dart';
+import '../../widgets/mylist_listview.dart';
 import 'add_my_list/add_my_list_page.dart';
 import '../home/home_page.dart';
 import 'edite_my_list/edite_my_list_page.dart';
@@ -68,7 +68,7 @@ class Mylist extends StatelessWidget {
             Expanded(child: Listdata()),
           ],
         ),
-      ), //cost เป็นสำหรับค่าคงที่ ที่ไม่มีการเปลี่ยนแปลง
+      ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -84,6 +84,6 @@ class Mylist extends StatelessWidget {
           ),
         ],
       ),
-    ); //ทำให้หน้่าแอปเป็นสีขาว
+    );
   }
 }

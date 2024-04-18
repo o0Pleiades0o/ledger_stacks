@@ -2,15 +2,15 @@ class TransactionModel {
   final int? id;
   final String name;
   final double amount;
-  final String? transactionType;
+  final String isIncome;
   final DateTime? date;
 
   TransactionModel({
     this.id,
     required this.name,
     required this.amount,
-    this.transactionType,
-    this.date
+    required this.isIncome,
+    this.date,
   });
 
   Map<String, dynamic> toMap() {
@@ -18,8 +18,8 @@ class TransactionModel {
       'id': id,
       'name': name,
       'amount': amount,
-      'transactionType': transactionType,
-      'date' : date
+      'isIncome': isIncome,
+      'date': date?.millisecondsSinceEpoch, // หรือใช้ date?.toIso8601String() ตามความเหมาะสม
     };
   }
 
@@ -28,10 +28,8 @@ class TransactionModel {
       id: map['id'],
       name: map['name'],
       amount: map['amount'],
-      transactionType: map['transactionType'],
-      date: map['date']
+      isIncome: map['isIncome'],
+      date: map['date'],
     );
   }
-
-  
 }

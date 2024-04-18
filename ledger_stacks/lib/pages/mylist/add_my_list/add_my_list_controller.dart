@@ -28,7 +28,6 @@ class AddMyListController extends GetxController {
         radioButtonController.selectedCharacter.value == SingingCharacter.income
             ? 'income'
             : 'expense';
-    debugPrint("Check is : $isIncome");
     final type = DropDownTypeController().selectedValue.value;
     final frequency = DropDownFrequencyController().selectedValue.value;
 
