@@ -2,19 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/constants/color.dart';
+import 'package:ledger_stacks/models/my_list.dart';
 import 'package:ledger_stacks/pages/mylist/edite_my_list/edit_my_list_controller.dart';
+import 'package:ledger_stacks/util/util.dart';
 import 'package:ledger_stacks/widgets/button.dart';
+import 'package:ledger_stacks/widgets/textform.dart';
 
 import '../mylist_page.dart';
 
-class EditMyList extends GetView {
-  EditMyList({super.key});
+class EditMyList extends GetView<EditMyListController> {
+  final MyList selectedItem;
 
-  final EditMyListController editMyListController =
-      Get.put(EditMyListController());
+  const EditMyList({super.key, required this.selectedItem});
 
   @override
   Widget build(BuildContext context) {
+    final controller =
+        Get.put(EditMyListController(selectedItem: selectedItem));
+
     return Scaffold(
       backgroundColor: kGray,
       appBar: AppBar(
@@ -36,12 +41,36 @@ class EditMyList extends GetView {
       ),
       body: SingleChildScrollView(
         child: Form(
-          key: editMyListController.formKey,
+          key: controller.formKey,
           child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 150, horizontal: 20.w),
-              child: const Column(
-                children: [],
-              )),
+            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20.w),
+            child: Column(
+              children: [
+                TextFieldAddSQL(
+                  hintText: "Name",
+                  controller: controller.listNameController,
+                  validator: validateListNameField,
+                  textInputAction: TextInputAction.next,
+                ),
+                TextFieldAddSQL(
+                  hintText: "Amount",
+                  controller: controller.listAmountController,
+                  validator: validateListAmountField,
+                  textInputAction: TextInputAction.done,
+                ),
+                ButtonRaL(
+                    buttonText: "Save",
+                    onPressed: () {
+                      if (controller.formKey.currentState!.validate()) {
+                        debugPrint(
+                            "Name : ${controller.listNameController.text}");
+                        debugPrint(
+                            "Amount : ${controller.listAmountController.text}");
+                      }
+                    }),
+              ],
+            ),
+          ),
         ),
       ),
     );

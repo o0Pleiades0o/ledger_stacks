@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:ledger_stacks/widgets/radio_button/radio_controller.dart';
 
 class RadioButton extends StatelessWidget {
-  final RadioButtonController controller = Get.put(RadioButtonController());
-
-  RadioButton({super.key});
+  final RadioButtonController radioButtonController =
+      Get.put(RadioButtonController());
+  RadioButton({super.key, controller});
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +16,10 @@ class RadioButton extends StatelessWidget {
             title: const Text('income'),
             leading: Obx(() => Radio<SingingCharacter>(
                   value: SingingCharacter.income,
-                  groupValue: controller.selectedCharacter.value,
+                  groupValue: radioButtonController.selectedCharacter.value,
                   onChanged: (SingingCharacter? value) {
                     if (value != null) {
-                      controller.updateCharacter(value);
+                      radioButtonController.updateCharacter(value);
                     }
                   },
                 )),
@@ -30,10 +30,10 @@ class RadioButton extends StatelessWidget {
             title: const Text('expense'),
             leading: Obx(() => Radio<SingingCharacter>(
                   value: SingingCharacter.expense,
-                  groupValue: controller.selectedCharacter.value,
+                  groupValue: radioButtonController.selectedCharacter.value,
                   onChanged: (SingingCharacter? value) {
                     if (value != null) {
-                      controller.updateCharacter(value);
+                      radioButtonController.updateCharacter(value);
                     }
                   },
                 )),

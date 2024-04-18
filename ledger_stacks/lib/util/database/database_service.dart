@@ -72,5 +72,16 @@ CREATE TABLE mylist(
     }
     return id;
   }
+
+  Future<int> updateMylist(MyList myList) async {
+    final db = await database;
+    return await db.update('Mylist', myList.toMap(),
+        where: 'id = ?', whereArgs: [myList.id]);
+  }
+
+  Future<int> deleteMyList(int id) async {
+    final db = await database;
+    return await db.delete('mylist', where: 'id = ?', whereArgs: [id]);
+  }
   //Footer CRUD mylist
 }

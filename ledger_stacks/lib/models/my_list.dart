@@ -2,17 +2,17 @@ class MyList {
   final int? id;
   final String name;
   final double amount;
-  final String isIncome;
-  final String type;
+  final String? isIncome;
+  final String? type;
   final String? frequency;
 
   MyList({
     this.id,
     required this.name,
     required this.amount,
-    required this.isIncome,
-    required this.type,
-    required this.frequency,
+    this.isIncome,
+    this.type,
+    this.frequency,
   });
 
   Map<String, dynamic> toMap() {

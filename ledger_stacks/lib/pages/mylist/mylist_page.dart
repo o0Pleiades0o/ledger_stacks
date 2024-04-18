@@ -8,7 +8,6 @@ import '../../widgets/floating_action_button.dart';
 import '../../widgets/list.dart';
 import 'add_my_list/add_my_list_page.dart';
 import '../home/home_page.dart';
-import 'edite_my_list/edite_my_list_page.dart';
 
 class Mylist extends StatelessWidget {
   const Mylist({super.key});
@@ -69,20 +68,10 @@ class Mylist extends StatelessWidget {
           ],
         ),
       ), //cost เป็นสำหรับค่าคงที่ ที่ไม่มีการเปลี่ยนแปลง
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          EditeFAB(
-            onPressed: () {
-              Get.off(() => EditMyList());
-            },
-          ),
-          CreateFAB(
-            onPressed: () {
-              Get.off(() => AddMyList());
-            },
-          ),
-        ],
+      floatingActionButton: CreateFAB(
+        onPressed: () {
+          Get.off(() => AddMyList());
+        },
       ),
     ); //ทำให้หน้่าแอปเป็นสีขาว
   }
