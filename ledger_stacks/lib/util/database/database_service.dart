@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ledger_stacks/widgets/snack_bar.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../../constants/color.dart';
 import '../../models/my_list.dart';
 
 class LedgetStackDB extends GetxService {
@@ -54,24 +56,47 @@ CREATE TABLE mylist(
     final id = await db.insert('mylist', myList.toMap());
     if (id > 0) {
       // Insert successful
-      Get.snackbar(
-        'Success',
-        'List "${myList.name}" added successfully',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-      );
+      SuccessSnackBar(myList.name);
     } else {
       // Insert failed
-      Get.snackbar(
-        'Error',
-        'Failed to add list "${myList.name}"',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      ErrorSnackBar(myList.name);
     }
     return id;
   }
-  //Footer CRUD mylist
+
+  Future<int> updateMylist(MyList myList) async {
+    final db = await database;
+    return await db
+        .update('Mylist', myList.toMap(), where: 'id = ?', whereArgs: [myList.id]);
+  }
+
+  Future<int> deleteMylist(int id) async {
+    final db = await database;
+    return await db.delete('Mylist', where: 'id = ?', whereArgs: [id]);
+  }
+
+  //=============snack bar==================
+
+  void errorSnackBar(MyList myList) {
+    Get.snackbar(
+      'Error',
+      'Failed to add Item "${myList.name}"',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: kRed,
+      colorText: Colors.white,
+    );
+  }
+
+  void successSnackBar(MyList myList) {
+    Get.snackbar(
+      'Success',
+      'Item "${myList.name}" added successfully',
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: kLightviolet,
+      colorText: Colors.white,
+      duration: const Duration(seconds: 1)
+    );
+  }
+
+  //======================================
 }
