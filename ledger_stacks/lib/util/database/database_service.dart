@@ -35,6 +35,7 @@ CREATE TABLE mylist(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT,
   amount DOUBLE,
+  isIncome TEXT,
   type TEXT,
   frequency TEXT
 )

@@ -4,13 +4,13 @@ import 'package:get/get.dart';
 import 'package:ledger_stacks/widgets/dropdown/dropdown.dart';
 import 'package:ledger_stacks/widgets/textform.dart';
 
-import '../../constants/color.dart';
-import '../../util/util.dart';
-import '../../widgets/button.dart';
-import '../../widgets/dropdown/dropdown_controller.dart';
-import '../../widgets/radio_button/radio_button.dart';
-import '../../widgets/radio_button/radio_controller.dart';
-import '../mylist/mylist_page.dart';
+import '../../../constants/color.dart';
+import '../../../util/util.dart';
+import '../../../widgets/button.dart';
+import '../../../widgets/dropdown/dropdown_controller.dart';
+import '../../../widgets/radio_button/radio_button.dart';
+import '../../../widgets/radio_button/radio_controller.dart';
+import '../mylist_page.dart';
 import 'add_my_list_controller.dart';
 
 class AddMyList extends GetView {
@@ -48,7 +48,7 @@ class AddMyList extends GetView {
         child: Form(
           key: addMyListController.formKey,
           child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 20.w),
+              padding: EdgeInsets.symmetric(vertical: 150, horizontal: 20.w),
               child: Column(
                 children: [
                   RadioButton(),
@@ -87,7 +87,7 @@ class AddMyList extends GetView {
                         await addMyListController.createMylist();
                       }
                     },
-                  )
+                  ),
                 ],
               )),
         ),

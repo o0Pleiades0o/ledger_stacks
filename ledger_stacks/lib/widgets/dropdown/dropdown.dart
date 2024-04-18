@@ -71,51 +71,62 @@ class DropDownFrequency extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
-        child: Obx(
-      () => DropdownButton2<String>(
-        isExpanded: true,
-        value: dropDownFrequencyController.selectedValue.value,
-        items: dropDownFrequencyController.items
-            .map((String item) => DropdownMenuItem<String>(
-                  value: item,
-                  child: Text(
-                    item,
-                    style: const TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
-                ))
-            .toList(),
-        onChanged: (String? value) {
-          if (value != null) {
-            dropDownFrequencyController.updateSelectedValue(value);
-          }
-        },
-        buttonStyleData: ButtonStyleData(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15),
+      child: Obx(
+        () => DropdownButton2<String>(
+          isExpanded: true,
+          hint: Text(
+            'Select Item',
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: Colors.grey,
+            ),
           ),
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          height: 50.h,
-          width: Get.width,
-        ),
-        dropdownStyleData: DropdownStyleData(
+          value: dropDownFrequencyController.selectedValue.value,
+          items: [
+            for (String item in dropDownFrequencyController.items)
+              DropdownMenuItem<String>(
+                value: item,
+                child: Text(
+                  item,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ),
+          ],
+          onChanged: (String? value) {
+            if (value != null) {
+              dropDownFrequencyController.updateSelectedValue(value);
+            }
+          },
+          buttonStyleData: ButtonStyleData(
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF4b4b4b).withOpacity(0.08),
-                offset: const Offset(0, 8),
-                blurRadius: 10,
-                spreadRadius: 6,
-              )
-            ])),
-        menuItemStyleData: const MenuItemStyleData(
-          height: 40,
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            height: 50.h,
+            width: Get.width,
+          ),
+          dropdownStyleData: DropdownStyleData(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF4b4b4b).withOpacity(0.08),
+                  offset: const Offset(0, 8),
+                  blurRadius: 10,
+                  spreadRadius: 6,
+                ),
+              ],
+            ),
+          ),
+          menuItemStyleData: const MenuItemStyleData(
+            height: 40,
+          ),
         ),
       ),
-    ));
+    );
   }
 }
