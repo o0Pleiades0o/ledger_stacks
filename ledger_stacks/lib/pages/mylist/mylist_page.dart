@@ -17,54 +17,33 @@ class Mylist extends StatelessWidget {
     return Scaffold(
       backgroundColor: kGray,
       appBar: AppBar(
-          toolbarHeight: 75.h,
-          centerTitle: true,
-          backgroundColor: Colors.white,
-          leading: KBackButton(
-            onPressed: () {
-              Get.off(() => const HomePage());
-            },
+        toolbarHeight: 75.h,
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        leading: KBackButton(
+          onPressed: () {
+            Get.off(() => const HomePage());
+          },
+        ),
+        title: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Text(
+            "My List",
+            style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
           ),
-          title: Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Text(
-              "My List",
-              style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
-            ),
-          )),
-      body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 20.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Daily List",
-                style: TextStyle(
-                    fontSize: 18.sp,
-                    color: kDarkgray,
-                    fontWeight: FontWeight.bold)),
-            SizedBox(
-              height: 10.h,
-            ),
-            Expanded(child: Listdata()),
-            Text("Temporary List",
-                style: TextStyle(
-                    fontSize: 18.sp,
-                    color: kDarkgray,
-                    fontWeight: FontWeight.bold)),
-            SizedBox(
-              height: 10.h,
-            ),
-            Expanded(child: Listdata()),
-            Text("Auto List",
-                style: TextStyle(
-                    fontSize: 18.sp,
-                    color: kDarkgray,
-                    fontWeight: FontWeight.bold)),
-            SizedBox(
-              height: 10.h,
-            ),
-            Expanded(child: Listdata()),
-          ],
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 20.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildList("Daily"),
+              _buildList("Temporary"),
+              _buildList("Auto"),
+            ],
+          ),
         ),
       ),
       floatingActionButton: CreateFAB(
@@ -72,6 +51,26 @@ class Mylist extends StatelessWidget {
           Get.off(() => AddMyList());
         },
       ),
+    );
+  }
+
+  Widget _buildList(String filterType) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "$filterType List",
+          style: TextStyle(
+            fontSize: 18.sp,
+            color: kDarkgray,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        SizedBox(height: 10.h),
+        SizedBox(
+          child: Listdata(filterType: filterType),
+        ),
+      ],
     );
   }
 }
