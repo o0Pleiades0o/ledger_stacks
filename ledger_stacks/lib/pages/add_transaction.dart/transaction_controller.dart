@@ -33,14 +33,8 @@ class AddTransactionController extends GetxController {
       name: name,
       amount: amount,
       isIncome: isIncome,
-      date: DateTime.now(),
+      date: DateTime.now().toIso8601String(),
     );
-
-    // print('Creating Transaction:');
-    // print('Name: $name');
-    // print('Amount: $amount');
-    // print('Transaction Type: $isIncome');
-    // print('Date: ${transaction.date}');
 
     await LedgetStackDB.instance.createTransaction(transaction);
   }

@@ -27,7 +27,7 @@ class AddTransactionController extends GetxController {
         radioButtonController.selectedCharacter.value == SingingCharacter.income
             ? 'income'
             : 'expense';
-    final date = DateTime.now();
+    final date = DateTime.now().toIso8601String();
 
     final transaction = TransactionModel(
       name: name,

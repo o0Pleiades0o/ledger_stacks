@@ -139,83 +139,60 @@ class CardLedger extends StatelessWidget {
   }
 }
 
-class Listtile extends StatelessWidget {
-  const Listtile({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: 15.w,
-      ),
-      child: ListTile(
-        title: Text(
-          "List ${1 + Random().nextInt(4)}",
-          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
-        ),
-        trailing: Text(
-          "\$${1 + Random().nextInt(4) * 100}",
-          style: TextStyle(fontSize: 16.sp),
-        ),
-      ),
-    );
-  }
-}
-
 class LedgerList extends StatelessWidget {
-  LedgerList({super.key});
+  LedgerList({Key? key});
 
-  final LedgerListControoler controller = Get.put(LedgerListControoler());
+  final LedgerListController ledgerListController = Get.put(LedgerListController());
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => controller.ledgerList.isEmpty
+    return Obx(() => ledgerListController.ledgerList.isEmpty
         ? Center(
             child: Text(
-            "Not Found list data.",
-            style: TextStyle(color: Colors.black.withAlpha(80)),
-          ))
-          :ListView.builder(
-            itemCount: controller.ledgerList.length,
-             itemBuilder: (BuildContext context, int index) {
-              final ledgerlist = controller.ledgerList[index];
-              return Padding(
-                padding: EdgeInsets.only(bottom: 5.h),
+              "Not Found list data.",
+              style: TextStyle(color: Colors.black.withAlpha(80)),
+            ),
+          )
+        : SizedBox(
+            height: 150.h, 
+            child: ListView.builder(
+              itemCount: ledgerListController.ledgerList.length,
+              itemBuilder: (BuildContext context, int index) {
+                final ledgerList = ledgerListController.ledgerList[index];
+                return Padding(
+                  padding: EdgeInsets.only(bottom: 5.h),
                   child: Container(
                     height: 35.h,
                     width: Get.width,
                     decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8.r)),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 40.w),
                       child: Row(
                         children: [
-                          Text(
-                            ledgerlist.name,
-                          ),
+                          Text(ledgerList.name),
                           const Spacer(),
-                          ledgerlist.isIncome == 'income'
-                              ? Text(
-                                  "${ledgerlist.amount}",
-                                  style: TextStyle(
-                                      color: kGreen,
-                                      fontWeight: FontWeight.bold),
-                                )
-                              : Text(
-                                  "- ${ledgerlist.amount}",
-                                  style: TextStyle(
-                                      color: kRed, fontWeight: FontWeight.bold),
-                                )
+                          Text(
+                            ledgerList.isIncome == 'income'
+                                ? "${ledgerList.amount}"
+                                : "- ${ledgerList.amount}",
+                            style: TextStyle(
+                              color: ledgerList.isIncome == 'income'
+                                  ? kGreen
+                                  : kRed,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ),
                 );
-             }
-          )
-        );
+              },
+            ),
+          ));
   }
 }
+

@@ -3,7 +3,7 @@ class TransactionModel {
   final String name;
   final double amount;
   final String isIncome;
-  final DateTime? date;
+  final String? date;
 
   TransactionModel({
     this.id,
@@ -19,7 +19,7 @@ class TransactionModel {
       'name': name,
       'amount': amount,
       'isIncome': isIncome,
-      'date': date?.millisecondsSinceEpoch, // หรือใช้ date?.toIso8601String() ตามความเหมาะสม
+      'date': date, 
     };
   }
 
