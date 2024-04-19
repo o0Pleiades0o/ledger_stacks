@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 //DropDownTypeController
 class DropDownTypeController extends GetxController {
-  final List<String> items = ['Daily List', 'Temporary', 'Auto'];
+  final List<String> items = ['Daily', 'Temporary', 'Auto'];
   late final Rx<String> selectedValue;
 
   DropDownTypeController() {
