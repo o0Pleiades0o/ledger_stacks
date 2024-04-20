@@ -173,6 +173,7 @@ class LedgerList extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(ledgerList.name),
+                          //Text(ledgerList.date.toString()),
                           const Spacer(),
                           Text(
                             ledgerList.isIncome == 'income'

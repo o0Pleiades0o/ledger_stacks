@@ -63,8 +63,8 @@ class AddTransaction extends StatelessWidget {
                       if (addTransactionController.formKey.currentState!
                           .validate()) {
                         await addTransactionController.createTransaction();
-                        // debugPrint('All ${addTransactionController.nameController}');
-                        // debugPrint('All ${addTransactionController.amountController}');
+                        debugPrint('All ${addTransactionController.nameController}');
+                        debugPrint('All ${addTransactionController.amountController}');
                       }
                     },
                   ),
