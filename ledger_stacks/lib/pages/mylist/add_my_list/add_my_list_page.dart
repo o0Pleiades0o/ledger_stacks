@@ -85,8 +85,10 @@ class AddMyList extends GetView {
                     onPressed: () async {
                       if (addMyListController.formKey.currentState!
                           .validate()) {
-                        if (dropDownFrequencyController.selectedValue.value !=
-                            null) {
+                        if (dropDownTypeController.selectedValue.value ==
+                                'Auto' &&
+                            dropDownFrequencyController.selectedValue.value !=
+                                null) {
                           await addMyListController.createMylist();
                         } else {
                           ErrorSnackbar.show(
