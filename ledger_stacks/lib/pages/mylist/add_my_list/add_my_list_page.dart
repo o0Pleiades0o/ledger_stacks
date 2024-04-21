@@ -86,6 +86,12 @@ class AddMyList extends GetView {
                       if (addMyListController.formKey.currentState!
                           .validate()) {
                         if (dropDownTypeController.selectedValue.value ==
+                            'Daily') {
+                          await addMyListController.createMylist();
+                        } else if (dropDownTypeController.selectedValue.value ==
+                            'Temporary') {
+                          await addMyListController.createMylist();
+                        } else if (dropDownTypeController.selectedValue.value ==
                                 'Auto' &&
                             dropDownFrequencyController.selectedValue.value !=
                                 null) {
