@@ -29,13 +29,13 @@ class Listdata extends StatelessWidget {
               ),
             )
           : SizedBox(
-              height: filteredLists.length * 50.0,
+              height: filteredLists.length * 53.0,
               child: ListView.builder(
                 itemCount: filteredLists.length,
                 itemBuilder: (BuildContext context, int index) {
                   final myListItem = filteredLists[index];
                   return Padding(
-                    padding: EdgeInsets.only(bottom: 5.h),
+                    padding: EdgeInsets.only(bottom: 10.h),
                     child: Slidable(
                       endActionPane:
                           ActionPane(motion: const ScrollMotion(), children: [
@@ -66,37 +66,45 @@ class Listdata extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 40.w),
+                          padding: EdgeInsets.symmetric(horizontal: 20.w),
                           child: Row(
                             children: [
-                              Expanded(
-                                child: Text(
-                                  myListItem.name,
-                                  overflow: TextOverflow.ellipsis,
+                              //Amount
+                              Text(
+                                myListItem.isIncome == 'income'
+                                    ? "+ ${myListItem.amount}"
+                                    : "- ${myListItem.amount}",
+                                style: TextStyle(
+                                  color: myListItem.isIncome == 'income'
+                                      ? kGreen
+                                      : kRed,
+                                  fontWeight: FontWeight.w900,
                                 ),
                               ),
                               SizedBox(
                                 width: 10.w,
                               ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 8.w, vertical: 2.h),
-                                decoration: BoxDecoration(
-                                  color: myListItem.isIncome == 'income'
-                                      ? kGreen
-                                      : kRed,
-                                  borderRadius: BorderRadius.circular(4.r),
-                                ),
+                              Expanded(
                                 child: Text(
-                                  myListItem.isIncome == 'income'
-                                      ? "${myListItem.amount}"
-                                      : "- ${myListItem.amount}",
+                                  myListItem.name,
+                                  overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w900,
                                   ),
                                 ),
                               ),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              Text(
+                                myListItem.type == 'Auto'
+                                    ? '${myListItem.frequency}'
+                                    : '',
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              )
                             ],
                           ),
                         ),

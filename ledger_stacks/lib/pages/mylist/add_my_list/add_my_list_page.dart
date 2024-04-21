@@ -10,6 +10,7 @@ import '../../../widgets/button.dart';
 import '../../../widgets/dropdown/dropdown_controller.dart';
 import '../../../widgets/radio_button/radio_button.dart';
 import '../../../widgets/radio_button/radio_controller.dart';
+import '../../../widgets/snackbar.dart';
 import '../mylist_page.dart';
 import 'add_my_list_controller.dart';
 
@@ -84,7 +85,15 @@ class AddMyList extends GetView {
                     onPressed: () async {
                       if (addMyListController.formKey.currentState!
                           .validate()) {
-                        await addMyListController.createMylist();
+                        if (dropDownFrequencyController.selectedValue.value !=
+                            null) {
+                          await addMyListController.createMylist();
+                        } else {
+                          ErrorSnackbar.show(
+                            title: 'Error',
+                            message: 'Select Frequency before adding',
+                          );
+                        }
                       }
                     },
                   ),

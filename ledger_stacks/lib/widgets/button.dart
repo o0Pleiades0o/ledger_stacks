@@ -66,51 +66,6 @@ class KBackButton extends StatelessWidget {
   }
 }
 
-//button SignInWithGoogle
-class SignInWithGoogleBT extends StatelessWidget {
-  final VoidCallback onPressed;
-  final String buttonText;
-
-  const SignInWithGoogleBT({
-    super.key,
-    required this.onPressed,
-    required this.buttonText,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 300.w,
-      height: 40.h,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.r),
-            ),
-            shadowColor: Colors.black12),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const Icon(
-              FontAwesomeIcons.google,
-            ),
-            Text(
-              buttonText,
-              style: TextStyle(
-                color: kViolet,
-                fontSize: 15.sp,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class EditButton extends StatelessWidget {
   final VoidCallback onPressed;
   const EditButton({super.key, required this.onPressed});
@@ -202,7 +157,8 @@ class AddBotton extends StatelessWidget {
       child: GestureDetector(
         onTap: onPressed,
         child: Container(
-          decoration: BoxDecoration(color: kYellow , borderRadius: BorderRadius.circular(15)),
+          decoration: BoxDecoration(
+              color: kYellow, borderRadius: BorderRadius.circular(15)),
           child: const Center(child: Text('Add')),
         ),
       ),
