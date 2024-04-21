@@ -15,4 +15,10 @@ class MyListController extends GetxController {
     final lists = await LedgetStackDB.instance.getMylist();
     myLists.assignAll(lists);
   }
+
+  // Method to update the list data
+  void updateList() async {
+    final lists = await LedgetStackDB.instance.getMylist();
+    myLists.assignAll(lists);
+  }
 }

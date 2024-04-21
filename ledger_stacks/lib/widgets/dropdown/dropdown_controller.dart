@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 //DropDownTypeController
 class DropDownTypeController extends GetxController {
-  final List<String> items = ['Daily List', 'Temporary', 'Auto'];
+  final List<String> items = ['Daily', 'Temporary', 'Auto'];
   late final Rx<String> selectedValue;
 
   DropDownTypeController() {
@@ -12,9 +12,10 @@ class DropDownTypeController extends GetxController {
   void updateSelectedValue(String value) {
     selectedValue.value = value;
   }
+
+  String get currentSelectedValue => selectedValue.value;
 }
 
-//DropDownFrequencyController
 class DropDownFrequencyController extends GetxController {
   final List<String> items = ['Mon - Fri', 'Sat - Sun', '1st day', '15th'];
   late final Rx<String?> selectedValue;
@@ -26,4 +27,6 @@ class DropDownFrequencyController extends GetxController {
   void updateSelectedValue(String value) {
     selectedValue.value = value;
   }
+
+  String? get currentSelectedValue => selectedValue.value;
 }

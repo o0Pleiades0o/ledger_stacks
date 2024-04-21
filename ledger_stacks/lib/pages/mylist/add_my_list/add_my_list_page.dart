@@ -48,7 +48,7 @@ class AddMyList extends GetView {
         child: Form(
           key: addMyListController.formKey,
           child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 150, horizontal: 20.w),
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20.w),
               child: Column(
                 children: [
                   RadioButton(),

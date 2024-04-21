@@ -7,6 +7,8 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../models/my_list.dart';
+import '../../pages/mylist/mylist_controller.dart';
+import '../../widgets/snackbar.dart';
 
 class LedgetStackDB extends GetxService {
   static final LedgetStackDB instance = LedgetStackDB._internal();
@@ -88,32 +90,26 @@ CREATE TABLE daily_reports (
     final db = await database;
     final id = await db.insert('mylist', myList.toMap());
     if (id > 0) {
-      Get.snackbar(
-        'Success',
-        'List "${myList.name}" added successfully',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
+      SuccessSnackbar.show(
+        title: 'Success',
+        message: '"${myList.name}" added successfully',
       );
     } else {
-      Get.snackbar(
-        'Error',
-        'Failed to add list "${myList.name}"',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+      ErrorSnackbar.show(
+        title: 'Error',
+        message: 'Failed to add list "${myList.name}"',
       );
     }
     return id;
   }
 
-  Future<int> updateMylist(MyList myList) async {
+  Future<int> updateMylist(MyList myList, MyListController myListController) async {
     final db = await database;
     return await db.update('Mylist', myList.toMap(),
         where: 'id = ?', whereArgs: [myList.id]);
   }
 
-  Future<int> deleteMylist(int id) async {
+  Future<int> deleteMylist(int id, MyListController myListController) async {
     final db = await database;
     return await db.delete('Mylist', where: 'id = ?', whereArgs: [id]);
   }
