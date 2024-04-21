@@ -71,7 +71,6 @@ class AuthController extends GetxController {
         Get.find<UserController>().user = user;
         Get.offAll(() => const HomePage());
       } else {
-        // Handle the case when user is null
         Get.snackbar(
           "Error",
           "User not found",

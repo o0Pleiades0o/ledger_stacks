@@ -74,7 +74,7 @@ class UserController extends GetxController {
         'email': email,
         'imageAvatar': imageUrl ?? user.imageAvatar,
       });
-      // Update the user model
+
       userModel.update((userModel) {
         userModel?.username = username;
         userModel?.email = email;
