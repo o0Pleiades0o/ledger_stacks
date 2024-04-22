@@ -9,6 +9,7 @@ import 'package:ledger_stacks/widgets/textform.dart';
 import '../../constants/color.dart';
 import '../../util/util.dart';
 import '../../widgets/button.dart';
+import '../../widgets/container_select_mylist.dart';
 import '../../widgets/radio_button/radio_button.dart';
 
 class AddTransaction extends StatelessWidget {
@@ -21,6 +22,7 @@ class AddTransaction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: kGray,
       appBar: AppBar(
           toolbarHeight: 75.h,
@@ -38,42 +40,47 @@ class AddTransaction extends StatelessWidget {
               style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
             ),
           )),
-      body: SingleChildScrollView(
-        child: Form(
-          key: addTransactionController.formKey,
-          child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 20.w),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 70.h,
-                  ),
-                  RadioButton(),
-                  TextFieldAddSQL(
-                      validator: validateTransactionNameField,
-                      controller: addTransactionController.nameController,
-                      textInputAction: TextInputAction.next,
-                      hintText: 'Name'),
-                  TextFieldAddSQL(
-                      validator: validateTransactionAmountField,
-                      controller: addTransactionController.amountController,
-                      textInputAction: TextInputAction.done,
-                      hintText: 'Amount'),
-                  ButtonRaL(
-                    buttonText: "Add",
-                    onPressed: () async {
-                      if (addTransactionController.formKey.currentState!
-                          .validate()) {
-                        await addTransactionController.createTransaction();
-                        debugPrint(
-                            'All ${addTransactionController.nameController}');
-                        debugPrint(
-                            'All ${addTransactionController.amountController}');
-                      }
-                    },
-                  ),
-                ],
-              )),
+      body: Form(
+        key: addTransactionController.formKey,
+        child: Column(
+          children: [
+            Padding(
+                padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 20.w),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 70.h,
+                    ),
+                    RadioButton(),
+                    TextFieldAddSQL(
+                        validator: validateTransactionNameField,
+                        controller: addTransactionController.nameController,
+                        textInputAction: TextInputAction.next,
+                        hintText: 'Name'),
+                    TextFieldAddSQL(
+                        validator: validateTransactionAmountField,
+                        controller: addTransactionController.amountController,
+                        textInputAction: TextInputAction.done,
+                        hintText: 'Amount'),
+                    ButtonRaL(
+                      buttonText: "Add",
+                      onPressed: () async {
+                        if (addTransactionController.formKey.currentState!
+                            .validate()) {
+                          await addTransactionController.createTransaction();
+                          debugPrint(
+                              'All ${addTransactionController.nameController}');
+                          debugPrint(
+                              'All ${addTransactionController.amountController}');
+                        }
+                      },
+                    ),
+                  ],
+                )),
+            const Spacer(),
+            //Selcect item form mylist
+            ContainerSelectMylist(),
+          ],
         ),
       ),
     );
