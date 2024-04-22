@@ -70,8 +70,6 @@ class UserController extends GetxController {
         await ref.putFile(selectedImage);
         imageUrl = await ref.getDownloadURL();
       }
-      //Update email in Auth
-      //await auth.currentUser!.verifyBeforeUpdateEmail(email).then(updateEmail(email));
 
       await firestore.collection('users').doc(user.id).update({
         'username': username,
