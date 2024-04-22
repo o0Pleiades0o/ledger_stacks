@@ -1,73 +1,35 @@
-import 'dart:convert';
-
 class TransactionModel {
+  final int? id;
   final String name;
   final double amount;
-  final String? transactionType;
-  final DateTime? date;
+  final String isIncome;
+  final String? date;
 
   TransactionModel({
+    this.id,
     required this.name,
     required this.amount,
-    this.transactionType,
-    this.date
+    required this.isIncome,
+    this.date,
   });
-
-  TransactionModel copyWith({
-    String? name,
-    double? amount,
-    String? transactionType,
-    DateTime? date
-  }) {
-    return TransactionModel(
-      name: name ?? this.name,
-      amount: amount ?? this.amount,
-      transactionType: transactionType ?? this.transactionType,
-      date: date ?? this.date
-    );
-  }
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'name': name,
       'amount': amount,
-      'transactionType': transactionType,
-      'date' : date
+      'isIncome': isIncome,
+      'date': date, 
     };
   }
 
   factory TransactionModel.fromMap(Map<String, dynamic> map) {
     return TransactionModel(
+      id: map['id'],
       name: map['name'],
       amount: map['amount'],
-      transactionType: map['transactionType'],
-      date: map['date']
+      isIncome: map['isIncome'],
+      date: map['date'],
     );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory TransactionModel.fromJson(String source) =>
-      TransactionModel.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'TransactionModel(name: $name, amount: $amount, transactionType: $transactionType , date: $date)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is TransactionModel &&
-        other.name == name &&
-        other.amount == amount &&
-        other.transactionType == transactionType &&
-        other.date == date;
-  }
-
-  @override
-  int get hashCode {
-    return name.hashCode ^ amount.hashCode ^ transactionType.hashCode ^ date.hashCode;
   }
 }

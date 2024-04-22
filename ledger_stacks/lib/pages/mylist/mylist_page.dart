@@ -5,7 +5,7 @@ import 'package:ledger_stacks/constants/color.dart';
 
 import '../../widgets/button.dart';
 import '../../widgets/floating_action_button.dart';
-import '../../widgets/list.dart';
+import '../../widgets/mylist_listview.dart';
 import 'add_my_list/add_my_list_page.dart';
 import '../home/home_page.dart';
 

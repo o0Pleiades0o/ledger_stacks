@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/pages/add_transaction.dart/transaction_controller.dart';
 import 'package:ledger_stacks/pages/home/home_page.dart';
+import 'package:ledger_stacks/widgets/radio_button/radio_controller.dart';
 import 'package:ledger_stacks/widgets/textform.dart';
 
 import '../../constants/color.dart';
@@ -12,11 +13,14 @@ import '../../widgets/radio_button/radio_button.dart';
 
 class AddTransaction extends StatelessWidget {
   AddTransaction({super.key});
+  final RadioButtonController radioButtonController =
+      Get.put(RadioButtonController());
   final AddTransactionController addTransactionController =
       Get.put(AddTransactionController());
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: kGray,
       appBar: AppBar(
@@ -54,24 +58,16 @@ class AddTransaction extends StatelessWidget {
                       textInputAction: TextInputAction.done,
                       hintText: 'Amount'),
                   ButtonRaL(
-                      buttonText: "Add",
-                      onPressed: () {
-                        if (addTransactionController.formKey.currentState!
-                            .validate()) {
-                          // TransactionModel transactionModel = TransactionModel(
-                          //     name:
-                          //         addTransactionController.nameController.text,
-                          //     amount: double.parse(addTransactionController
-                          //         .amountController.text));
-                          // TransactionService()
-                          //     .insertValueTransaction(transactionModel,
-                          //         controller:
-                          //             addTransactionController.nameController)
-                          //     .then((value) {
-                          //   debugPrint(value.toString());
-                          // });
-                        }
-                      })
+                    buttonText: "Add",
+                    onPressed: () async {
+                      if (addTransactionController.formKey.currentState!
+                          .validate()) {
+                        await addTransactionController.createTransaction();
+                        debugPrint('All ${addTransactionController.nameController}');
+                        debugPrint('All ${addTransactionController.amountController}');
+                      }
+                    },
+                  ),
                 ],
               )),
         ),
