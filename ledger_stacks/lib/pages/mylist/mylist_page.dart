@@ -39,9 +39,9 @@ class Mylist extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              _buildList("Auto"),
               _buildList("Daily"),
               _buildList("Temporary"),
-              _buildList("Auto"),
             ],
           ),
         ),

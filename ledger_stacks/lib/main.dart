@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/util/database/database_service.dart';
 import 'package:ledger_stacks/util/root.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
             initialBinding: AuthBinding(),
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
+              fontFamily: GoogleFonts.kanit().fontFamily,
               useMaterial3: true,
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.transparent)
                   .copyWith(background: kGray),

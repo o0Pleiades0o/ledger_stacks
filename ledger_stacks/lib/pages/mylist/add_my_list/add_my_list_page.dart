@@ -10,6 +10,7 @@ import '../../../widgets/button.dart';
 import '../../../widgets/dropdown/dropdown_controller.dart';
 import '../../../widgets/radio_button/radio_button.dart';
 import '../../../widgets/radio_button/radio_controller.dart';
+import '../../../widgets/snackbar.dart';
 import '../mylist_page.dart';
 import 'add_my_list_controller.dart';
 
@@ -51,6 +52,9 @@ class AddMyList extends GetView {
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20.w),
               child: Column(
                 children: [
+                  SizedBox(
+                    height: 70.h,
+                  ),
                   RadioButton(),
                   TextFieldAddSQL(
                     hintText: "Name",
@@ -84,7 +88,22 @@ class AddMyList extends GetView {
                     onPressed: () async {
                       if (addMyListController.formKey.currentState!
                           .validate()) {
-                        await addMyListController.createMylist();
+                        if (dropDownTypeController.selectedValue.value ==
+                                'Daily' ||
+                            dropDownTypeController.selectedValue.value ==
+                                'Temporary' ||
+                            (dropDownTypeController.selectedValue.value ==
+                                    'Auto' &&
+                                dropDownFrequencyController
+                                        .selectedValue.value !=
+                                    null)) {
+                          await addMyListController.createMylist();
+                        } else {
+                          ErrorSnackbar.show(
+                            title: 'Error',
+                            message: 'Select Frequency before adding',
+                          );
+                        }
                       }
                     },
                   ),

@@ -30,7 +30,7 @@ class AvatarUser extends StatelessWidget {
                     )
                   : Obx(
                       () => Image.network(
-                        userController.user.imageAvatar!,
+                        userController.user.imageAvatar ?? '',
                         fit: BoxFit.cover,
                         height: height.r,
                         width: width.r,
