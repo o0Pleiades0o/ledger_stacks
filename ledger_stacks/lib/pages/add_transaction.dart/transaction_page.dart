@@ -20,7 +20,6 @@ class AddTransaction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       backgroundColor: kGray,
       appBar: AppBar(
@@ -46,6 +45,9 @@ class AddTransaction extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 20.w),
               child: Column(
                 children: [
+                  SizedBox(
+                    height: 70.h,
+                  ),
                   RadioButton(),
                   TextFieldAddSQL(
                       validator: validateTransactionNameField,
@@ -63,8 +65,10 @@ class AddTransaction extends StatelessWidget {
                       if (addTransactionController.formKey.currentState!
                           .validate()) {
                         await addTransactionController.createTransaction();
-                        debugPrint('All ${addTransactionController.nameController}');
-                        debugPrint('All ${addTransactionController.amountController}');
+                        debugPrint(
+                            'All ${addTransactionController.nameController}');
+                        debugPrint(
+                            'All ${addTransactionController.amountController}');
                       }
                     },
                   ),
