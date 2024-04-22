@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/models/user.dart';
@@ -12,6 +13,7 @@ class UserController extends GetxController {
   set user(UserModel value) => userModel.value = value;
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   //Save the user data to Firestore
   Future<bool> createUser(UserModel user) async {
@@ -68,6 +70,8 @@ class UserController extends GetxController {
         await ref.putFile(selectedImage);
         imageUrl = await ref.getDownloadURL();
       }
+      //Update email in Auth
+      //await auth.currentUser!.verifyBeforeUpdateEmail(email).then(updateEmail(email));
 
       await firestore.collection('users').doc(user.id).update({
         'username': username,

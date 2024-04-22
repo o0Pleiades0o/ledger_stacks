@@ -34,7 +34,6 @@ class AuthController extends GetxController {
         password: password,
       );
       userCredential.user?.updateDisplayName("User");
-
       String hashedPassword = sha256.convert(utf8.encode(password)).toString();
       // Create a new instance of UserModel
       UserModel user = UserModel(
