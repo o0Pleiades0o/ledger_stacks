@@ -75,8 +75,6 @@ class Listdata extends StatelessWidget {
                                 myListItem.isIncome == 'income'
                                     ? "+ ${convertToAmount(myListItem.amount)}"
                                     : "- ${convertToAmount(myListItem.amount)}",
-                                //? "+ ${myListItem.amount}"
-                                //: "- ${myListItem.amount}",
                                 style: TextStyle(
                                   color: myListItem.isIncome == 'income'
                                       ? kGreen
