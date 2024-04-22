@@ -52,7 +52,7 @@ class Listdata extends StatelessWidget {
                         SlidableAction(
                           onPressed: (_) {
                             LedgetStackDB.instance
-                                .deleteMylist(myListItem.id!, myListController);
+                                .deleteMyList(myListItem.id!, myListController);
                           },
                           backgroundColor: kRed.withOpacity(0.8),
                           foregroundColor: Colors.white,

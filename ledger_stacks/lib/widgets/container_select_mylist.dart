@@ -4,9 +4,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/pages/mylist/mylist_controller.dart';
 
-import '../constants/color.dart';
-import '../util/convert_amount.dart';
-
 class ContainerSelectMylist extends StatelessWidget {
   ContainerSelectMylist({
     super.key,
@@ -21,6 +18,7 @@ class ContainerSelectMylist extends StatelessWidget {
     // final filteredLists = myListController.myLists.where((listData) {
     //   return listData.type == filterType;
     // }).toList();
+    final mylistItem = myListController.myLists;
 
     return Container(
       height: 220.h,
@@ -33,45 +31,21 @@ class ContainerSelectMylist extends StatelessWidget {
         children: [
           const Header(),
           myListController.myLists.isEmpty
-              ? Center(
-                  child: Text(
-                    "Not Found list data.",
-                    style: TextStyle(color: Colors.black.withAlpha(80)),
+              ? SizedBox(
+                  width: Get.width,
+                  height: 150.h,
+                  child: Center(
+                    child: Text(
+                      "Not Found list data.",
+                      style: TextStyle(color: Colors.black.withAlpha(80)),
+                    ),
                   ),
                 )
-              : SizedBox(
-                  height: myListController.myLists.length * 53.0,
-                  child: ListView.builder(
-                    itemCount: myListController.myLists.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final myListItem = myListController.myLists[index];
-                      return Container(
-                        height: 35.h,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8.r),
-                            border: Border.all(color: Colors.black87)),
-                        child: Row(
-                          children: [
-                            Text(
-                              myListItem.isIncome == 'income'
-                                  ? "+ ${convertToAmount(myListItem.amount)}"
-                                  : "- ${convertToAmount(myListItem.amount)}",
-                              style: TextStyle(
-                                color: myListItem.isIncome == 'income'
-                                    ? kGreen
-                                    : kRed,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            Text(myListItem.name),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
+              : Wrap(
+                  direction: Axis.horizontal,
+                  children: mylistItem
+                      .map((mylistItem) => Text('Item ${mylistItem.name}'))
+                      .toList(),
                 )
         ],
       ),

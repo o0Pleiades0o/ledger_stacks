@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/constants/color.dart';
-import 'package:ledger_stacks/pages/myledger/edit_ledger/ledger_list_controller.dart';
 
 class CardLedger extends StatelessWidget {
   const CardLedger({
@@ -133,12 +132,14 @@ class CardLedger extends StatelessWidget {
             ),
           ),
         ),
-        LedgerList()
+        const Listtile(),
+        const Listtile(),
       ],
     );
   }
 }
 
+<<<<<<< HEAD
 class LedgerList extends StatelessWidget {
   LedgerList({Key? key});
 
@@ -194,6 +195,30 @@ class LedgerList extends StatelessWidget {
               },
             ),
           ));
+=======
+class Listtile extends StatelessWidget {
+  const Listtile({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 15.w,
+      ),
+      child: ListTile(
+        title: Text(
+          "List ${1 + Random().nextInt(4)}",
+          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+        ),
+        trailing: Text(
+          "\$${1 + Random().nextInt(4) * 100}",
+          style: TextStyle(fontSize: 16.sp),
+        ),
+      ),
+    );
+>>>>>>> parent of d13ff10 (Merge branch 'Branch-for-Kris-make-UI' into Arty)
   }
 }
 
