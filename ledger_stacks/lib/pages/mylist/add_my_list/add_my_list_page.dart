@@ -52,6 +52,9 @@ class AddMyList extends GetView {
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20.w),
               child: Column(
                 children: [
+                  SizedBox(
+                    height: 70.h,
+                  ),
                   RadioButton(),
                   TextFieldAddSQL(
                     hintText: "Name",

@@ -7,6 +7,7 @@ import 'package:ledger_stacks/util/database/database_service.dart';
 
 import '../pages/mylist/edite_my_list/edite_my_list_page.dart';
 import '../pages/mylist/mylist_controller.dart';
+import '../util/convert_amount.dart';
 
 class Listdata extends StatelessWidget {
   Listdata({super.key, required this.filterType});
@@ -72,8 +73,10 @@ class Listdata extends StatelessWidget {
                               //Amount
                               Text(
                                 myListItem.isIncome == 'income'
-                                    ? "+ ${myListItem.amount}"
-                                    : "- ${myListItem.amount}",
+                                    ? "+ ${convertToAmount(myListItem.amount)}"
+                                    : "- ${convertToAmount(myListItem.amount)}",
+                                //? "+ ${myListItem.amount}"
+                                //: "- ${myListItem.amount}",
                                 style: TextStyle(
                                   color: myListItem.isIncome == 'income'
                                       ? kGreen
