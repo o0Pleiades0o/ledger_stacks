@@ -140,13 +140,14 @@ class CardLedger extends StatelessWidget {
 }
 
 class LedgerList extends StatelessWidget {
-  LedgerList({Key? key});
+  LedgerList({super.key});
 
-  final LedgerListController ledgerListController = Get.put(LedgerListController());
+  final LedgerListController ledgerListController =
+      Get.put(LedgerListController());
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => ledgerListController.ledgerList.isEmpty 
+    return Obx(() => ledgerListController.ledgerList.isEmpty
         ? Center(
             child: Text(
               "Not Found list data.",
@@ -154,7 +155,7 @@ class LedgerList extends StatelessWidget {
             ),
           )
         : SizedBox(
-            height: 100.h, 
+            height: 100.h,
             child: ListView.builder(
               itemCount: ledgerListController.ledgerList.length,
               itemBuilder: (BuildContext context, int index) {
@@ -196,4 +197,3 @@ class LedgerList extends StatelessWidget {
           ));
   }
 }
-
