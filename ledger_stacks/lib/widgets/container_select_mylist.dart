@@ -20,6 +20,8 @@ class ContainerSelectMylist extends StatelessWidget {
     // }).toList();
     final mylistItem = myListController.myLists;
 
+    print(mylistItem.length);
+
     return Container(
       height: 220.h,
       width: Get.width,

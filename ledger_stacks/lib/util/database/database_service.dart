@@ -3,6 +3,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../models/my_list.dart';
+import '../../models/transaction.dart';
 import '../../pages/mylist/mylist_controller.dart';
 import '../../widgets/snackbar.dart';
 
@@ -41,8 +42,19 @@ CREATE TABLE mylist(
   frequency TEXT
 )
 ''');
+
+    await db.execute('''
+CREATE TABLE transactions(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT,
+  amount DOUBLE,
+  isIncome TEXT,
+  date DATE
+)
+'''); //transaction
   }
 
+//===============CRUD mylist===============
   Future<List<MyList>> getMylist() async {
     final Database db = await database;
     final maps = await db.query('mylist');
@@ -58,11 +70,6 @@ CREATE TABLE mylist(
       SuccessSnackbar.show(
         title: 'Success',
         message: '"${myList.name}" added successfully',
-      );
-    } else {
-      ErrorSnackbar.show(
-        title: 'Error',
-        message: 'Failed to add list "${myList.name}"',
       );
     }
     return id;
@@ -84,11 +91,6 @@ CREATE TABLE mylist(
         title: 'Success',
         message: '"${myList.name}" updated successfully',
       );
-    } else {
-      ErrorSnackbar.show(
-        title: 'Error',
-        message: 'Failed to update "${myList.name}"',
-      );
     }
     return rowsAffected;
   }
@@ -103,14 +105,48 @@ CREATE TABLE mylist(
         title: 'Success',
         message: 'deleted successfully',
       );
-    } else {
-      ErrorSnackbar.show(
-        title: 'Error',
-        message: 'Failed to delete',
-      );
     }
     return rowsDeleted;
   }
 
-  //Footer CRUD mylist
+  //===============CRUD Transaction===============
+
+  Future<List<TransactionModel>> getTransactions() async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> maps = await db.query('transactions');
+    return List.generate(maps.length, (i) {
+      return TransactionModel.fromMap(maps[i]);
+    });
+  }
+
+  Future<int> createTransaction(TransactionModel transaction) async {
+    final Database db = await database;
+    final int id = await db.insert('transactions', transaction.toMap());
+    if (id > 0) {
+      SuccessSnackbar.show(
+        title: 'Success',
+        message: '"${transaction.name}" added successfully',
+      );
+    }
+    return id;
+  }
+
+  Future<int> updateTransaction(TransactionModel transaction) async {
+    final Database db = await database;
+    return await db.update(
+      'transactions',
+      transaction.toMap(),
+      where: 'id = ?',
+      whereArgs: [transaction.id],
+    );
+  }
+
+  Future<int> deleteTransaction(int id) async {
+    final Database db = await database;
+    return await db.delete(
+      'transactions',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
 }
