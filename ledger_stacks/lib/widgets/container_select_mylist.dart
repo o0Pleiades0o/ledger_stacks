@@ -12,16 +12,8 @@ class ContainerSelectMylist extends StatelessWidget {
 
   final String? filterType;
   final MyListController myListController = Get.put(MyListController());
-
   @override
   Widget build(BuildContext context) {
-    // final filteredLists = myListController.myLists.where((listData) {
-    //   return listData.type == filterType;
-    // }).toList();
-    final mylistItem = myListController.myLists;
-
-    print(mylistItem.length);
-
     return Container(
       height: 220.h,
       width: Get.width,
@@ -45,7 +37,7 @@ class ContainerSelectMylist extends StatelessWidget {
                 )
               : Wrap(
                   direction: Axis.horizontal,
-                  children: mylistItem
+                  children: myListController.myLists
                       .map((mylistItem) => Text('Item ${mylistItem.name}'))
                       .toList(),
                 )
