@@ -343,48 +343,51 @@ import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 
 class LedgerDisplay extends StatelessWidget {
   LedgerDisplay({super.key});
-  final LedgerListController ledgerListController = Get.put(LedgerListController());
-  
+  final LedgerListController ledgerListController =
+      Get.put(LedgerListController());
+
   @override
   Widget build(BuildContext context) {
     debugPrint('Item : ${ledgerListController.ledgerList}');
     return StickyGroupedListView(
       elements: ledgerListController.ledgerList,
       groupBy: (TransactionModel transaction) =>
-            DateTime.parse(transaction.date!), // Assuming date is a String in ISO 8601 format
-        order: StickyGroupedListOrder.ASC,
-        groupComparator: (DateTime value1, DateTime value2) =>
-            value2.compareTo(value1),
-        itemComparator: (TransactionModel element1, TransactionModel element2) =>
-            element1.date!.compareTo(element2.date!),
+          '${DateTime.parse(transaction.date!).day}-${DateTime.parse(transaction.date!).month}-${DateTime.parse(transaction.date!).year}',
+      order: StickyGroupedListOrder.ASC,
+      groupComparator: (String value1, String value2) =>
+          DateTime.parse(value2).compareTo(DateTime.parse(value1)),
+      itemComparator: (TransactionModel element1, TransactionModel element2) =>
+          DateTime.parse(element1.date!)
+              .compareTo(DateTime.parse(element2.date!)),
       floatingHeader: true,
-      groupSeparatorBuilder: (TransactionModel transaction) => getGroupSeparator(transaction),
-      itemBuilder: (BuildContext context, TransactionModel transaction) => _getItem(context, transaction),
-
+      groupSeparatorBuilder: (TransactionModel transaction) =>
+          getGroupSeparator(transaction),
+      itemBuilder: (BuildContext context, TransactionModel transaction) =>
+          _getItem(context, transaction),
     );
   }
 }
 
 Widget getGroupSeparator(TransactionModel transaction) {
-    // Customize your group separator widget
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      color: Colors.grey[300],
-      child: Text(
-        '${transaction.date}', // Display the date as the group title
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
-        ),
+  // Customize your group separator widget
+  return Container(
+    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+    color: Colors.grey[300],
+    child: Text(
+      '${DateTime.parse(transaction.date!).day}-${DateTime.parse(transaction.date!).month}-${DateTime.parse(transaction.date!).year}', // Display the date as the group title
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 16,
       ),
-    );
-  }
+    ),
+  );
+}
 
-  Widget _getItem(BuildContext context, TransactionModel transaction) {
-    // Customize your list item widget
-    return ListTile(
-      title: Text(transaction.name),
-      subtitle: Text(transaction.amount.toString()),
-      // Add more details from TransactionModel as needed
-    );
-  }
+Widget _getItem(BuildContext context, TransactionModel transaction) {
+  // Customize your list item widget
+  return ListTile(
+    title: Text(transaction.name),
+    subtitle: Text(transaction.amount.toString()),
+    // Add more details from TransactionModel as needed
+  );
+}
