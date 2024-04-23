@@ -80,6 +80,9 @@ String? validateListNameField(String? value) {
   if (value == null || value.isEmpty) {
     return 'Name is required';
   }
+  if (RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+    return 'Special characters are not allowed';
+  }
   return null;
 }
 
