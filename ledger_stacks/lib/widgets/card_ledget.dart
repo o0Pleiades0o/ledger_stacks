@@ -32,6 +32,7 @@ class CardLedger extends StatelessWidget {
                     spreadRadius: 6,
                   )
                 ]),
+                
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 45.w, vertical: 20.h),
               child: Column(
