@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ledger_stacks/pages/add_transaction.dart/transaction_controller.dart';
 import 'package:ledger_stacks/pages/home/home_page.dart';
+import 'package:ledger_stacks/pages/myledger/add_transaction_controller.dart';
 import 'package:ledger_stacks/widgets/radio_button/radio_controller.dart';
 import 'package:ledger_stacks/widgets/textform.dart';
 

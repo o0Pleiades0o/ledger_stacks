@@ -46,21 +46,8 @@ class MyLedger extends StatelessWidget {
                 ],
               )),
           //Content
-          Padding(
-            padding: EdgeInsets.only(top: 100.h, left: 20.w, right: 20.w),
-            //card
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(36.r),
-                  color: Colors.white),
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return const CardLedger();
-                },
-              ),
-            ),
-          ),
+          //DailyCard()
+          LedgerDisplay(),
         ],
       ),
       floatingActionButton: Row(

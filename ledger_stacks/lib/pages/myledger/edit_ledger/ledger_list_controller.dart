@@ -1,6 +1,7 @@
 import 'package:ledger_stacks/models/transaction.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/util/database/database_service.dart';
+
 class LedgerListController extends GetxController {
   final ledgerList = <TransactionModel>[].obs;
 
@@ -11,6 +12,11 @@ class LedgerListController extends GetxController {
   }
 
   Future<void> fetchLedgerList() async {
+    final lists = await LedgetStackDB.instance.getTransactions();
+    ledgerList.assignAll(lists);
+  }
+
+  void updateLedger() async {
     final lists = await LedgetStackDB.instance.getTransactions();
     ledgerList.assignAll(lists);
   }
