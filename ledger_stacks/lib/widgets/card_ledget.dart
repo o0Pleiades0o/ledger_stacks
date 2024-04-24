@@ -341,21 +341,48 @@ import '../util/util.dart';
 //   }
 // }
 
-class LedgerDisplay extends StatelessWidget {
+class LedgerDisplay extends StatefulWidget {
   LedgerDisplay({super.key});
+
+  @override
+  State<LedgerDisplay> createState() => _LedgerDisplayState();
+}
+
+class _LedgerDisplayState extends State<LedgerDisplay> {
   final LedgerListController ledgerListController =
       Get.put(LedgerListController());
+  List<TransactionModel> _ledgerList = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ledgerListController.ledgerList.listen((p0) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) {
+          if(_ledgerList != p0){
+            setState(() {
+              _ledgerList = p0;
+            });
+          }
+        },
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Item : ${ledgerListController.ledgerList}');
+    // if(_ledgerList.isEmpty){
+    //   return Container();
+    // }
     return StickyGroupedListView(
-      elements: ledgerListController.ledgerList,
-      groupBy: (TransactionModel transaction) =>
-          '${DateTime.parse(transaction.date!).day}-${DateTime.parse(transaction.date!).month}-${DateTime.parse(transaction.date!).year}',
+      elements: _ledgerList,
+      groupBy: (TransactionModel transaction) {
+        final dateDay = DateTime.parse(transaction.date!);
+        return DateTime(dateDay.year, dateDay.month, dateDay.day);
+      },
       order: StickyGroupedListOrder.ASC,
-      groupComparator: (String value1, String value2) =>
-          DateTime.parse(value2).compareTo(DateTime.parse(value1)),
+      groupComparator: (DateTime value1, DateTime value2) =>
+          value2.compareTo(value1),
       itemComparator: (TransactionModel element1, TransactionModel element2) =>
           DateTime.parse(element1.date!)
               .compareTo(DateTime.parse(element2.date!)),
