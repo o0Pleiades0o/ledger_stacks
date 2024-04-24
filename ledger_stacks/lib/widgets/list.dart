@@ -44,74 +44,89 @@ class Listdata extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8.r),
                       ),
                       child: Padding(
-                        padding: EdgeInsets.only(left: 20.w, right: 5.w),
-                        child: Row(
-                          children: [
-                            //Amount
-                            Text(
-                              myListItem.isIncome == 'income'
-                                  ? "+ ${convertToAmount(myListItem.amount)}"
-                                  : "- ${convertToAmount(myListItem.amount)}",
-                              style: TextStyle(
-                                color: myListItem.isIncome == 'income'
-                                    ? kGreen
-                                    : kRed,
-                                fontWeight: FontWeight.w900,
+                        padding: EdgeInsets.only(left: 10.w, right: 5.w),
+                        child: Obx(() {
+                          return Row(
+                            children: [
+                              //Amount
+                              myListController.isMultiSelect.isTrue
+                                  ? Checkbox(
+                                      value: myListController.selectedItems
+                                          .contains(myListItem),
+                                      onChanged: (value) {
+                                        myListController
+                                            .toggleSelection(myListItem);
+                                      },
+                                    )
+                                  : const SizedBox(),
+                              const SizedBox(
+                                width: 10,
                               ),
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            Expanded(
-                              child: Text(
-                                myListItem.name,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
+                              Text(
+                                myListItem.isIncome == 'income'
+                                    ? "+ ${convertToAmount(myListItem.amount)}"
+                                    : "- ${convertToAmount(myListItem.amount)}",
+                                style: TextStyle(
+                                  color: myListItem.isIncome == 'income'
+                                      ? kGreen
+                                      : kRed,
                                   fontWeight: FontWeight.w900,
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            Text(
-                              myListItem.type == 'Auto'
-                                  ? '${myListItem.frequency}'
-                                  : '',
-                              style: const TextStyle(
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w900,
+                              SizedBox(
+                                width: 10.w,
                               ),
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            PopupMenuButton(
-                              iconColor: Colors.grey,
-                              itemBuilder: (context) => [
-                                PopupMenuItem(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Get.off(() =>
-                                          EditMyList(selectedItem: myListItem));
-                                    },
-                                    child: const Text("Edit"),
+                              Expanded(
+                                child: Text(
+                                  myListItem.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w900,
                                   ),
                                 ),
-                                PopupMenuItem(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      LedgetStackDB.instance.deleteMyList(
-                                          myListItem.id!, myListController);
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text("Delete"),
-                                  ),
+                              ),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              Text(
+                                myListItem.type == 'Auto'
+                                    ? '${myListItem.frequency}'
+                                    : '',
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w900,
                                 ),
-                              ],
-                            )
-                          ],
-                        ),
+                              ),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              PopupMenuButton(
+                                iconColor: Colors.grey,
+                                itemBuilder: (context) => [
+                                  PopupMenuItem(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Get.off(() => EditMyList(
+                                            selectedItem: myListItem));
+                                      },
+                                      child: const Text("Edit"),
+                                    ),
+                                  ),
+                                  PopupMenuItem(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        LedgetStackDB.instance.deleteMyList(
+                                            myListItem.id!, myListController);
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("Delete"),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          );
+                        }),
                       ),
                     ),
                   );
