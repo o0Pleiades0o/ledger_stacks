@@ -25,7 +25,7 @@ class Listdata extends StatelessWidget {
       return filteredLists.isEmpty
           ? Center(
               child: Text(
-                "Not Found list data.",
+                "Not Found $filterType Data.",
                 style: TextStyle(color: Colors.black.withAlpha(80)),
               ),
             )

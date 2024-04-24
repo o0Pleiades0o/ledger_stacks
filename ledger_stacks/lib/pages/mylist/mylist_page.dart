@@ -12,7 +12,7 @@ import '../../widgets/list.dart';
 import 'add_my_list/add_my_list_page.dart';
 import '../home/home_page.dart';
 
-class Mylist extends GetView<MyListController> {
+class Mylist extends StatelessWidget {
   Mylist({super.key});
 
   final MyListController myListController = Get.put(MyListController());
@@ -38,24 +38,7 @@ class Mylist extends GetView<MyListController> {
           ),
         ),
       ),
-      body:
-          // Obx(() => myListController.myLists.isEmpty
-          //     ? Center(
-          //         child: Text(
-          //           "Not found list data.",
-          //           style: TextStyle(color: Colors.black.withAlpha(80)),
-          //         ),
-          //       )
-          //     : StickyGroupedListView<MyList, String>(
-          //         elements: myListController.myLists,
-          //         order: StickyGroupedListOrder.ASC,
-          //         groupBy: (MyList myList) => myList.type.toString(),
-          //         groupSeparatorBuilder: (MyList myList) =>
-          //             _getGroupSeparator(myList),
-          //         itemBuilder: (BuildContext context, MyList myList) =>
-          //             _getItem(myList),
-          //       )),
-          SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 20.w),
           child: Column(
@@ -75,41 +58,6 @@ class Mylist extends GetView<MyListController> {
       ),
     );
   }
-
-  // Widget _getGroupSeparator(MyList myList) {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       Text(
-  //         "${myList.type} List",
-  //         style: TextStyle(
-  //           fontSize: 18.sp,
-  //           color: kDarkgray,
-  //           fontWeight: FontWeight.bold,
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-
-  // Widget _getItem(MyList myList) {
-  //   return Container(
-  //     height: 35.h,
-  //     width: Get.width,
-  //     decoration: BoxDecoration(
-  //       color: Colors.white,
-  //       borderRadius: BorderRadius.circular(8.r),
-  //     ),
-  //     child: Padding(
-  //       padding: EdgeInsets.symmetric(horizontal: 20.w),
-  //       child: Row(
-  //         children: [
-  //           Text(myList.name),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 
   Widget _buildList(String filterType) {
     return Column(
