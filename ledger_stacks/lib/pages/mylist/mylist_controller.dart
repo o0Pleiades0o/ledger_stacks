@@ -22,32 +22,3 @@ class MyListController extends GetxController {
     myLists.assignAll(lists);
   }
 }
-
-// class MyListController extends GetxController {
-//   final RxList<MyList> myLists = RxList<MyList>();
-
-//   @override
-//   void onInit() {
-//     super.onInit();
-//     fetchMyLists();
-//   }
-
-//   Future<void> fetchMyLists() async {
-//     try {
-//       final lists = await LedgetStackDB.instance.getMylist();
-//       myLists.assignAll(lists);
-//     } catch (e) {
-//       debugPrint('Error fetching MyLists: $e');
-//     }
-//   }
-
-//   // Method to update the list data
-//   Future<void> updateList() async {
-//     try {
-//       final lists = await LedgetStackDB.instance.getMylist();
-//       myLists.assignAll(lists);
-//     } catch (e) {
-//       debugPrint('Error updating MyLists: $e');
-//     }
-//   }
-// }
