@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/pages/mylist/mylist_controller.dart';
 
-class ContainerSelectMylist extends StatelessWidget {
+class ContainerSelectMylist extends GetView<MyListController> {
   ContainerSelectMylist({
     super.key,
     this.filterType,
@@ -24,7 +24,7 @@ class ContainerSelectMylist extends StatelessWidget {
       child: Column(
         children: [
           const Header(),
-          myListController.myLists.isEmpty
+          Obx(() => myListController.myLists.isEmpty
               ? SizedBox(
                   width: Get.width,
                   height: 150.h,
@@ -38,9 +38,12 @@ class ContainerSelectMylist extends StatelessWidget {
               : Wrap(
                   direction: Axis.horizontal,
                   children: myListController.myLists
-                      .map((mylistItem) => Text('Item ${mylistItem.name}'))
+                      .map((mylistItem) => ElevatedButton(
+                            onPressed: () {},
+                            child: Text(mylistItem.name),
+                          ))
                       .toList(),
-                )
+                ))
         ],
       ),
     );
