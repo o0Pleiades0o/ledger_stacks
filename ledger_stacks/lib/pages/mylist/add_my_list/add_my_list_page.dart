@@ -35,7 +35,7 @@ class AddMyList extends GetView {
           backgroundColor: Colors.white,
           leading: KBackButton(
             onPressed: () {
-              Get.off(() => const Mylist());
+              Get.off(() => Mylist());
             },
           ),
           title: Padding(

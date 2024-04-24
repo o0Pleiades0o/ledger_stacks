@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/constants/color.dart';
 import 'package:ledger_stacks/util/database/database_service.dart';
@@ -43,7 +42,6 @@ class Listdata extends StatelessWidget {
                           ActionPane(motion: const ScrollMotion(), children: [
                         SlidableAction(
                           onPressed: (_) {
-                            debugPrint("Edit Pressed");
                             Get.off(() => EditMyList(selectedItem: myListItem));
                           },
                           backgroundColor: kViolet,
@@ -68,7 +66,7 @@ class Listdata extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.w),
+                          padding: EdgeInsets.only(left: 20.w, right: 5.w),
                           child: Row(
                             children: [
                               //Amount
@@ -110,8 +108,30 @@ class Listdata extends StatelessWidget {
                               SizedBox(
                                 width: 10.w,
                               ),
-                              Icon(FontAwesomeIcons.angleLeft,
-                                  color: Colors.grey.shade400),
+                              PopupMenuButton(
+                                iconColor: Colors.grey,
+                                itemBuilder: (context) => [
+                                  PopupMenuItem(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Get.off(() => EditMyList(
+                                            selectedItem: myListItem));
+                                      },
+                                      child: const Text("Edit"),
+                                    ),
+                                  ),
+                                  PopupMenuItem(
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        LedgetStackDB.instance.deleteMyList(
+                                            myListItem.id!, myListController);
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("Delete"),
+                                    ),
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                         ),

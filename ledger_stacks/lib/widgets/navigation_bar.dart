@@ -38,7 +38,7 @@ Widget navigationBar() {
           //Icon go to MyList
           IconAndText(
             onPressed: () {
-              Get.off(() => const Mylist());
+              Get.off(() => Mylist());
             },
             text: 'My List',
             icon: FontAwesomeIcons.clipboardList,
