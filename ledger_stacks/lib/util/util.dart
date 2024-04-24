@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 //Update the observable value
 class IsObscureController extends GetxController {
@@ -103,4 +104,9 @@ String? validateTransactionAmountField(String? value) {
     return 'Amount is required';
   }
   return null;
+}
+
+String getMonthName(String date) {
+  DateTime dateTime = DateTime.parse(date);
+  return DateFormat.MMM().format(dateTime);
 }
