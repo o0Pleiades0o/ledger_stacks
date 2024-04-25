@@ -57,7 +57,7 @@ class Mylist extends StatelessWidget {
                 onPressed: () {
                   myListController.isMultiSelect.toggle();
                 },
-                icon: const Icon(Icons.edit),
+                icon: const Icon(Icons.delete),
               );
             }
           })
