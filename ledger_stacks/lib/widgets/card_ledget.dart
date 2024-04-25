@@ -342,7 +342,7 @@ import '../util/util.dart';
 // }
 
 class LedgerDisplay extends StatefulWidget {
-  LedgerDisplay({super.key});
+  const LedgerDisplay({super.key});
 
   @override
   State<LedgerDisplay> createState() => _LedgerDisplayState();
@@ -351,31 +351,20 @@ class LedgerDisplay extends StatefulWidget {
 class _LedgerDisplayState extends State<LedgerDisplay> {
   final LedgerListController ledgerListController =
       Get.put(LedgerListController());
-  List<TransactionModel> _ledgerList = [];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    ledgerListController.ledgerList.listen((p0) {
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) {
-          if(_ledgerList != p0){
-            setState(() {
-              _ledgerList = p0;
-            });
-          }
-        },
-      );
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // if(_ledgerList.isEmpty){
-    //   return Container();
-    // }
-    return StickyGroupedListView(
-      elements: _ledgerList,
+
+    return Obx((){ 
+      if(ledgerListController.ledgerList.value.isEmpty){
+      return Container();
+    }
+      return StickyGroupedListView(
+      elements: ledgerListController.ledgerList.value, //_ledgerList,
       groupBy: (TransactionModel transaction) {
         final dateDay = DateTime.parse(transaction.date!);
         return DateTime(dateDay.year, dateDay.month, dateDay.day);
@@ -388,10 +377,10 @@ class _LedgerDisplayState extends State<LedgerDisplay> {
               .compareTo(DateTime.parse(element2.date!)),
       floatingHeader: true,
       groupSeparatorBuilder: (TransactionModel transaction) =>
-          getGroupSeparator(transaction),
+       getGroupSeparator(transaction),
       itemBuilder: (BuildContext context, TransactionModel transaction) =>
           _getItem(context, transaction),
-    );
+    );});
   }
 }
 
