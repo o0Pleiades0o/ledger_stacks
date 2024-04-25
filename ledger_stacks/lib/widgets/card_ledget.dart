@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:grouped_list/grouped_list.dart';
 import 'package:ledger_stacks/constants/color.dart';
 import 'package:ledger_stacks/models/transaction.dart';
 import 'package:ledger_stacks/pages/myledger/edit_ledger/ledger_list_controller.dart';
-import 'package:sticky_grouped_list/sticky_grouped_list.dart';
 
 import '../util/util.dart';
 
@@ -351,6 +351,7 @@ class LedgerDisplay extends StatefulWidget {
 class _LedgerDisplayState extends State<LedgerDisplay> {
   final LedgerListController ledgerListController =
       Get.put(LedgerListController());
+
   @override
   void initState() {
     super.initState();
@@ -358,29 +359,25 @@ class _LedgerDisplayState extends State<LedgerDisplay> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Obx((){ 
-      if(ledgerListController.ledgerList.value.isEmpty){
-      return Container();
-    }
-      return StickyGroupedListView(
-      elements: ledgerListController.ledgerList.value, //_ledgerList,
-      groupBy: (TransactionModel transaction) {
-        final dateDay = DateTime.parse(transaction.date!);
-        return DateTime(dateDay.year, dateDay.month, dateDay.day);
-      },
-      order: StickyGroupedListOrder.ASC,
-      groupComparator: (DateTime value1, DateTime value2) =>
-          value2.compareTo(value1),
-      itemComparator: (TransactionModel element1, TransactionModel element2) =>
-          DateTime.parse(element1.date!)
-              .compareTo(DateTime.parse(element2.date!)),
-      floatingHeader: true,
-      groupSeparatorBuilder: (TransactionModel transaction) =>
-       getGroupSeparator(transaction),
-      itemBuilder: (BuildContext context, TransactionModel transaction) =>
-          _getItem(context, transaction),
-    );});
+    return Obx(() {
+      return GroupedListView<TransactionModel, DateTime>(
+        // ignore: invalid_use_of_protected_member
+        elements: ledgerListController.ledgerList.value,
+        groupBy: (TransactionModel transaction) {
+          final dateDay = DateTime.parse(transaction.date!);
+          return DateTime(dateDay.year, dateDay.month, dateDay.day);
+        },
+        groupComparator: (DateTime value1, DateTime value2) =>
+            value2.compareTo(value1),
+        itemComparator:
+            (TransactionModel element1, TransactionModel element2) =>
+                DateTime.parse(element1.date!)
+                    .compareTo(DateTime.parse(element2.date!)),
+        groupHeaderBuilder: (TransactionModel transaction) => getGroupSeparator(transaction),
+        itemBuilder: (BuildContext context, TransactionModel transaction) =>
+            _getItem(context, transaction),
+      );
+    });
   }
 }
 

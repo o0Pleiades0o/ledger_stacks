@@ -47,7 +47,7 @@ class MyLedger extends StatelessWidget {
               )),
           //Content
           //DailyCard()
-          LedgerDisplay(),
+          const LedgerDisplay(),
         ],
       ),
       floatingActionButton: Row(
