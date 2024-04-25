@@ -58,15 +58,30 @@ class ContainerSelectMylist extends GetView<MyListController> {
                                               .amountController.text =
                                           convertToAmount(mylistItem.amount);
                                     },
-                                    child: Text(
-                                      mylistItem.isIncome == 'income'
-                                          ? "+ ${convertToAmount(mylistItem.amount)} ${mylistItem.name}"
-                                          : "- ${convertToAmount(mylistItem.amount)} ${mylistItem.name}",
-                                      style: TextStyle(
-                                          color: mylistItem.isIncome == 'income'
-                                              ? kGreen
-                                              : kRed,
-                                          fontWeight: FontWeight.bold),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          mylistItem.isIncome == 'income'
+                                              ? "+ ${convertToAmount(mylistItem.amount)}"
+                                              : "- ${convertToAmount(mylistItem.amount)}",
+                                          style: TextStyle(
+                                              color: mylistItem.isIncome ==
+                                                      'income'
+                                                  ? kGreen
+                                                  : kRed,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        SizedBox(
+                                          width: 5.w,
+                                        ),
+                                        Text(
+                                          mylistItem.name,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ))
