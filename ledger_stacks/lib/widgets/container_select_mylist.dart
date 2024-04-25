@@ -4,17 +4,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/pages/mylist/mylist_controller.dart';
 
-class ContainerSelectMylist extends StatelessWidget {
+class ContainerSelectMylist extends GetView<MyListController> {
   ContainerSelectMylist({
     super.key,
+    this.filterType,
   });
 
+  final String? filterType;
   final MyListController myListController = Get.put(MyListController());
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200.h,
+      height: 220.h,
       width: Get.width,
       decoration: BoxDecoration(
           color: Colors.white,
@@ -22,37 +23,68 @@ class ContainerSelectMylist extends StatelessWidget {
               topLeft: Radius.circular(30.r), topRight: Radius.circular(30.r))),
       child: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 10.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      debugPrint("Pressed");
-                    },
-                    icon: const Icon(
-                      FontAwesomeIcons.angleLeft,
-                      color: Colors.grey,
-                    )),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.w),
-                  child: Text(
-                    "Daily list",
-                    style: TextStyle(color: Colors.grey, fontSize: 20.sp),
+          const Header(),
+          Obx(() => myListController.myLists.isEmpty
+              ? SizedBox(
+                  width: Get.width,
+                  height: 150.h,
+                  child: Center(
+                    child: Text(
+                      "Not Found list data.",
+                      style: TextStyle(color: Colors.black.withAlpha(80)),
+                    ),
                   ),
-                ),
-                IconButton(
-                    onPressed: () {
-                      debugPrint("Pressed");
-                    },
-                    icon: const Icon(
-                      FontAwesomeIcons.angleRight,
-                      color: Colors.grey,
-                    )),
-              ],
+                )
+              : Wrap(
+                  direction: Axis.horizontal,
+                  children: myListController.myLists
+                      .map((mylistItem) => ElevatedButton(
+                            onPressed: () {},
+                            child: Text(mylistItem.name),
+                          ))
+                      .toList(),
+                ))
+        ],
+      ),
+    );
+  }
+}
+
+class Header extends StatelessWidget {
+  const Header({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10.h),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+              onPressed: () {
+                debugPrint("change to temporary list");
+              },
+              icon: const Icon(
+                FontAwesomeIcons.angleLeft,
+                color: Colors.grey,
+              )),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            child: Text(
+              "Daily list",
+              style: TextStyle(color: Colors.grey, fontSize: 20.sp),
             ),
-          )
+          ),
+          IconButton(
+              onPressed: () {
+                debugPrint("Pressed");
+              },
+              icon: const Icon(
+                FontAwesomeIcons.angleRight,
+                color: Colors.grey,
+              )),
         ],
       ),
     );

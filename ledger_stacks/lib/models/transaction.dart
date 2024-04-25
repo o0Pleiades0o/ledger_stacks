@@ -19,7 +19,7 @@ class TransactionModel {
       'name': name,
       'amount': amount,
       'isIncome': isIncome,
-      'date': date, 
+      'date': date,
     };
   }
 

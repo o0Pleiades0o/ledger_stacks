@@ -30,7 +30,7 @@ class EditMyList extends GetView<EditMyListController> {
         backgroundColor: Colors.white,
         leading: KBackButton(
           onPressed: () {
-            Get.off(() => const Mylist());
+            Get.off(() => Mylist());
           },
         ),
         title: Padding(

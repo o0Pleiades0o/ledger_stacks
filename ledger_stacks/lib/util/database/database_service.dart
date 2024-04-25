@@ -1,12 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ledger_stacks/models/daily_report.dart';
-import 'package:ledger_stacks/models/monthly_report.dart';
-import 'package:ledger_stacks/models/transaction.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../models/my_list.dart';
+import '../../models/transaction.dart';
 import '../../pages/mylist/mylist_controller.dart';
 import '../../widgets/snackbar.dart';
 
@@ -33,6 +30,7 @@ class LedgetStackDB extends GetxService {
     );
   }
 
+  //Header CRUD mylist
   Future _createDatabase(Database db, int version) async {
     await db.execute('''
 CREATE TABLE mylist(
@@ -43,7 +41,7 @@ CREATE TABLE mylist(
   type TEXT,
   frequency TEXT
 )
-'''); //Mylist
+''');
 
     await db.execute('''
 CREATE TABLE transactions(
@@ -54,30 +52,9 @@ CREATE TABLE transactions(
   date DATE
 )
 '''); //transaction
-
-    await db.execute('''
-CREATE TABLE monthly_reports (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  date TEXT,
-  monthlyIncome DOUBLE,
-  monthlyExpense DOUBLE,
-  monthlyBalance DOUBLE
-)
-'''); //monthly Report
-
-    await db.execute('''
-CREATE TABLE daily_reports (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  date TEXT,
-  dailyIncome DOUBLE,
-  dailyExpense DOUBLE,
-  dailyBalance DOUBLE
-)
-'''); //Daily Report
   }
 
 //===============CRUD mylist===============
-
   Future<List<MyList>> getMylist() async {
     final Database db = await database;
     final maps = await db.query('mylist');
@@ -94,24 +71,42 @@ CREATE TABLE daily_reports (
         title: 'Success',
         message: '"${myList.name}" added successfully',
       );
-    } else {
-      ErrorSnackbar.show(
-        title: 'Error',
-        message: 'Failed to add list "${myList.name}"',
-      );
     }
     return id;
   }
 
-  Future<int> updateMylist(MyList myList, MyListController myListController) async {
+  Future<int> updateMylist(MyList myList,
+      [MyListController? myListController]) async {
     final db = await database;
-    return await db.update('Mylist', myList.toMap(),
+    final rowsAffected = await db.update('mylist', myList.toMap(),
         where: 'id = ?', whereArgs: [myList.id]);
+
+    // Check if myListController is not null before calling updateList()
+    if (myListController != null) {
+      myListController.updateList();
+    }
+
+    if (rowsAffected > 0) {
+      SuccessSnackbar.show(
+        title: 'Success',
+        message: '"${myList.name}" updated successfully',
+      );
+    }
+    return rowsAffected;
   }
 
-  Future<int> deleteMylist(int id, MyListController myListController) async {
+  Future<int> deleteMyList(int id, MyListController myListController) async {
     final db = await database;
-    return await db.delete('Mylist', where: 'id = ?', whereArgs: [id]);
+    final rowsDeleted =
+        await db.delete('mylist', where: 'id = ?', whereArgs: [id]);
+    myListController.updateList();
+    if (rowsDeleted > 0) {
+      SuccessSnackbar.show(
+        title: 'Success',
+        message: 'deleted successfully',
+      );
+    }
+    return rowsDeleted;
   }
 
   //===============CRUD Transaction===============
@@ -128,20 +123,9 @@ CREATE TABLE daily_reports (
     final Database db = await database;
     final int id = await db.insert('transactions', transaction.toMap());
     if (id > 0) {
-      Get.snackbar(
-        'Success',
-        'Transaction "${transaction.name}" added successfully',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-      );
-    } else {
-      Get.snackbar(
-        'Error',
-        'Failed to add transaction "${transaction.name}"',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
+      SuccessSnackbar.show(
+        title: 'Success',
+        message: '"${transaction.name}" added successfully',
       );
     }
     return id;
@@ -161,56 +145,6 @@ CREATE TABLE daily_reports (
     final Database db = await database;
     return await db.delete(
       'transactions',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-  }
-
-//===============CRUD Monthly Report===============
-
-  Future<List<MonthlyReportModel>> getMonthlyReport() async {
-    final Database db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('monthly report');
-    return List.generate(maps.length, (i) {
-      return MonthlyReportModel.fromMap(maps[i]);
-    });
-  }
-
-  Future<int> createMonthlyReport(MonthlyReportModel monthlyReport) async {
-    final Database db = await database;
-    final int id = await db.insert('monthly_reports', monthlyReport.toMap());
-    return id;
-  }
-
-  Future<int> deleteMonthlyReport(int id) async {
-    final Database db = await database;
-    return await db.delete(
-      'monthly_reports',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-  }
-
-//===============CRUD Daily Report===============
-
-  Future<List<DailyReportModel>> getDailyReport() async {
-    final Database db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('monthly report');
-    return List.generate(maps.length, (i) {
-      return DailyReportModel.fromMap(maps[i]);
-    });
-  }
-
-  Future<int> createDailyReport(DailyReportModel report) async {
-    final Database db = await database;
-    final int id = await db.insert('daily_reports', report.toMap());
-    return id;
-  }
-
-  Future<int> deleteDailyReport(int id) async {
-    final Database db = await database;
-    return await db.delete(
-      'daily_reports',
       where: 'id = ?',
       whereArgs: [id],
     );

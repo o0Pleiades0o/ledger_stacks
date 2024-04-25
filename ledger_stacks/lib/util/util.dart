@@ -81,6 +81,14 @@ String? validateListNameField(String? value) {
   if (value == null || value.isEmpty) {
     return 'Name is required';
   }
+  if (RegExp(r'[!@#$%^&*(),.?":{}|<>]').hasMatch(value)) {
+    return 'Special characters are not allowed';
+  }
+  if (RegExp(
+          r'(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])')
+      .hasMatch(value)) {
+    return 'Emoji characters are not allowed';
+  }
   return null;
 }
 
