@@ -48,9 +48,9 @@ class AddTransaction extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 20.w),
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 70.h,
-                    ),
+                    // SizedBox(
+                    //   height: 70.h,
+                    // ),
                     RadioButton(),
                     TextFieldAddSQL(
                         validator: validateTransactionNameField,
