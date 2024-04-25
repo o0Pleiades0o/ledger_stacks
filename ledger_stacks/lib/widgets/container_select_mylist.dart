@@ -15,7 +15,7 @@ class ContainerSelectMylist extends GetView<MyListController> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 220.h,
+      height: Get.height * 0.27,
       width: Get.width,
       decoration: BoxDecoration(
           color: Colors.white,
