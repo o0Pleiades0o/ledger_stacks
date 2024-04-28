@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ledger_stacks/constants/color.dart';
-import 'package:ledger_stacks/models/my_list.dart';
-import 'package:ledger_stacks/pages/mylist/edite_my_list/edit_my_list_controller.dart';
-import 'package:ledger_stacks/util/util.dart';
-import 'package:ledger_stacks/widgets/button.dart';
-import 'package:ledger_stacks/widgets/textform.dart';
+import 'package:ledger_stacks/models/transaction.dart';
+import 'package:ledger_stacks/pages/myledger/edit_transaction.dart/edit_transaction_controller.dart';
+import 'package:ledger_stacks/pages/myledger/ledger_controller.dart';
 
-import '../mylist_controller.dart';
-import '../mylist_page.dart';
+import '../../../constants/color.dart';
+import '../../../util/util.dart';
+import '../../../widgets/button.dart';
+import '../../../widgets/textform.dart';
+import '../ledger_page.dart';
 
-class EditMyList extends GetView<EditMyListController> {
-  final MyList selectedItem;
-  const EditMyList({super.key, required this.selectedItem});
+class EditTransaction extends GetView<EditTransactionController> {
+  final TransactionModel selectedItem;
+  const EditTransaction({super.key, required this.selectedItem});
 
   @override
   Widget build(BuildContext context) {
-    final editMyListController = Get.put(EditMyListController(
+    final editTransaction = Get.put(EditTransactionController(
       selectedItem: selectedItem,
-      myListController: Get.find<MyListController>(),
+      ledgerController: Get.find<LedgerController>(),
     ));
 
     return Scaffold(
@@ -30,7 +30,7 @@ class EditMyList extends GetView<EditMyListController> {
         backgroundColor: Colors.white,
         leading: KBackButton(
           onPressed: () {
-            Get.off(() => Mylist());
+            Get.off(() => const MyLedger());
           },
         ),
         title: Padding(
@@ -50,13 +50,14 @@ class EditMyList extends GetView<EditMyListController> {
               children: [
                 TextFieldAddSQL(
                   hintText: "Name",
-                  controller: editMyListController.listNameController,
+                  controller: editTransaction.listNameController,
                   validator: validateListNameField,
                   textInputAction: TextInputAction.next,
                 ),
                 TextFieldAddSQL(
                   hintText: "Amount",
-                  controller: editMyListController.listAmountController,
+                  keyboardType: TextInputType.number,
+                  controller: editTransaction.listAmountController,
                   validator: validateListAmountField,
                   textInputAction: TextInputAction.done,
                 ),
@@ -64,7 +65,7 @@ class EditMyList extends GetView<EditMyListController> {
                     buttonText: "Save",
                     onPressed: () {
                       if (controller.formKey.currentState!.validate()) {
-                        controller.updateMylist();
+                        controller.updateTransaction();
                       }
                     }),
               ],

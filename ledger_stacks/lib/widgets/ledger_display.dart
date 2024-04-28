@@ -40,6 +40,7 @@ class LedgerDisplay extends GetView<LedgerController> {
                 (TransactionModel element1, TransactionModel element2) =>
                     DateTime.parse(element1.date!)
                         .compareTo(DateTime.parse(element2.date!)),
+            order: GroupedListOrder.DESC,
             groupHeaderBuilder: (TransactionModel transaction) =>
                 getGroupSeparator(transaction),
             itemBuilder: (BuildContext context, TransactionModel transaction) =>

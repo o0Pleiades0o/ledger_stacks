@@ -6,7 +6,7 @@ import 'package:ledger_stacks/widgets/floating_action_button.dart';
 import '../../constants/color.dart';
 import '../../widgets/button.dart';
 import '../../widgets/ledger_display.dart';
-import '../add_transaction.dart/transaction_page.dart';
+import 'add_transaction.dart/transaction_page.dart';
 import '../home/home_page.dart';
 
 class MyLedger extends StatelessWidget {

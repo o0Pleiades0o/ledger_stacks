@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:ledger_stacks/constants/color.dart';
 import 'package:ledger_stacks/util/database/database_service.dart';
 
-import '../pages/mylist/edite_my_list/edite_my_list_page.dart';
+import '../pages/mylist/edit_my_list/edit_my_list_page.dart';
 import '../pages/mylist/mylist_controller.dart';
 import '../util/convert_amount.dart';
 
