@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:ledger_stacks/pages/myledger/ledger_controller.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -30,7 +31,7 @@ class LedgetStackDB extends GetxService {
     );
   }
 
-  //Header CRUD mylist
+  //mylist
   Future _createDatabase(Database db, int version) async {
     await db.execute('''
 CREATE TABLE mylist(
@@ -113,7 +114,7 @@ CREATE TABLE transactions(
 
   Future<List<TransactionModel>> getTransactions() async {
     final Database db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('transactions');
+    final maps = await db.query('transactions');
     return List.generate(maps.length, (i) {
       return TransactionModel.fromMap(maps[i]);
     });
@@ -131,22 +132,36 @@ CREATE TABLE transactions(
     return id;
   }
 
-  Future<int> updateTransaction(TransactionModel transaction) async {
+  Future<int> updateTransaction(TransactionModel transaction,
+      [LedgerController? ledgerController]) async {
     final Database db = await database;
-    return await db.update(
-      'transactions',
-      transaction.toMap(),
-      where: 'id = ?',
-      whereArgs: [transaction.id],
-    );
+    final rowsAffected = await db.update('transactions', transaction.toMap(),
+        where: 'id = ?', whereArgs: [transaction.id]);
+    if (ledgerController != null) {
+      ledgerController.fetchMyLedger();
+    }
+
+    if (rowsAffected > 0) {
+      SuccessSnackbar.show(
+        title: 'Success',
+        message: '"${transaction.name}" updated successfully',
+      );
+    }
+    return rowsAffected;
   }
 
-  Future<int> deleteTransaction(int id) async {
+  Future<int> deleteTransaction(
+      int id, LedgerController ledgerController) async {
     final Database db = await database;
-    return await db.delete(
-      'transactions',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
+    final rowsDeleted =
+        await db.delete('transactions', where: 'id = ?', whereArgs: [id]);
+    ledgerController.fetchMyLedger();
+    if (rowsDeleted > 0) {
+      SuccessSnackbar.show(
+        title: 'Success',
+        message: 'deleted successfully',
+      );
+    }
+    return rowsDeleted;
   }
 }

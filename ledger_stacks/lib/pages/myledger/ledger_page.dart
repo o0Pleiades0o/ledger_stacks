@@ -5,7 +5,8 @@ import 'package:ledger_stacks/widgets/floating_action_button.dart';
 
 import '../../constants/color.dart';
 import '../../widgets/button.dart';
-import '../../widgets/card_ledget.dart';
+import '../../widgets/ledger_display.dart';
+import '../add_transaction.dart/transaction_page.dart';
 import '../home/home_page.dart';
 
 class MyLedger extends StatelessWidget {
@@ -47,19 +48,8 @@ class MyLedger extends StatelessWidget {
               )),
           //Content
           Padding(
-            padding: EdgeInsets.only(top: 100.h, left: 20.w, right: 20.w),
-            //card
-            child: Container(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(36.r),
-                  color: Colors.white),
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return const CardLedger();
-                },
-              ),
-            ),
+            padding: EdgeInsets.only(top: 20.h, left: 20.w, right: 20.w),
+            child: LedgerDisplay(),
           ),
         ],
       ),
@@ -70,7 +60,9 @@ class MyLedger extends StatelessWidget {
             onPressed: () {},
           ),
           CreateFAB(
-            onPressed: () {},
+            onPressed: () {
+              Get.off(() => AddTransaction());
+            },
           ),
         ],
       ),

@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/pages/add_transaction.dart/transaction_controller.dart';
 import 'package:ledger_stacks/pages/mylist/mylist_controller.dart';
+import 'package:ledger_stacks/widgets/radio_button/radio_controller.dart';
 
 import '../constants/color.dart';
 import '../util/convert_amount.dart';
@@ -54,9 +55,16 @@ class ContainerSelectMylist extends GetView<MyListController> {
                                     onPressed: () {
                                       addTransactionController.nameController
                                           .text = mylistItem.name;
+                                      addTransactionController.amountController
+                                          .text = mylistItem.amount.toString();
                                       addTransactionController
-                                              .amountController.text =
-                                          convertToAmount(mylistItem.amount);
+                                              .radioButtonController
+                                              .selectedCharacter
+                                              .value =
+                                          mylistItem.isIncome.toString() ==
+                                                  'income'
+                                              ? SingingCharacter.income
+                                              : SingingCharacter.expense;
                                     },
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor: Colors.white),
