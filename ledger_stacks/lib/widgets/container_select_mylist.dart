@@ -58,6 +58,8 @@ class ContainerSelectMylist extends GetView<MyListController> {
                                               .amountController.text =
                                           convertToAmount(mylistItem.amount);
                                     },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.white),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
@@ -66,11 +68,11 @@ class ContainerSelectMylist extends GetView<MyListController> {
                                               ? "+ ${convertToAmount(mylistItem.amount)}"
                                               : "- ${convertToAmount(mylistItem.amount)}",
                                           style: TextStyle(
-                                              color: mylistItem.isIncome ==
-                                                      'income'
-                                                  ? kGreen
-                                                  : kRed,
-                                              fontWeight: FontWeight.bold),
+                                            color:
+                                                mylistItem.isIncome == 'income'
+                                                    ? kGreen
+                                                    : kRed,
+                                          ),
                                         ),
                                         SizedBox(
                                           width: 5.w,
@@ -78,8 +80,8 @@ class ContainerSelectMylist extends GetView<MyListController> {
                                         Text(
                                           mylistItem.name,
                                           style: const TextStyle(
-                                              color: Colors.black,
-                                              fontWeight: FontWeight.bold),
+                                            color: Colors.black,
+                                          ),
                                         ),
                                       ],
                                     ),
