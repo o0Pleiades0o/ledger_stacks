@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:ledger_stacks/pages/add_transaction.dart/transaction_controller.dart';
+import 'package:ledger_stacks/pages/myledger/add_transaction.dart/transaction_controller.dart';
 import 'package:ledger_stacks/pages/mylist/mylist_controller.dart';
 import 'package:ledger_stacks/widgets/radio_button/radio_controller.dart';
 
