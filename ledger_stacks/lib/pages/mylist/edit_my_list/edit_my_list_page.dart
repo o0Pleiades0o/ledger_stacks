@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/constants/color.dart';
 import 'package:ledger_stacks/models/my_list.dart';
-import 'package:ledger_stacks/pages/mylist/edite_my_list/edit_my_list_controller.dart';
+import 'package:ledger_stacks/pages/mylist/edit_my_list/edit_my_list_controller.dart';
 import 'package:ledger_stacks/util/util.dart';
 import 'package:ledger_stacks/widgets/button.dart';
 import 'package:ledger_stacks/widgets/textform.dart';
@@ -56,6 +56,7 @@ class EditMyList extends GetView<EditMyListController> {
                 ),
                 TextFieldAddSQL(
                   hintText: "Amount",
+                  keyboardType: TextInputType.number,
                   controller: editMyListController.listAmountController,
                   validator: validateListAmountField,
                   textInputAction: TextInputAction.done,

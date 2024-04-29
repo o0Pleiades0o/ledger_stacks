@@ -48,9 +48,6 @@ class AddTransaction extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 25.h, horizontal: 20.w),
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 70.h,
-                    ),
                     RadioButton(),
                     TextFieldAddSQL(
                         validator: validateTransactionNameField,
@@ -59,6 +56,7 @@ class AddTransaction extends StatelessWidget {
                         hintText: 'Name'),
                     TextFieldAddSQL(
                         validator: validateTransactionAmountField,
+                        keyboardType: TextInputType.number,
                         controller: addTransactionController.amountController,
                         textInputAction: TextInputAction.done,
                         hintText: 'Amount'),

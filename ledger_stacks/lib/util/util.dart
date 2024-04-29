@@ -1,4 +1,5 @@
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ledger_stacks/util/database/database_service.dart';
@@ -121,7 +122,8 @@ String getMonthName(String date) {
   return DateFormat.MMM().format(dateTime);
 }
 
-Future dateGroup(String date) async {
+Future dailyIncome(String date) async {
   double dailyIncome = await LedgetStackDB.instance.calculateDailyIncome(date);
+  debugPrint('$dailyIncome');
   return dailyIncome;
 }

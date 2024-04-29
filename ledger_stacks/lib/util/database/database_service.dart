@@ -1,10 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ledger_stacks/pages/myledger/show_ledger/ledger_list_controller.dart';
+import 'package:ledger_stacks/pages/myledger/ledger_controller.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../models/my_list.dart';
 import '../../models/transaction.dart';
+import '../../pages/myledger/show_ledger/ledger_list_controller.dart';
 import '../../pages/mylist/mylist_controller.dart';
 import '../../widgets/snackbar.dart';
 
@@ -31,7 +33,7 @@ class LedgetStackDB extends GetxService {
     );
   }
 
-  //Header CRUD mylist
+  //mylist
   Future _createDatabase(Database db, int version) async {
     await db.execute('''
 CREATE TABLE mylist(
@@ -125,7 +127,7 @@ CREATE TABLE dailyReport(
 
   Future<List<TransactionModel>> getTransactions() async {
     final Database db = await database;
-    final List<Map<String, dynamic>> maps = await db.query('transactions');
+    final maps = await db.query('transactions');
     return List.generate(maps.length, (i) {
       return TransactionModel.fromMap(maps[i]);
     });
@@ -143,37 +145,30 @@ CREATE TABLE dailyReport(
     return id;
   }
 
-  Future<int> updateTransaction(TransactionModel transaction) async {
-    final db = await database;
-    return await db.update('transactions', transaction.toMap(),
+  Future<int> updateTransaction(TransactionModel transaction,
+      [LedgerController? ledgerController]) async {
+    final Database db = await database;
+    final rowsAffected = await db.update('transactions', transaction.toMap(),
         where: 'id = ?', whereArgs: [transaction.id]);
+    if (ledgerController != null) {
+      ledgerController.fetchMyLedger();
+    }
+
+    if (rowsAffected > 0) {
+      SuccessSnackbar.show(
+        title: 'Success',
+        message: '"${transaction.name}" updated successfully',
+      );
+    }
+    return rowsAffected;
   }
 
-  // Future<int> updateTransaction(TransactionModel transaction,
-  //     [LedgerListController? ledgerListController]) async {
-  //   final db = await database;
-  //   final rowsAffected = await db.update('transactions', transaction.toMap(),
-  //       where: 'id = ?', whereArgs: [transaction.id]);
-
-  //   if (ledgerListController != null) {
-  //     ledgerListController.updateLedger();
-  //   }
-
-  //   if (rowsAffected > 0) {
-  //     SuccessSnackbar.show(
-  //       title: 'Success',
-  //       message: '"${transaction.name}" updated successfully',
-  //     );
-  //   }
-  //   return rowsAffected;
-  // }
-
   Future<int> deleteTransaction(
-      int id, LedgerListController ledgerListController) async {
-    final db = await database;
+      int id, LedgerListController ledgerController) async {
+    final Database db = await database;
     final rowsDeleted =
         await db.delete('transactions', where: 'id = ?', whereArgs: [id]);
-    ledgerListController.updateLedger();
+    ledgerController.fetchLedgerList();
     if (rowsDeleted > 0) {
       SuccessSnackbar.show(
         title: 'Success',
@@ -186,23 +181,41 @@ CREATE TABLE dailyReport(
   //=============== Query Daily Report ===============
   
   Future<double> calculateDailyIncome(String dateTime) async {
-    double dailyIncome = 0.0;
-    // ดึงข้อมูล transactions จากฐานข้อมูล
+  double dailyIncome = 0.0;
+
+ {
+    // Open the database connection
     Database db = await openDatabase('LedgetStackDB.db');
+
+    // Query for transactions on the specified date
     List<Map<String, dynamic>> transactions = await db.query(
       'transactions',
-      where: 'isIncome = ? AND date = ?',
-      whereArgs: [
-        'income',
-        dateTime
-      ], // แปลง DateTime เป็นรูปแบบ 'YYYY-MM-DD'
+      where: 'isIncome = ? AND DATE(date) = ?',
+      whereArgs: ['income', dateTime],
     );
 
-    // คำนวณผลรวมของรายรับประจำวัน
-    for (var transaction in transactions) {
-      dailyIncome += transaction['amount'];
+    debugPrint('time : $dateTime');
+
+    // Check if any transactions were found
+    if (transactions.isNotEmpty) {
+      // Iterate through transactions and accumulate income
+      for (var transaction in transactions) {
+        var amount = transaction['amount'];
+        debugPrint('amount : $amount');
+
+        // Validate amount before adding
+        if (amount is double && amount > 0.0) {
+          dailyIncome += amount;
+        } else {
+          debugPrint('Warning: Invalid amount encountered: $amount');
+        }
+      }
+    } else {
+      debugPrint('No income transactions found for $dateTime');
     }
 
     return dailyIncome;
-  }
+  } 
+}
+
 }
