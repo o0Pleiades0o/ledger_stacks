@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:ledger_stacks/pages/mylist/mylist_page.dart';
 import 'package:ledger_stacks/widgets/dropdown/dropdown.dart';
 import 'package:ledger_stacks/widgets/textform.dart';
 
@@ -11,7 +12,6 @@ import '../../../widgets/dropdown/dropdown_controller.dart';
 import '../../../widgets/radio_button/radio_button.dart';
 import '../../../widgets/radio_button/radio_controller.dart';
 import '../../../widgets/snackbar.dart';
-import '../mylist_page.dart';
 import 'add_my_list_controller.dart';
 
 class AddMyList extends GetView {
@@ -90,8 +90,6 @@ class AddMyList extends GetView {
                           .validate()) {
                         if (dropDownTypeController.selectedValue.value ==
                                 'Daily' ||
-                            dropDownTypeController.selectedValue.value ==
-                                'Temporary' ||
                             (dropDownTypeController.selectedValue.value ==
                                     'Auto' &&
                                 dropDownFrequencyController

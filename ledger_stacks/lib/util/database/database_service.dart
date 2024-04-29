@@ -65,6 +65,8 @@ CREATE TABLE transactions(
   }
 
   Future<int> createMylist(MyList myList) async {
+    final MyListController myListController = Get.put(MyListController());
+    myListController.updateList();
     final db = await database;
     final id = await db.insert('mylist', myList.toMap());
     if (id > 0) {
@@ -121,8 +123,10 @@ CREATE TABLE transactions(
   }
 
   Future<int> createTransaction(TransactionModel transaction) async {
+    final LedgerController ledgerController = Get.put(LedgerController());
     final Database db = await database;
     final int id = await db.insert('transactions', transaction.toMap());
+    ledgerController.fetchMyLedger();
     if (id > 0) {
       SuccessSnackbar.show(
         title: 'Success',
@@ -132,15 +136,13 @@ CREATE TABLE transactions(
     return id;
   }
 
-  Future<int> updateTransaction(TransactionModel transaction,
-      [LedgerController? ledgerController]) async {
+  Future<int> updateTransaction(
+      TransactionModel transaction, LedgerController ledgerController) async {
+    final LedgerController ledgerController = Get.put(LedgerController());
     final Database db = await database;
     final rowsAffected = await db.update('transactions', transaction.toMap(),
         where: 'id = ?', whereArgs: [transaction.id]);
-    if (ledgerController != null) {
-      ledgerController.fetchMyLedger();
-    }
-
+    ledgerController.fetchMyLedger();
     if (rowsAffected > 0) {
       SuccessSnackbar.show(
         title: 'Success',

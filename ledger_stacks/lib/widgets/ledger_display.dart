@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:grouped_list/grouped_list.dart';
+import 'package:collection/collection.dart';
 import 'package:ledger_stacks/models/transaction.dart';
 import 'package:ledger_stacks/pages/myledger/ledger_controller.dart';
 import 'package:ledger_stacks/util/convert_amount.dart';
@@ -18,226 +18,253 @@ class LedgerDisplay extends GetView<LedgerController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => ledgerController.myledger.isEmpty
-        ? SizedBox(
-            width: Get.width,
-            height: Get.height * 0.7,
-            child: Center(
-              child: Text(
-                "Not Found list data.",
-                style: TextStyle(color: Colors.black.withAlpha(80)),
-              ),
+    return Obx(() {
+      var groupByDate = groupBy(ledgerController.myledger,
+          (TransactionModel e) => e.date!.substring(0, 10));
+
+      if (groupByDate.isEmpty) {
+        return SizedBox(
+          width: Get.width,
+          height: Get.height * 0.7,
+          child: Center(
+            child: Text(
+              "Not Found list data.",
+              style: TextStyle(color: Colors.black.withAlpha(80)),
             ),
-          )
-        : GroupedListView(
-            elements: ledgerController.myledger,
-            groupBy: (TransactionModel transaction) {
-              final dateDay = DateTime.parse(transaction.date!);
-              return DateTime(dateDay.year, dateDay.month, dateDay.day);
-            },
-            groupComparator: (DateTime value1, DateTime value2) =>
-                value2.compareTo(value1),
-            itemComparator:
-                (TransactionModel element1, TransactionModel element2) =>
-                    DateTime.parse(element1.date!)
-                        .compareTo(DateTime.parse(element2.date!)),
-            order: GroupedListOrder.DESC,
-            groupHeaderBuilder: (TransactionModel transaction) =>
-                getGroupSeparator(transaction),
-            itemBuilder: (BuildContext context, TransactionModel transaction) =>
-                getitem(transaction),
-          ));
+          ),
+        );
+      } else {
+        return ListView.builder(
+          itemCount: groupByDate.length,
+          itemBuilder: (context, index) {
+            var date = groupByDate.keys.elementAt(index);
+            var transactions = groupByDate[date];
+            TransactionModel headerTransaction = transactions!.first;
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //Header
+                HeaderLedger(headerTransaction: headerTransaction),
+                //Item under header
+                ItemLedger(
+                    transactions: transactions,
+                    ledgerController: ledgerController),
+              ],
+            );
+          },
+        );
+      }
+    });
   }
 }
 
-Widget getGroupSeparator(TransactionModel transaction) {
-  return Padding(
-    padding: EdgeInsets.only(bottom: 10.h),
-    child: Container(
-      height: 150.h,
-      width: Get.width,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(36.r),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF4b4b4b).withOpacity(0.08),
-              offset: const Offset(0, 8),
-              blurRadius: 10,
-              spreadRadius: 6,
-            ),
-          ]),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 45.w, vertical: 20.h),
-        child: Column(
-          children: [
-            Row(children: [
-              Text(
-                "${DateTime.parse(transaction.date!).day}",
-                style: TextStyle(
-                  fontSize: 40.sp,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              SizedBox(
-                width: 5.w,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+class ItemLedger extends StatelessWidget {
+  const ItemLedger({
+    super.key,
+    required this.transactions,
+    required this.ledgerController,
+  });
+
+  final List<TransactionModel>? transactions;
+  final LedgerController ledgerController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: transactions!.map((ledger) {
+        return Padding(
+          padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 10.h),
+          child: Container(
+            height: 35.h,
+            width: Get.width,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF4b4b4b).withOpacity(0.08),
+                    offset: const Offset(0, 8),
+                    blurRadius: 10,
+                    spreadRadius: 6,
+                  ),
+                ]),
+            child: Padding(
+              padding: EdgeInsets.only(left: 40.w, right: 10.w),
+              child: Row(
                 children: [
+                  Text(ledger.name),
+                  const Spacer(),
                   Text(
-                    getMonthName(transaction.date!),
+                    ledger.isIncome == 'income'
+                        ? "+ ${convertToAmount(ledger.amount)}"
+                        : "- ${convertToAmount(ledger.amount)}",
                     style: TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w700,
+                      color: ledger.isIncome == 'income' ? kGreen : kRed,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Text(
-                    "${DateTime.parse(transaction.date!).year}",
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w700,
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  PopupMenuButton(
+                    iconColor: Colors.grey,
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        onTap: () {
+                          Get.off(() => EditTransaction(
+                                selectedItem: ledger,
+                              ));
+                        },
+                        child: const Text("Edit"),
+                      ),
+                      PopupMenuItem(
+                        onTap: () {
+                          LedgetStackDB.instance
+                              .deleteTransaction(ledger.id!, ledgerController);
+                        },
+                        child: const Text("Delete"),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+}
+
+class HeaderLedger extends StatelessWidget {
+  const HeaderLedger({
+    super.key,
+    required this.headerTransaction,
+  });
+
+  final TransactionModel headerTransaction;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 10.h),
+      child: Container(
+        height: 150.h,
+        width: Get.width,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(36.r),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF4b4b4b).withOpacity(0.08),
+                offset: const Offset(0, 8),
+                blurRadius: 10,
+                spreadRadius: 6,
+              ),
+            ]),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 45.w, vertical: 20.h),
+          child: Column(
+            children: [
+              Row(children: [
+                Text(
+                  "${DateTime.parse(headerTransaction.date!).day}",
+                  style: TextStyle(
+                    fontSize: 40.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                SizedBox(
+                  width: 5.w,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      getMonthName(headerTransaction.date!),
+                      style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
+                    Text(
+                      "${DateTime.parse(headerTransaction.date!).year}",
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                )
+              ]),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        "Income",
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          color: kGreen,
+                        ),
+                      ),
+                      Text(
+                        '600',
+                        style: TextStyle(
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w700,
+                          color: kGreen,
+                        ),
+                      )
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        "Expenses",
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                          color: kRed,
+                        ),
+                      ),
+                      Text(
+                        '600',
+                        style: TextStyle(
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w700,
+                          color: kRed,
+                        ),
+                      )
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text(
+                        "Balance",
+                        style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w700,
+                            color: kDarkviolet),
+                      ),
+                      Text(
+                        '600',
+                        style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w700,
+                            color: kDarkviolet),
+                      )
+                    ],
                   ),
                 ],
               )
-            ]),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      "Income",
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w700,
-                        color: kGreen,
-                      ),
-                    ),
-                    Text(
-                      '600',
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w700,
-                        color: kGreen,
-                      ),
-                    )
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      "Expenses",
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w700,
-                        color: kRed,
-                      ),
-                    ),
-                    Text(
-                      '600',
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w700,
-                        color: kRed,
-                      ),
-                    )
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text(
-                      "Balance",
-                      style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w700,
-                          color: kDarkviolet),
-                    ),
-                    Text(
-                      '600',
-                      style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w700,
-                          color: kDarkviolet),
-                    )
-                  ],
-                ),
-              ],
-            )
-          ],
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
-
-Widget getitem(TransactionModel transaction) {
-  final LedgerController ledgerController = Get.put(LedgerController());
-  return Padding(
-    padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 10.h),
-    child: Container(
-      height: 35.h,
-      width: Get.width,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8.r),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF4b4b4b).withOpacity(0.08),
-              offset: const Offset(0, 8),
-              blurRadius: 10,
-              spreadRadius: 6,
-            ),
-          ]),
-      child: Padding(
-        padding: EdgeInsets.only(left: 40.w, right: 10.w),
-        child: Row(
-          children: [
-            Text(transaction.name),
-            const Spacer(),
-            Text(
-              transaction.isIncome == 'income'
-                  ? "+ ${convertToAmount(transaction.amount)}"
-                  : "- ${convertToAmount(transaction.amount)}",
-              style: TextStyle(
-                color: transaction.isIncome == 'income' ? kGreen : kRed,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(
-              width: 10.w,
-            ),
-            PopupMenuButton(
-              iconColor: Colors.grey,
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  child: GestureDetector(
-                    onTap: () {
-                      //This code Function Update have problem5
-                      Get.off(() => EditTransaction(
-                            selectedItem: transaction,
-                          ));
-                    },
-                    child: const Text("Edit"),
-                  ),
-                ),
-                PopupMenuItem(
-                  child: GestureDetector(
-                    onTap: () {
-                      LedgetStackDB.instance
-                          .deleteTransaction(transaction.id!, ledgerController);
-                      Navigator.pop(context);
-                    },
-                    child: const Text("Delete"),
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    ),
-  );
+    );
+  }
 }

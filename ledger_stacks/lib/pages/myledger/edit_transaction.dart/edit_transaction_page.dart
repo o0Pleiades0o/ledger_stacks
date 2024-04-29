@@ -4,12 +4,12 @@ import 'package:get/get.dart';
 import 'package:ledger_stacks/models/transaction.dart';
 import 'package:ledger_stacks/pages/myledger/edit_transaction.dart/edit_transaction_controller.dart';
 import 'package:ledger_stacks/pages/myledger/ledger_controller.dart';
+import 'package:ledger_stacks/pages/myledger/ledger_page.dart';
 
 import '../../../constants/color.dart';
 import '../../../util/util.dart';
 import '../../../widgets/button.dart';
 import '../../../widgets/textform.dart';
-import '../ledger_page.dart';
 
 class EditTransaction extends GetView<EditTransactionController> {
   final TransactionModel selectedItem;

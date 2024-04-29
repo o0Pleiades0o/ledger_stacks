@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ledger_stacks/pages/mylist/mylist_controller.dart';
 import 'package:ledger_stacks/constants/color.dart';
 
+import '../../widgets/alert_dialog.dart';
 import '../../widgets/button.dart';
 import '../../widgets/floating_action_button.dart';
 
@@ -39,8 +40,7 @@ class Mylist extends StatelessWidget {
                 children: [
                   IconButton(
                     onPressed: () {
-                      myListController.deleteSelectedItems();
-                      myListController.isMultiSelect.toggle();
+                      showMyDialogDelete(context);
                     },
                     icon: const Icon(Icons.delete),
                   ),
@@ -78,7 +78,6 @@ class Mylist extends StatelessWidget {
             children: [
               _buildList("Auto"),
               _buildList("Daily"),
-              _buildList("Temporary"),
             ],
           ),
         ),

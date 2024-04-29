@@ -104,23 +104,18 @@ class Listdata extends StatelessWidget {
                                 iconColor: Colors.grey,
                                 itemBuilder: (context) => [
                                   PopupMenuItem(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Get.off(() => EditMyList(
-                                            selectedItem: myListItem));
-                                      },
-                                      child: const Text("Edit"),
-                                    ),
+                                    onTap: () {
+                                      Get.off(() =>
+                                          EditMyList(selectedItem: myListItem));
+                                    },
+                                    child: const Text("Edit"),
                                   ),
                                   PopupMenuItem(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        LedgetStackDB.instance.deleteMyList(
-                                            myListItem.id!, myListController);
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text("Delete"),
-                                    ),
+                                    onTap: () {
+                                      LedgetStackDB.instance.deleteMyList(
+                                          myListItem.id!, myListController);
+                                    },
+                                    child: const Text("Delete"),
                                   ),
                                 ],
                               )

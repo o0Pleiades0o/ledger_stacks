@@ -59,7 +59,7 @@ class Proflie extends StatelessWidget {
               ),
               CusNavigationBotton(
                 onPressed: () {
-                  showMyDialog(context);
+                  showMyDialogLogout(context);
                 },
                 text: 'Logout',
                 iconSuffix: Icons.logout,

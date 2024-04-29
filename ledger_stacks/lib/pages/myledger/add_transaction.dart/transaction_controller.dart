@@ -10,7 +10,6 @@ class AddTransactionController extends GetxController {
 
   final nameController = TextEditingController();
   final amountController = TextEditingController();
-
   final RadioButtonController radioButtonController = Get.find();
 
   @override

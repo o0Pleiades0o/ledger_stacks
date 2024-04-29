@@ -85,8 +85,8 @@ class TextFieldPassword extends StatelessWidget {
                   onTap: isObscureController.togglePasswordVisibility,
                   child: Icon(
                     isObscureController.isObscure.value
-                        ? Icons.visibility
-                        : Icons.visibility_off,
+                        ? Icons.visibility_off
+                        : Icons.visibility,
                   ),
                 ),
               ),
