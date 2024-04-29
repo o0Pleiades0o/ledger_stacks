@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/constants/color.dart';
-import 'package:ledger_stacks/pages/myledger/ledger_page.dart';
+import 'package:ledger_stacks/pages/myledger/show_ledger/ledger_page.dart';
 import 'package:ledger_stacks/pages/mylist/mylist_page.dart';
 
 Widget navigationBar() {

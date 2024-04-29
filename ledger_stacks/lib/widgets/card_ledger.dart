@@ -4,7 +4,9 @@ import 'package:get/get.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:ledger_stacks/constants/color.dart';
 import 'package:ledger_stacks/models/transaction.dart';
-import 'package:ledger_stacks/pages/myledger/edit_ledger/ledger_list_controller.dart';
+import 'package:ledger_stacks/pages/myledger/edit_ledger/edit_ledger_page.dart';
+import 'package:ledger_stacks/pages/myledger/show_ledger/ledger_list_controller.dart';
+import 'package:ledger_stacks/util/database/database_service.dart';
 
 import '../util/util.dart';
 
@@ -373,7 +375,8 @@ class _LedgerDisplayState extends State<LedgerDisplay> {
             (TransactionModel element1, TransactionModel element2) =>
                 DateTime.parse(element1.date!)
                     .compareTo(DateTime.parse(element2.date!)),
-        groupHeaderBuilder: (TransactionModel transaction) => getGroupSeparator(transaction),
+        groupHeaderBuilder: (TransactionModel transaction) =>
+            getGroupSeparator(transaction),
         itemBuilder: (BuildContext context, TransactionModel transaction) =>
             _getItem(context, transaction),
       );
@@ -383,6 +386,9 @@ class _LedgerDisplayState extends State<LedgerDisplay> {
 
 Widget getGroupSeparator(TransactionModel transaction) {
   // Customize your group separator widget
+  final dateDay = DateTime.parse(transaction.date!);
+  final date = dateDay.toIso8601String().substring(0, 10);
+
   return Column(
     children: [
       SizedBox(height: Get.height * 0.12),
@@ -451,7 +457,7 @@ Widget getGroupSeparator(TransactionModel transaction) {
                           ),
                         ),
                         Text(
-                          '600',
+                          '${dateGroup(date)}',
                           style: TextStyle(
                             fontSize: 20.sp,
                             fontWeight: FontWeight.w700,
@@ -511,7 +517,17 @@ Widget getGroupSeparator(TransactionModel transaction) {
 
 Widget _getItem(BuildContext context, TransactionModel transaction) {
   // Customize your list item widget
-  return Padding(
+
+  final LedgerListController ledgerListController = Get.put(LedgerListController());
+
+  return ledgerListController.ledgerList.isEmpty
+          ? Center(
+              child: Text(
+                "Not Found transaction Data.",
+                style: TextStyle(color: Colors.black.withAlpha(80)),
+              ),
+            )
+      : Padding(
       padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 5.h),
       child: Container(
         height: 25.h,
@@ -528,13 +544,36 @@ Widget _getItem(BuildContext context, TransactionModel transaction) {
               const Spacer(),
               Text(
                 transaction.isIncome == 'income'
-                    ? "${transaction.amount}"
+                    ? "+ ${transaction.amount}"
                     : "- ${transaction.amount}",
                 style: TextStyle(
                   color: transaction.isIncome == 'income' ? kGreen : kRed,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              PopupMenuButton(
+                iconColor: Colors.grey,
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.off(() => EditLedger(selectedItem: transaction));
+                      },
+                      child: const Text("Edit"),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    child: GestureDetector(
+                      onTap: () {
+                        LedgetStackDB.instance
+                            .deleteTransaction(transaction.id! , ledgerListController);
+                        Navigator.pop(context);
+                      },
+                      child: const Text("Delete"),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),

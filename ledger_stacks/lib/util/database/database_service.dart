@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:ledger_stacks/pages/myledger/show_ledger/ledger_list_controller.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -52,9 +53,20 @@ CREATE TABLE transactions(
   date DATE
 )
 '''); //transaction
+
+    await db.execute('''
+CREATE TABLE dailyReport(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  date DATE,
+  dailyIncome TEXT,
+  dailyExpense TEXT,
+  dailyBalance TEXT
+)
+'''); //Daily_Report
   }
 
 //===============CRUD mylist===============
+
   Future<List<MyList>> getMylist() async {
     final Database db = await database;
     final maps = await db.query('mylist');
@@ -132,21 +144,65 @@ CREATE TABLE transactions(
   }
 
   Future<int> updateTransaction(TransactionModel transaction) async {
-    final Database db = await database;
-    return await db.update(
-      'transactions',
-      transaction.toMap(),
-      where: 'id = ?',
-      whereArgs: [transaction.id],
-    );
+    final db = await database;
+    return await db.update('transactions', transaction.toMap(),
+        where: 'id = ?', whereArgs: [transaction.id]);
   }
 
-  Future<int> deleteTransaction(int id) async {
-    final Database db = await database;
-    return await db.delete(
+  // Future<int> updateTransaction(TransactionModel transaction,
+  //     [LedgerListController? ledgerListController]) async {
+  //   final db = await database;
+  //   final rowsAffected = await db.update('transactions', transaction.toMap(),
+  //       where: 'id = ?', whereArgs: [transaction.id]);
+
+  //   if (ledgerListController != null) {
+  //     ledgerListController.updateLedger();
+  //   }
+
+  //   if (rowsAffected > 0) {
+  //     SuccessSnackbar.show(
+  //       title: 'Success',
+  //       message: '"${transaction.name}" updated successfully',
+  //     );
+  //   }
+  //   return rowsAffected;
+  // }
+
+  Future<int> deleteTransaction(
+      int id, LedgerListController ledgerListController) async {
+    final db = await database;
+    final rowsDeleted =
+        await db.delete('transactions', where: 'id = ?', whereArgs: [id]);
+    ledgerListController.updateLedger();
+    if (rowsDeleted > 0) {
+      SuccessSnackbar.show(
+        title: 'Success',
+        message: 'deleted successfully',
+      );
+    }
+    return rowsDeleted;
+  }
+
+  //=============== Query Daily Report ===============
+  
+  Future<double> calculateDailyIncome(String dateTime) async {
+    double dailyIncome = 0.0;
+    // ดึงข้อมูล transactions จากฐานข้อมูล
+    Database db = await openDatabase('LedgetStackDB.db');
+    List<Map<String, dynamic>> transactions = await db.query(
       'transactions',
-      where: 'id = ?',
-      whereArgs: [id],
+      where: 'isIncome = ? AND date = ?',
+      whereArgs: [
+        'income',
+        dateTime
+      ], // แปลง DateTime เป็นรูปแบบ 'YYYY-MM-DD'
     );
+
+    // คำนวณผลรวมของรายรับประจำวัน
+    for (var transaction in transactions) {
+      dailyIncome += transaction['amount'];
+    }
+
+    return dailyIncome;
   }
 }

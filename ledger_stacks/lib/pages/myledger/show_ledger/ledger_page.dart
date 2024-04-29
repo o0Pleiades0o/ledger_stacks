@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/widgets/floating_action_button.dart';
 
-import '../../constants/color.dart';
-import '../../widgets/button.dart';
-import '../../widgets/card_ledget.dart';
-import '../home/home_page.dart';
+import '../../../constants/color.dart';
+import '../../../widgets/button.dart';
+import '../../../widgets/card_ledger.dart';
+import '../../home/home_page.dart';
 
 class MyLedger extends StatelessWidget {
   const MyLedger({super.key});
@@ -45,8 +45,6 @@ class MyLedger extends StatelessWidget {
                   ),
                 ],
               )),
-          //Content
-          //DailyCard()
           const LedgerDisplay(),
         ],
       ),
