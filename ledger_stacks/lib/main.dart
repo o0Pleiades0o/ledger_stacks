@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/util/database/database_service.dart';
 import 'package:ledger_stacks/util/root.dart';
+import 'package:ledger_stacks/util/util.dart';
 
 import '../constants/color.dart';
 import 'auth/bindings/auth_binding.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    collectDateTime();
     return ScreenUtilInit(
         designSize: const Size(360, 690),
         minTextAdapt: true,

@@ -3,6 +3,7 @@ import 'package:ledger_stacks/pages/myledger/ledger_controller.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../../models/latest_date.dart';
 import '../../models/my_list.dart';
 import '../../models/transaction.dart';
 import '../../pages/mylist/mylist_controller.dart';
@@ -53,9 +54,16 @@ CREATE TABLE transactions(
   date DATE
 )
 '''); //transaction
+
+    await db.execute('''
+CREATE TABLE latestdate(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  latestdate DATE
+)
+''');
   }
 
-//===============CRUD mylist===============
+  //===============CRUD mylist===============
   Future<List<MyList>> getMylist() async {
     final Database db = await database;
     final maps = await db.query('mylist');
@@ -78,11 +86,10 @@ CREATE TABLE transactions(
     return id;
   }
 
-  Future<int> updateMylist(MyList myList,
-      [MyListController? myListController]) async {
+  Future<int> updateMylist(MyList myList, [MyListController? myListController]) async {
     final db = await database;
-    final rowsAffected = await db.update('mylist', myList.toMap(),
-        where: 'id = ?', whereArgs: [myList.id]);
+    final rowsAffected =
+        await db.update('mylist', myList.toMap(), where: 'id = ?', whereArgs: [myList.id]);
 
     // Check if myListController is not null before calling updateList()
     if (myListController != null) {
@@ -100,8 +107,7 @@ CREATE TABLE transactions(
 
   Future<int> deleteMyList(int id, MyListController myListController) async {
     final db = await database;
-    final rowsDeleted =
-        await db.delete('mylist', where: 'id = ?', whereArgs: [id]);
+    final rowsDeleted = await db.delete('mylist', where: 'id = ?', whereArgs: [id]);
     myListController.updateList();
     if (rowsDeleted > 0) {
       SuccessSnackbar.show(
@@ -140,8 +146,8 @@ CREATE TABLE transactions(
       TransactionModel transaction, LedgerController ledgerController) async {
     final LedgerController ledgerController = Get.put(LedgerController());
     final Database db = await database;
-    final rowsAffected = await db.update('transactions', transaction.toMap(),
-        where: 'id = ?', whereArgs: [transaction.id]);
+    final rowsAffected = await db
+        .update('transactions', transaction.toMap(), where: 'id = ?', whereArgs: [transaction.id]);
     ledgerController.fetchMyLedger();
     if (rowsAffected > 0) {
       SuccessSnackbar.show(
@@ -152,11 +158,9 @@ CREATE TABLE transactions(
     return rowsAffected;
   }
 
-  Future<int> deleteTransaction(
-      int id, LedgerController ledgerController) async {
+  Future<int> deleteTransaction(int id, LedgerController ledgerController) async {
     final Database db = await database;
-    final rowsDeleted =
-        await db.delete('transactions', where: 'id = ?', whereArgs: [id]);
+    final rowsDeleted = await db.delete('transactions', where: 'id = ?', whereArgs: [id]);
     ledgerController.fetchMyLedger();
     if (rowsDeleted > 0) {
       SuccessSnackbar.show(
@@ -165,5 +169,27 @@ CREATE TABLE transactions(
       );
     }
     return rowsDeleted;
+  }
+
+  //=====Function Auto add Transaction=====
+  Future<List<LatestDate>> getLatestDate() async {
+    final Database db = await database;
+    final maps = await db.query('latestdate');
+    return List.generate(maps.length, (i) {
+      return LatestDate.fromMap(maps[i]);
+    });
+  }
+
+  Future<void> createLatestDate(String latestDate) async {
+    final Database db = await database;
+    await db.insert('latestdate', {'latestdate': latestDate});
+  }
+
+  Future<void> updateLatestDate(String latestDate) async {
+    final Database db = await database;
+    await db.rawUpdate(
+      'UPDATE latestdate SET latestdate = ?',
+      [latestDate],
+    );
   }
 }

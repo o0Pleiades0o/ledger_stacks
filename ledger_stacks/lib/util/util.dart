@@ -1,5 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:ledger_stacks/util/database/database_service.dart';
+
+import '../models/latest_date.dart';
 
 //Update the observable value
 class IsObscureController extends GetxController {
@@ -117,4 +121,24 @@ String? validateTransactionAmountField(String? value) {
 String getMonthName(String date) {
   DateTime dateTime = DateTime.parse(date);
   return DateFormat.MMM().format(dateTime);
+}
+
+//=====Function Auto add Transaction=====
+Future<void> collectDateTime() async {
+  final List<LatestDate> latestDates = await LedgetStackDB.instance.getLatestDate();
+  final currentDate = DateTime.now();
+  final currentDateOnly = DateTime(currentDate.year, currentDate.month, currentDate.day);
+
+  if (latestDates.isEmpty) {
+    await LedgetStackDB.instance.createLatestDate(currentDate.toIso8601String());
+  } else {
+    final storedDate = DateTime.parse(latestDates[0].latestdate!);
+    final storedDateOnly = DateTime(storedDate.year, storedDate.month, storedDate.day);
+
+    final difference = storedDateOnly.difference(currentDateOnly).inDays.abs();
+    debugPrint("Distance between stored date and current date: $difference days");
+
+    await LedgetStackDB.instance.updateLatestDate(currentDate.toIso8601String());
+    debugPrint("If table exist Current Date: $storedDate");
+  }
 }
