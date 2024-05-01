@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/pages/myledger/ledger_controller.dart';
 import 'package:path/path.dart';
@@ -126,6 +127,15 @@ CREATE TABLE latestdate(
     return List.generate(maps.length, (i) {
       return TransactionModel.fromMap(maps[i]);
     });
+  }
+
+  Future addTransactionFromMylist(TransactionModel transactionModel) async {
+    final Database db = await database;
+    final int id = await db.insert('transactions', transactionModel.toMap());
+    if (id > 0) {
+      debugPrint("Auto Transaction Added");
+    }
+    return id;
   }
 
   Future<int> createTransaction(TransactionModel transaction) async {

@@ -19,8 +19,7 @@ class LedgerDisplay extends GetView<LedgerController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      var groupByDate = groupBy(ledgerController.myledger,
-          (TransactionModel e) => e.date!.substring(0, 10));
+      var groupByDate = groupBy(ledgerController.myledger, (TransactionModel e) => e.date!.substring(0, 10));
 
       if (groupByDate.isEmpty) {
         return SizedBox(
@@ -34,21 +33,25 @@ class LedgerDisplay extends GetView<LedgerController> {
           ),
         );
       } else {
+        // Sort the keys (dates) in ascending order
+        var sortedDates = groupByDate.keys.toList()..sort();
+
         return ListView.builder(
-          itemCount: groupByDate.length,
+          itemCount: sortedDates.length,
           itemBuilder: (context, index) {
-            var date = groupByDate.keys.elementAt(index);
+            var date = sortedDates[index];
             var transactions = groupByDate[date];
             TransactionModel headerTransaction = transactions!.first;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                //Header
+                // Header
                 HeaderLedger(headerTransaction: headerTransaction),
-                //Item under header
+                // Items under header
                 ItemLedger(
-                    transactions: transactions,
-                    ledgerController: ledgerController),
+                  transactions: transactions,
+                  ledgerController: ledgerController,
+                ),
               ],
             );
           },
@@ -77,17 +80,14 @@ class ItemLedger extends StatelessWidget {
           child: Container(
             height: 35.h,
             width: Get.width,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8.r),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF4b4b4b).withOpacity(0.08),
-                    offset: const Offset(0, 8),
-                    blurRadius: 10,
-                    spreadRadius: 6,
-                  ),
-                ]),
+            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8.r), boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF4b4b4b).withOpacity(0.08),
+                offset: const Offset(0, 8),
+                blurRadius: 10,
+                spreadRadius: 6,
+              ),
+            ]),
             child: Padding(
               padding: EdgeInsets.only(left: 40.w, right: 10.w),
               child: Row(
@@ -95,9 +95,7 @@ class ItemLedger extends StatelessWidget {
                   Text(ledger.name),
                   const Spacer(),
                   Text(
-                    ledger.isIncome == 'income'
-                        ? "+ ${convertToAmount(ledger.amount)}"
-                        : "- ${convertToAmount(ledger.amount)}",
+                    ledger.isIncome == 'income' ? "+ ${convertToAmount(ledger.amount)}" : "- ${convertToAmount(ledger.amount)}",
                     style: TextStyle(
                       color: ledger.isIncome == 'income' ? kGreen : kRed,
                       fontWeight: FontWeight.bold,
@@ -119,8 +117,7 @@ class ItemLedger extends StatelessWidget {
                       ),
                       PopupMenuItem(
                         onTap: () {
-                          LedgetStackDB.instance
-                              .deleteTransaction(ledger.id!, ledgerController);
+                          LedgetStackDB.instance.deleteTransaction(ledger.id!, ledgerController);
                         },
                         child: const Text("Delete"),
                       ),
@@ -151,17 +148,14 @@ class HeaderLedger extends StatelessWidget {
       child: Container(
         height: 150.h,
         width: Get.width,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(36.r),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF4b4b4b).withOpacity(0.08),
-                offset: const Offset(0, 8),
-                blurRadius: 10,
-                spreadRadius: 6,
-              ),
-            ]),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(36.r), boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF4b4b4b).withOpacity(0.08),
+            offset: const Offset(0, 8),
+            blurRadius: 10,
+            spreadRadius: 6,
+          ),
+        ]),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 45.w, vertical: 20.h),
           child: Column(
@@ -245,17 +239,11 @@ class HeaderLedger extends StatelessWidget {
                     children: [
                       Text(
                         "Balance",
-                        style: TextStyle(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w700,
-                            color: kDarkviolet),
+                        style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700, color: kDarkviolet),
                       ),
                       Text(
                         '600',
-                        style: TextStyle(
-                            fontSize: 20.sp,
-                            fontWeight: FontWeight.w700,
-                            color: kDarkviolet),
+                        style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w700, color: kDarkviolet),
                       )
                     ],
                   ),

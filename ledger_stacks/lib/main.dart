@@ -6,10 +6,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/util/database/database_service.dart';
 import 'package:ledger_stacks/util/root.dart';
-import 'package:ledger_stacks/util/util.dart';
 
 import '../constants/color.dart';
 import 'auth/bindings/auth_binding.dart';
+import 'util/database/auto_add_transaction.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,8 +43,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               fontFamily: GoogleFonts.kanit().fontFamily,
               useMaterial3: true,
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.transparent)
-                  .copyWith(background: kGray),
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.transparent).copyWith(background: kGray),
             ),
             home: const Root(),
           );
