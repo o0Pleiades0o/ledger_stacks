@@ -125,4 +125,8 @@ Future dailyIncomeValue(String date) async {
   return dailyIncome;
 }
 
-
+Future dailyExpenseValue(String date) async {
+  double dailyExpense = await LedgetStackDB.instance.calculateDailyExpense(date);
+  debugPrint(dailyExpense.toString());
+  return dailyExpense;
+}

@@ -189,44 +189,47 @@ CREATE TABLE dailyReport(
     return rowsDeleted;
   }
 
-  //=============== Query Daily Report ===============
+  //=============== Query Report ===============
+  Future<double> calculateDailyAmount(String dateTime, String type) async {
+  double dailyAmount = 0.0;
 
-  Future<double> calculateDailyIncome(String dateTime) async {
-    double dailyIncome = 0.0;
+  // Open the database connection
+  Database db = await openDatabase('LedgetStackDB.db');
 
-    {
-      // Open the database connection
-      Database db = await openDatabase('LedgetStackDB.db');
+  // Query for transactions on the specified date and type
+  List<Map<String, dynamic>> transactions = await db.query(
+    'transactions',
+    where: 'isIncome = ? AND DATE(date) = ?',
+    whereArgs: [type, dateTime],
+  );
 
-      // Query for transactions on the specified date
-      List<Map<String, dynamic>> transactions = await db.query(
-        'transactions',
-        where: 'isIncome = ? AND DATE(date) = ?',
-        whereArgs: ['income', dateTime],
-      );
-      debugPrint('time : $dateTime');
+  // Check if any transactions were found
+  if (transactions.isNotEmpty) {
+    // Iterate through transactions and accumulate amount
+    for (var transaction in transactions) {
+      var amount = transaction['amount'];
 
-      // Check if any transactions were found
-      if (transactions.isNotEmpty) {
-        // Iterate through transactions and accumulate income
-        for (var transaction in transactions) {
-          var amount = transaction['amount'];
-          debugPrint('amount : $amount');
-
-          // Validate amount before adding
-          if (amount is double && amount > 0.0) {
-            dailyIncome += amount;
-          } else {
-            debugPrint('Warning: Invalid amount encountered: $amount');
-          }
-        }
+      // Validate amount before adding
+      if (amount is double && amount > 0.0) {
+        dailyAmount += amount;
       } else {
-        debugPrint('No income transactions found for $dateTime');
+        debugPrint('Warning: Invalid amount encountered: $amount');
       }
-
-      return dailyIncome;
     }
+  } else {
+    debugPrint('No $type transactions found for $dateTime');
   }
+
+  return dailyAmount;
+}
+
+Future<double> calculateDailyIncome(String dateTime) async {
+  return await calculateDailyAmount(dateTime, 'income');
+}
+
+Future<double> calculateDailyExpense(String dateTime) async {
+  return await calculateDailyAmount(dateTime, 'expense');
+}
 
   //=====Function Auto add Transaction=====
   Future<List<LatestDate>> getLatestDate() async {

@@ -134,7 +134,7 @@ class ItemLedger extends StatelessWidget {
 }
 
 class HeaderLedger extends StatelessWidget {
-   const HeaderLedger({
+  const HeaderLedger({
     super.key,
     required this.headerTransaction,
   });
@@ -151,107 +151,147 @@ class HeaderLedger extends StatelessWidget {
       child: Container(
         height: 150.h,
         width: Get.width,
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(36.r), boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF4b4b4b).withOpacity(0.08),
-            offset: const Offset(0, 8),
-            blurRadius: 10,
-            spreadRadius: 6,
-          ),
-        ]),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(36.r),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF4b4b4b).withOpacity(0.08),
+              offset: const Offset(0, 8),
+              blurRadius: 10,
+              spreadRadius: 6,
+            ),
+          ],
+        ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 45.w, vertical: 20.h),
           child: Column(
             children: [
-              Row(children: [
-                Text(
-                  "${DateTime.parse(headerTransaction.date!).day}",
-                  style: TextStyle(
-                    fontSize: 40.sp,
-                    fontWeight: FontWeight.w700,
+              Row(
+                children: [
+                  Text(
+                    "${DateTime.parse(headerTransaction.date!).day}",
+                    style: TextStyle(
+                      fontSize: 40.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 5.w,
-                ),
+                  SizedBox(
+                    width: 5.w,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        getMonthName(headerTransaction.date!),
+                        style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        "${DateTime.parse(headerTransaction.date!).year}",
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              FutureBuilder(
+  future: dailyIncomeValue(date),
+  builder: (context, incomeSnapshot) {
+    if (incomeSnapshot.connectionState == ConnectionState.waiting) {
+      return const CircularProgressIndicator(); // Or any loading indicator
+    } else if (incomeSnapshot.hasError) {
+      return Text("Error: ${incomeSnapshot.error}");
+    } else {
+      return FutureBuilder(
+        future: dailyExpenseValue(date),
+        builder: (context, expenseSnapshot) {
+          if (expenseSnapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator(); // Or any loading indicator
+          } else if (expenseSnapshot.hasError) {
+            return Text("Error: ${expenseSnapshot.error}");
+          } else {
+            double income = incomeSnapshot.data ?? 0.0;
+            double expense = expenseSnapshot.data ?? 0.0;
+            double balance = income - expense;
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      getMonthName(headerTransaction.date!),
+                      "Income",
                       style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w700,
+                        color: kGreen,
                       ),
                     ),
                     Text(
-                      "${DateTime.parse(headerTransaction.date!).year}",
+                      convertToAmount(income),
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w700,
+                        color: kGreen,
+                      ),
+                    )
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text(
+                      "Expense",
                       style: TextStyle(
                         fontSize: 12.sp,
                         fontWeight: FontWeight.w700,
+                        color: kRed,
                       ),
                     ),
+                    Text(
+                      convertToAmount(expense),
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w700,
+                        color: kRed,
+                      ),
+                    )
                   ],
-                )
-              ]),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    children: [
-                      Text(
-                        "Income",
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w700,
-                          color: kGreen,
-                        ),
+                ),
+                Column(
+                  children: [
+                    Text(
+                      "Balance",
+                      style: TextStyle(
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w700,
+                        color: kViolet,
                       ),
-                      Text(
-                        '${dailyIncomeValue(date)}',
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w700,
-                          color: kGreen,
-                        ),
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        "Expenses",
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w700,
-                          color: kRed,
-                        ),
+                    ),
+                    Text(
+                      convertToAmount(balance),
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w700,
+                        color: kViolet,
                       ),
-                      Text(
-                        '600',
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w700,
-                          color: kRed,
-                        ),
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        "Balance",
-                        style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700, color: kDarkviolet),
-                      ),
-                      Text(
-                        '600',
-                        style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w700, color: kDarkviolet),
-                      )
-                    ],
-                  ),
-                ],
-              )
+                    )
+                  ],
+                ),
+              ],
+            );
+          }
+        },
+      );
+    }
+  },
+),
+
             ],
           ),
         ),
@@ -259,3 +299,4 @@ class HeaderLedger extends StatelessWidget {
     );
   }
 }
+
