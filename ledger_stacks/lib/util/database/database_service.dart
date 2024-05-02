@@ -212,13 +212,9 @@ CREATE TABLE dailyReport(
       // Validate amount before adding
       if (amount is double && amount > 0.0) {
         dailyAmount += amount;
-      } else {
-        debugPrint('Warning: Invalid amount encountered: $amount');
-      }
+      } 
     }
-  } else {
-    debugPrint('No $type transactions found for $dateTime');
-  }
+  } 
 
   return dailyAmount;
 }

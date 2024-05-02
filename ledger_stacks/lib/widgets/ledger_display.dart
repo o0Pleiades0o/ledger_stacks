@@ -36,25 +36,31 @@ class LedgerDisplay extends GetView<LedgerController> {
         // Sort the keys (dates) in ascending order
         var sortedDates = groupByDate.keys.toList()..sort();
 
-        return ListView.builder(
-          itemCount: sortedDates.length,
-          itemBuilder: (context, index) {
-            var date = sortedDates[index];
-            var transactions = groupByDate[date];
-            TransactionModel headerTransaction = transactions!.first;
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header
-                HeaderLedger(headerTransaction: headerTransaction),
-                // Items under header
-                ItemLedger(
-                  transactions: transactions,
-                  ledgerController: ledgerController,
-                ),
-              ],
-            );
-          },
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30.r) , topLeft: Radius.circular(30.r)),
+          ),
+          child: ListView.builder(
+            itemCount: sortedDates.length,
+            itemBuilder: (context, index) {
+              var date = sortedDates[index];
+              var transactions = groupByDate[date];
+              TransactionModel headerTransaction = transactions!.first;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header
+                  HeaderLedger(headerTransaction: headerTransaction),
+                  // Items under header
+                  ItemLedger(
+                    transactions: transactions,
+                    ledgerController: ledgerController,
+                  ),
+                ],
+              );
+            },
+          ),
         );
       }
     });
@@ -77,28 +83,27 @@ class ItemLedger extends StatelessWidget {
       children: transactions!.map((ledger) {
         return Padding(
           padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 10.h),
-          child: Container(
+          child: SizedBox(
             height: 35.h,
             width: Get.width,
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8.r), boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF4b4b4b).withOpacity(0.08),
-                offset: const Offset(0, 8),
-                blurRadius: 10,
-                spreadRadius: 6,
-              ),
-            ]),
+            //decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8.r), ),
             child: Padding(
               padding: EdgeInsets.only(left: 40.w, right: 10.w),
               child: Row(
                 children: [
-                  Text(ledger.name),
+                  Expanded(
+                    child: Text(ledger.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 15.sp),),
+                  ),
                   const Spacer(),
                   Text(
                     ledger.isIncome == 'income' ? "+ ${convertToAmount(ledger.amount)}" : "- ${convertToAmount(ledger.amount)}",
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
+                      fontSize: 15.sp,
                       color: ledger.isIncome == 'income' ? kGreen : kRed,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.bold, 
                     ),
                   ),
                   SizedBox(
