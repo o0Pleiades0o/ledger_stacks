@@ -209,7 +209,7 @@ class HeaderLedger extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '${dateGroup(date)}',
+                        '${dailyIncomeValue(date)}',
                         style: TextStyle(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w700,
