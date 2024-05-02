@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ledger_stacks/pages/myledger/add_transaction.dart/transaction_page.dart';
 import 'package:ledger_stacks/widgets/floating_action_button.dart';
 
 import '../../../constants/color.dart';
@@ -46,12 +45,7 @@ class MyLedger extends StatelessWidget {
                   ),
                 ],
               )),
-          //Content
-          Padding(
-            padding: EdgeInsets.only(
-                top: Get.height * 0.12, left: 20.w, right: 20.w),
-            child: const LedgerDisplay(),
-          ),
+          const LedgerDisplay(),
         ],
       ),
       floatingActionButton: Row(
@@ -61,9 +55,7 @@ class MyLedger extends StatelessWidget {
             onPressed: () {},
           ),
           CreateFAB(
-            onPressed: () {
-              Get.off(() => AddTransaction());
-            },
+            onPressed: () {},
           ),
         ],
       ),

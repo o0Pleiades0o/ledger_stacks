@@ -456,26 +456,13 @@ Widget getGroupSeparator(TransactionModel transaction) {
                             color: kGreen,
                           ),
                         ),
-                        FutureBuilder<dynamic>(
-                          future: dailyIncome(date),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return const CircularProgressIndicator();
-                            } else if (snapshot.hasError) {
-                              return Text('Error: ${snapshot.error}');
-                            } else {
-                              double income = snapshot.data;
-                              return Text(
-                                '$income',
-                                style: TextStyle(
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeight.w700,
-                                  color: kGreen,
-                                ),
-                              );
-                            }
-                          },
+                        Text(
+                          '${dateGroup(date)}',
+                          style: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w700,
+                            color: kGreen,
+                          ),
                         )
                       ],
                     ),
@@ -531,65 +518,64 @@ Widget getGroupSeparator(TransactionModel transaction) {
 Widget _getItem(BuildContext context, TransactionModel transaction) {
   // Customize your list item widget
 
-  final LedgerListController ledgerController = Get.put(LedgerListController());
+  final LedgerListController ledgerListController = Get.put(LedgerListController());
 
-  return ledgerController.ledgerList.isEmpty
-      ? Center(
-          child: Text(
-            "Not Found transaction Data.",
-            style: TextStyle(color: Colors.black.withAlpha(80)),
-          ),
-        )
+  return ledgerListController.ledgerList.isEmpty
+          ? Center(
+              child: Text(
+                "Not Found transaction Data.",
+                style: TextStyle(color: Colors.black.withAlpha(80)),
+              ),
+            )
       : Padding(
-          padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 5.h),
-          child: Container(
-            height: 25.h,
-            width: Get.width,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 40.w),
-              child: Row(
-                children: [
-                  Text(transaction.name),
-                  const Spacer(),
-                  Text(
-                    transaction.isIncome == 'income'
-                        ? "+ ${transaction.amount}"
-                        : "- ${transaction.amount}",
-                    style: TextStyle(
-                      color: transaction.isIncome == 'income' ? kGreen : kRed,
-                      fontWeight: FontWeight.bold,
+      padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 5.h),
+      child: Container(
+        height: 25.h,
+        width: Get.width,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 40.w),
+          child: Row(
+            children: [
+              Text(transaction.name),
+              const Spacer(),
+              Text(
+                transaction.isIncome == 'income'
+                    ? "+ ${transaction.amount}"
+                    : "- ${transaction.amount}",
+                style: TextStyle(
+                  color: transaction.isIncome == 'income' ? kGreen : kRed,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              PopupMenuButton(
+                iconColor: Colors.grey,
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.off(() => EditLedger(selectedItem: transaction));
+                      },
+                      child: const Text("Edit"),
                     ),
                   ),
-                  PopupMenuButton(
-                    iconColor: Colors.grey,
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        child: GestureDetector(
-                          onTap: () {
-                            Get.off(
-                                () => EditLedger(selectedItem: transaction));
-                          },
-                          child: const Text("Edit"),
-                        ),
-                      ),
-                      PopupMenuItem(
-                        child: GestureDetector(
-                          onTap: () {
-                            LedgetStackDB.instance.deleteTransaction(
-                                transaction.id!, ledgerController);
-                            Navigator.pop(context);
-                          },
-                          child: const Text("Delete"),
-                        ),
-                      ),
-                    ],
-                  )
+                  PopupMenuItem(
+                    child: GestureDetector(
+                      onTap: () {
+                        LedgetStackDB.instance
+                            .deleteTransaction(transaction.id! , ledgerListController);
+                        Navigator.pop(context);
+                      },
+                      child: const Text("Delete"),
+                    ),
+                  ),
                 ],
-              ),
-            ),
-          ));
+              )
+            ],
+          ),
+        ),
+      ));
 }

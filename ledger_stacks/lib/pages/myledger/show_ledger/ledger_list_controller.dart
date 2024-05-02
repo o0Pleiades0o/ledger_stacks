@@ -21,14 +21,19 @@ class LedgerListController extends GetxController {
     }
   }
 
-  // void deleteSelectedItems() {
-  //   for (var item in selectedItems) {
-  //     LedgetStackDB.instance.deleteTransaction(item.id! );
-  //   }
-  //   selectedItems.clear();
-  // }
+  void deleteSelectedItems() {
+    for (var item in selectedItems) {
+      LedgetStackDB.instance.deleteTransaction(item.id! ,this);
+    }
+    selectedItems.clear();
+  }
 
   Future<void> fetchLedgerList() async {
+    final lists = await LedgetStackDB.instance.getTransactions();
+    ledgerList.assignAll(lists);
+  }
+
+  void updateLedger() async {
     final lists = await LedgetStackDB.instance.getTransactions();
     ledgerList.assignAll(lists);
   }
