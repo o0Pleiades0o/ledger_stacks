@@ -134,7 +134,7 @@ class ItemLedger extends StatelessWidget {
 }
 
 class HeaderLedger extends StatelessWidget {
-  const HeaderLedger({
+   const HeaderLedger({
     super.key,
     required this.headerTransaction,
   });
@@ -143,6 +143,9 @@ class HeaderLedger extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dateDay = DateTime.parse(headerTransaction.date!);
+    final date = dateDay.toIso8601String().substring(0, 10);
+
     return Padding(
       padding: EdgeInsets.only(bottom: 10.h),
       child: Container(
@@ -206,7 +209,7 @@ class HeaderLedger extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '600',
+                        '${dateGroup(date)}',
                         style: TextStyle(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w700,

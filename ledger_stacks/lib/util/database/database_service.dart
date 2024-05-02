@@ -62,6 +62,17 @@ CREATE TABLE latestdate(
   latestdate DATE
 )
 ''');
+
+ await db.execute('''
+CREATE TABLE dailyReport(
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  date DATE,
+  dailyIncome TEXT,
+  dailyExpense TEXT,
+  dailyBalance TEXT
+)
+'''); //Daily_Report
+
   }
 
   //===============CRUD mylist===============
@@ -89,8 +100,7 @@ CREATE TABLE latestdate(
 
   Future<int> updateMylist(MyList myList, [MyListController? myListController]) async {
     final db = await database;
-    final rowsAffected =
-        await db.update('mylist', myList.toMap(), where: 'id = ?', whereArgs: [myList.id]);
+    final rowsAffected = await db.update('mylist', myList.toMap(), where: 'id = ?', whereArgs: [myList.id]);
 
     // Check if myListController is not null before calling updateList()
     if (myListController != null) {
@@ -152,12 +162,10 @@ CREATE TABLE latestdate(
     return id;
   }
 
-  Future<int> updateTransaction(
-      TransactionModel transaction, LedgerController ledgerController) async {
+  Future<int> updateTransaction(TransactionModel transaction, LedgerController ledgerController) async {
     final LedgerController ledgerController = Get.put(LedgerController());
     final Database db = await database;
-    final rowsAffected = await db
-        .update('transactions', transaction.toMap(), where: 'id = ?', whereArgs: [transaction.id]);
+    final rowsAffected = await db.update('transactions', transaction.toMap(), where: 'id = ?', whereArgs: [transaction.id]);
     ledgerController.fetchMyLedger();
     if (rowsAffected > 0) {
       SuccessSnackbar.show(
@@ -181,6 +189,45 @@ CREATE TABLE latestdate(
     return rowsDeleted;
   }
 
+  //=============== Query Daily Report ===============
+
+  Future<double> calculateDailyIncome(String dateTime) async {
+    double dailyIncome = 0.0;
+
+    {
+      // Open the database connection
+      Database db = await openDatabase('LedgetStackDB.db');
+
+      // Query for transactions on the specified date
+      List<Map<String, dynamic>> transactions = await db.query(
+        'transactions',
+        where: 'isIncome = ? AND DATE(date) = ?',
+        whereArgs: ['income', dateTime],
+      );
+      debugPrint('time : $dateTime');
+
+      // Check if any transactions were found
+      if (transactions.isNotEmpty) {
+        // Iterate through transactions and accumulate income
+        for (var transaction in transactions) {
+          var amount = transaction['amount'];
+          debugPrint('amount : $amount');
+
+          // Validate amount before adding
+          if (amount is double && amount > 0.0) {
+            dailyIncome += amount;
+          } else {
+            debugPrint('Warning: Invalid amount encountered: $amount');
+          }
+        }
+      } else {
+        debugPrint('No income transactions found for $dateTime');
+      }
+
+      return dailyIncome;
+    }
+  }
+
   //=====Function Auto add Transaction=====
   Future<List<LatestDate>> getLatestDate() async {
     final Database db = await database;
@@ -202,4 +249,5 @@ CREATE TABLE latestdate(
       [latestDate],
     );
   }
+
 }

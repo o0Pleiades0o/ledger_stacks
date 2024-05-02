@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:ledger_stacks/util/database/database_service.dart';
 
 //Update the observable value
 class IsObscureController extends GetxController {
@@ -115,4 +116,9 @@ String? validateTransactionAmountField(String? value) {
 String getMonthName(String date) {
   DateTime dateTime = DateTime.parse(date);
   return DateFormat.MMM().format(dateTime);
+}
+
+Future dateGroup(String date) async {
+  double dailyIncome = await LedgetStackDB.instance.calculateDailyIncome(date);
+  return dailyIncome;
 }
