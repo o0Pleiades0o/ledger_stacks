@@ -14,10 +14,8 @@ import '../../home/home_page.dart';
 
 class AddTransaction extends StatelessWidget {
   AddTransaction({super.key});
-  final RadioButtonController radioButtonController =
-      Get.put(RadioButtonController());
-  final AddTransactionController addTransactionController =
-      Get.put(AddTransactionController());
+  final RadioButtonController radioButtonController = Get.put(RadioButtonController());
+  final AddTransactionController addTransactionController = Get.put(AddTransactionController());
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +61,10 @@ class AddTransaction extends StatelessWidget {
                     ButtonRaL(
                       buttonText: "Add",
                       onPressed: () async {
-                        if (addTransactionController.formKey.currentState!
-                            .validate()) {
+                        if (addTransactionController.formKey.currentState!.validate()) {
                           await addTransactionController.createTransaction();
-                          debugPrint(
-                              'All ${addTransactionController.nameController}');
-                          debugPrint(
-                              'All ${addTransactionController.amountController}');
+                          debugPrint('All ${addTransactionController.nameController}');
+                          debugPrint('All ${addTransactionController.amountController}');
                         }
                       },
                     ),
@@ -77,7 +72,9 @@ class AddTransaction extends StatelessWidget {
                 )),
             const Spacer(),
             //Selcect item form mylist
-            ContainerSelectMylist(),
+            ContainerSelectMylist(
+              filterType: "Daily",
+            ),
           ],
         ),
       ),

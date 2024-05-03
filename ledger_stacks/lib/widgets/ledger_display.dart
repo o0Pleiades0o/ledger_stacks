@@ -33,8 +33,8 @@ class LedgerDisplay extends GetView<LedgerController> {
           ),
         );
       } else {
-        // Sort the keys (dates) in ascending order
-        var sortedDates = groupByDate.keys.toList()..sort();
+        // Sort the keys (dates) in DESC order
+        var sortedDates = groupByDate.keys.toList()..sort((a, b) => b.compareTo(a));
 
         return ListView.builder(
           itemCount: sortedDates.length,
