@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/constants/color.dart';
-import 'package:ledger_stacks/models/transaction.dart';
 import 'package:ledger_stacks/pages/myledger/add_transaction.dart/transaction_page.dart';
 //import 'package:ledger_stacks/pages/profile/edit_profile/edit_profile_page.dart';
 import 'package:ledger_stacks/pages/profile/proflie_page.dart';
@@ -26,7 +25,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final userController = Get.find<UserController>();
     final dateDay = DateTime.now();
-    final date = dateDay.toIso8601String().substring(0, 7);
 
     return Scaffold(
       appBar: AppBar(
@@ -58,9 +56,13 @@ class HomePage extends StatelessWidget {
                 Container(
                   height: 140.h,
                   width: Get.width,
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(25.r)),
-                  child: const PercentChart(),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(25.r),
+                  ),
+                  //child: const PercentChart(),
                 ),
+
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 10.h),
                   child: Row(
@@ -89,7 +91,7 @@ class HomePage extends StatelessWidget {
                                       ),
                                     ),
                                     FutureBuilder(
-                                        future: monthlyIncomeValue(date),
+                                        future: monthlyIncomeValue(dateDay.toIso8601String()),
                                         builder: (context, incomeSnapshot) {
                                           if (incomeSnapshot.connectionState == ConnectionState.waiting) {
                                             return const CircularProgressIndicator(); // Or any loading indicator

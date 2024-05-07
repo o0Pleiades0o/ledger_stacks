@@ -233,49 +233,45 @@ CREATE TABLE dailyReport(
 //=============== Query MonthlyReport ===============
 
   Future<double> calculateMonthlyAmount(String dateTime, String type) async {
-  double monthlyAmount = 0.0;
+    double monthlyAmount = 0.0;
 
-  // Open the database connection
-  Database db = await openDatabase('LedgetStackDB.db');
+    // Open the database connection
+    Database db = await openDatabase('LedgetStackDB.db');
 
-  // Extract year and month from the provided dateTime string
-  DateTime parsedDateTime = DateTime.parse(dateTime);
-int year = parsedDateTime.year;
-int month = parsedDateTime.month;
-
+    // Extract year and month from the provided dateTime string
+    String date = dateTime.substring(0, 7);
 
 // Query for transactions on the specified month, year, and type
-List<Map<String, dynamic>> transactions = await db.query(
-  'transactions',
-  where: 'isIncome = ? AND strftime("%Y-%m", date) = ?',
-  whereArgs: [type, '$year-$month'],
-);
+    List<Map<String, dynamic>> transactions = await db.query(
+      'transactions',
+      where: 'isIncome = ? AND strftime("%Y-%m", date) = ?',
+      whereArgs: [type, date],
+    );
 
-  // Check if any transactions were found
-  if (transactions.isNotEmpty) {
-    // Iterate through transactions and accumulate amount
-    for (var transaction in transactions) {
-      var amount = transaction['amount'];
-      debugPrint("amount : $amount");
-      // Validate amount before adding
-      if (amount is double && amount > 0.0) {
-        monthlyAmount += amount; 
+    // Check if any transactions were found
+    if (transactions.isNotEmpty) {
+      // Iterate through transactions and accumulate amount
+      for (var transaction in transactions) {
+        var amount = transaction['amount'];
+        debugPrint("amount : $amount");
+        // Validate amount before adding
+        if (amount is double && amount > 0.0) {
+          monthlyAmount += amount;
+        }
       }
     }
-  }
-  debugPrint("$monthlyAmount");
-  
-  return monthlyAmount;
-}
+    debugPrint("$monthlyAmount");
 
-Future<double> calculateMonthlyIncome(String dateTime) async {
+    return monthlyAmount;
+  }
+
+  Future<double> calculateMonthlyIncome(String dateTime) async {
     return await calculateMonthlyAmount(dateTime, 'income');
   }
 
-Future<double> calculateMonthlyExpense(String dateTime) async {
+  Future<double> calculateMonthlyExpense(String dateTime) async {
     return await calculateMonthlyAmount(dateTime, 'expense');
   }
-
 
 //=====Function Auto add Transaction=====
   Future<List<LatestDate>> getLatestDate() async {
