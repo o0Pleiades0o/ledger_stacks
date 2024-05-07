@@ -51,11 +51,9 @@ class Listdata extends StatelessWidget {
                               //Amount
                               myListController.isMultiSelect.isTrue
                                   ? Checkbox(
-                                      value: myListController.selectedItems
-                                          .contains(myListItem),
+                                      value: myListController.selectedItems.contains(myListItem),
                                       onChanged: (value) {
-                                        myListController
-                                            .toggleSelection(myListItem);
+                                        myListController.toggleSelection(myListItem);
                                       },
                                     )
                                   : const SizedBox(),
@@ -67,9 +65,7 @@ class Listdata extends StatelessWidget {
                                     ? "+ ${convertToAmount(myListItem.amount)}"
                                     : "- ${convertToAmount(myListItem.amount)}",
                                 style: TextStyle(
-                                  color: myListItem.isIncome == 'income'
-                                      ? kGreen
-                                      : kRed,
+                                  color: myListItem.isIncome == 'income' ? kGreen : kRed,
                                   fontWeight: FontWeight.w900,
                                 ),
                               ),
@@ -89,9 +85,7 @@ class Listdata extends StatelessWidget {
                                 width: 10.w,
                               ),
                               Text(
-                                myListItem.type == 'Auto'
-                                    ? '${myListItem.frequency}'
-                                    : '',
+                                myListItem.type == 'Auto' ? '${myListItem.frequency}' : '',
                                 style: const TextStyle(
                                   color: Colors.grey,
                                   fontWeight: FontWeight.w900,
@@ -105,15 +99,13 @@ class Listdata extends StatelessWidget {
                                 itemBuilder: (context) => [
                                   PopupMenuItem(
                                     onTap: () {
-                                      Get.off(() =>
-                                          EditMyList(selectedItem: myListItem));
+                                      Get.off(() => EditMyList(selectedItem: myListItem));
                                     },
                                     child: const Text("Edit"),
                                   ),
                                   PopupMenuItem(
                                     onTap: () {
-                                      LedgetStackDB.instance.deleteMyList(
-                                          myListItem.id!, myListController);
+                                      LedgetStackDB.instance.deleteMyList(myListItem.id!, myListController);
                                     },
                                     child: const Text("Delete"),
                                   ),
