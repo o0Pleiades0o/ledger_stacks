@@ -60,7 +60,7 @@ class HomePage extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(25.r),
                   ),
-                  //child: const PercentChart(),
+                  child: PercentChart(),
                 ),
 
                 Padding(
