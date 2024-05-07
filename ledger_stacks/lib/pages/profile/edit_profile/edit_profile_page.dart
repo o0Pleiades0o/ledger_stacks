@@ -15,8 +15,7 @@ class EditProflie extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final EditProflieController editProflieController =
-        Get.put(EditProflieController());
+    final EditProflieController editProflieController = Get.put(EditProflieController());
     final UserController userController = Get.put(UserController());
     return Scaffold(
       backgroundColor: Colors.white,
@@ -43,32 +42,25 @@ class EditProflie extends StatelessWidget {
                             radius: 100.r,
                             child: ClipOval(
                                 child: Obx(
-                              () => editProflieController.selectedImage.value !=
-                                      null
+                              () => editProflieController.selectedImage.value != null
                                   ? Image.file(
-                                      editProflieController
-                                          .selectedImage.value!,
+                                      editProflieController.selectedImage.value!,
                                       fit: BoxFit.cover,
                                       height: 200.r,
                                       width: 200.r,
                                     )
                                   : Container(
                                       color: Colors.white,
-                                      child:
-                                          userController.user.imageAvatar == ""
-                                              ? Image.asset(
-                                                  'lib/assets/images/user2.png',
-                                                  fit: BoxFit.cover)
-                                              : Obx(
-                                                  () => Image.network(
-                                                    userController
-                                                            .user.imageAvatar ??
-                                                        '',
-                                                    fit: BoxFit.cover,
-                                                    height: 200.r,
-                                                    width: 200.r,
-                                                  ),
-                                                ),
+                                      child: userController.user.imageAvatar == ""
+                                          ? Image.asset('lib/assets/images/user2.png', fit: BoxFit.cover)
+                                          : Obx(
+                                              () => Image.network(
+                                                userController.user.imageAvatar ?? '',
+                                                fit: BoxFit.cover,
+                                                height: 200.r,
+                                                width: 200.r,
+                                              ),
+                                            ),
                                     ),
                             ))),
                         Padding(
@@ -101,8 +93,7 @@ class EditProflie extends StatelessWidget {
                       child: ButtonRaL(
                           buttonText: 'Update',
                           onPressed: () async {
-                            if (editProflieController.formKey.currentState!
-                                .validate()) {
+                            if (editProflieController.formKey.currentState!.validate()) {
                               userController.updateUser(
                                 editProflieController.emailController.text,
                                 editProflieController.usernameController.text,
