@@ -21,8 +21,8 @@ class AvatarUser extends StatelessWidget {
     return CircleAvatar(
         radius: radius.r,
         child: Obx(() => ClipOval(
-                child: Container(
-              color: Colors.white,
+              child: Container(
+              color: Colors.transparent,
               child: userController.user.imageAvatar == ""
                   ? Image.asset(
                       'lib/assets/images/user2.png',

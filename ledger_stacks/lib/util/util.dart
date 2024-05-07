@@ -127,3 +127,13 @@ Future dailyExpenseValue(String date) async {
   double dailyExpense = await LedgetStackDB.instance.calculateDailyExpense(date);
   return dailyExpense;
 }
+
+Future monthlyIncomeValue(String date) async {
+  double monthlyIncome = await LedgetStackDB.instance.calculateMonthlyIncome(date);
+  return monthlyIncome;
+}
+
+Future monthlyExpenseValue(String date) async {
+  double monthlyExpense = await LedgetStackDB.instance.calculateDailyExpense(date);
+  return monthlyExpense;
+}

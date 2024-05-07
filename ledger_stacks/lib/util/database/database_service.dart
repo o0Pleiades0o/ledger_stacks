@@ -63,7 +63,7 @@ CREATE TABLE latestdate(
 )
 ''');
 
- await db.execute('''
+    await db.execute('''
 CREATE TABLE dailyReport(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   date DATE,
@@ -72,7 +72,6 @@ CREATE TABLE dailyReport(
   dailyBalance TEXT
 )
 '''); //Daily_Report
-
   }
 
   //===============CRUD mylist===============
@@ -189,45 +188,96 @@ CREATE TABLE dailyReport(
     return rowsDeleted;
   }
 
-  //=============== Query Report ===============
+  //=============== Query Daily Report ===============
+
   Future<double> calculateDailyAmount(String dateTime, String type) async {
-  double dailyAmount = 0.0;
+    double dailyAmount = 0.0;
+
+    // Open the database connection
+    Database db = await openDatabase('LedgetStackDB.db');
+
+    // Query for transactions on the specified date and type
+    List<Map<String, dynamic>> transactions = await db.query(
+      'transactions',
+      where: 'isIncome = ? AND DATE(date) = ?',
+      whereArgs: [type, dateTime],
+    );
+
+    // Check if any transactions were found
+    if (transactions.isNotEmpty) {
+      // Iterate through transactions and accumulate amount
+      for (var transaction in transactions) {
+        var amount = transaction['amount'];
+        var datedate = transaction['date'];
+
+        debugPrint("$datedate");
+
+        // Validate amount before adding
+        if (amount is double && amount > 0.0) {
+          dailyAmount += amount;
+        }
+      }
+    }
+
+    return dailyAmount;
+  }
+
+  Future<double> calculateDailyIncome(String dateTime) async {
+    return await calculateDailyAmount(dateTime, 'income');
+  }
+
+  Future<double> calculateDailyExpense(String dateTime) async {
+    return await calculateDailyAmount(dateTime, 'expense');
+  }
+
+//=============== Query MonthlyReport ===============
+
+  Future<double> calculateMonthlyAmount(String dateTime, String type) async {
+  double monthlyAmount = 0.0;
 
   // Open the database connection
   Database db = await openDatabase('LedgetStackDB.db');
 
-  // Query for transactions on the specified date and type
-  List<Map<String, dynamic>> transactions = await db.query(
-    'transactions',
-    where: 'isIncome = ? AND DATE(date) = ?',
-    whereArgs: [type, dateTime],
-  );
+  // Extract year and month from the provided dateTime string
+  DateTime parsedDateTime = DateTime.parse(dateTime);
+int year = parsedDateTime.year;
+int month = parsedDateTime.month;
+
+
+// Query for transactions on the specified month, year, and type
+List<Map<String, dynamic>> transactions = await db.query(
+  'transactions',
+  where: 'isIncome = ? AND strftime("%Y-%m", date) = ?',
+  whereArgs: [type, '$year-$month'],
+);
 
   // Check if any transactions were found
   if (transactions.isNotEmpty) {
     // Iterate through transactions and accumulate amount
     for (var transaction in transactions) {
       var amount = transaction['amount'];
-
+      debugPrint("amount : $amount");
       // Validate amount before adding
       if (amount is double && amount > 0.0) {
-        dailyAmount += amount;
-      } 
+        monthlyAmount += amount; 
+      }
     }
-  } 
-
-  return dailyAmount;
+  }
+  debugPrint("$monthlyAmount");
+  
+  return monthlyAmount;
 }
 
-Future<double> calculateDailyIncome(String dateTime) async {
-  return await calculateDailyAmount(dateTime, 'income');
-}
+Future<double> calculateMonthlyIncome(String dateTime) async {
+    return await calculateMonthlyAmount(dateTime, 'income');
+  }
 
-Future<double> calculateDailyExpense(String dateTime) async {
-  return await calculateDailyAmount(dateTime, 'expense');
-}
+Future<double> calculateMonthlyExpense(String dateTime) async {
+    return await calculateMonthlyAmount(dateTime, 'expense');
+  }
 
-  //=====Function Auto add Transaction=====
+
+//=====Function Auto add Transaction=====
   Future<List<LatestDate>> getLatestDate() async {
     final Database db = await database;
     final maps = await db.query('latestdate');
@@ -248,5 +298,4 @@ Future<double> calculateDailyExpense(String dateTime) async {
       [latestDate],
     );
   }
-
 }

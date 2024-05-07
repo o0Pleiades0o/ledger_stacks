@@ -42,25 +42,32 @@ class LedgerDisplay extends GetView<LedgerController> {
             borderRadius: BorderRadius.only(topRight: Radius.circular(30.r) , topLeft: Radius.circular(30.r)),
           ),
           child: ListView.builder(
-            itemCount: sortedDates.length,
-            itemBuilder: (context, index) {
-              var date = sortedDates[index];
-              var transactions = groupByDate[date];
-              TransactionModel headerTransaction = transactions!.first;
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Header
-                  HeaderLedger(headerTransaction: headerTransaction),
-                  // Items under header
-                  ItemLedger(
-                    transactions: transactions,
-                    ledgerController: ledgerController,
-                  ),
-                ],
-              );
-            },
+  itemCount: sortedDates.length + 1, // Add 1 for the SizedBox
+  itemBuilder: (context, index) {
+    if (index == sortedDates.length) {
+      return SizedBox(
+        height: 80.h, // Adjust the height as needed
+      );
+    } else {
+      var date = sortedDates[index];
+      var transactions = groupByDate[date];
+      TransactionModel headerTransaction = transactions!.first;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          HeaderLedger(headerTransaction: headerTransaction),
+          // Items under header
+          ItemLedger(
+            transactions: transactions,
+            ledgerController: ledgerController,
           ),
+        ],
+      );
+    }
+  },
+),
+
         );
       }
     });

@@ -57,9 +57,6 @@ class MyLedger extends StatelessWidget {
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          EditeFAB(
-            onPressed: () {},
-          ),
           CreateFAB(
             onPressed: () {
               Get.off(() => AddTransaction());
