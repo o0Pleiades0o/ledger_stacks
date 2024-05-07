@@ -134,6 +134,25 @@ Future monthlyIncomeValue(String date) async {
 }
 
 Future monthlyExpenseValue(String date) async {
-  double monthlyExpense = await LedgetStackDB.instance.calculateDailyExpense(date);
+  double monthlyExpense = await LedgetStackDB.instance.calculateMonthlyExpense(date);
   return monthlyExpense;
+}
+
+Future<double> calculateMonthlyBalance(String date) async {
+
+  double monthlyIncome = await monthlyIncomeValue(date);
+  double monthlyExpense = await monthlyExpenseValue(date);
+  double monthlyBalance = monthlyIncome - monthlyExpense;
+
+  return monthlyBalance;
+}
+
+Future<double> calculateMonthlyBalancePercent(String date) async {
+  // คำนวณค่ารายได้รายเดือน
+  double monthlyIncome = await monthlyIncomeValue(date);
+  double monthlyExpense = await monthlyExpenseValue(date);
+  double monthlyBalance = monthlyIncome - monthlyExpense;
+  double monthlyBalancePercent = (monthlyBalance / monthlyIncome) * 100;
+
+  return monthlyBalancePercent;
 }

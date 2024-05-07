@@ -15,6 +15,7 @@ class PercentChart extends StatelessWidget {
       radius: 100,
       color: kViolet,
       backgroundColor: kYellow,
+      progress: 0.5,
       strokeWidth: 20,
       strokeCap: StrokeCap.butt,
       child: Padding(
@@ -26,7 +27,7 @@ class PercentChart extends StatelessWidget {
               style: TextStyle(fontSize: 45.sp, fontWeight: FontWeight.w600),
             ),
             Text(
-              'Financial balance',
+              'Financial Risk',
               style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600, color: Colors.black26),
             ),
           ],

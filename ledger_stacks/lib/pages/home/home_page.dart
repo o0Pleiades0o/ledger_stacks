@@ -100,7 +100,7 @@ class HomePage extends StatelessWidget {
                                           } else {
                                             double income = incomeSnapshot.data ?? 0.0;
                                             return Text(
-                                              convertToAmount(income), //แสดงค่าจาก calculateMonthlyAmount ตรงนี้
+                                              convertToAmount(income), 
                                               style: TextStyle(color: kGreen, fontWeight: FontWeight.bold, fontSize: 28),
                                             );
                                           }
@@ -115,11 +115,11 @@ class HomePage extends StatelessWidget {
                                 height: 70.h,
                                 width: 170.w,
                                 decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(18.r)),
-                                child: const Padding(
-                                  padding: EdgeInsets.only(top: 15),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 15),
                                   child: Column(
                                     children: [
-                                      Padding(
+                                      const Padding(
                                         padding: EdgeInsets.only(right: 60),
                                         child: Column(
                                           children: [
@@ -130,17 +130,28 @@ class HomePage extends StatelessWidget {
                                           ],
                                         ),
                                       ),
-                                      Text(
-                                        "+324",
-                                        style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold, fontSize: 28),
-                                      )
+                                      FutureBuilder(
+                                        future: monthlyExpenseValue(dateDay.toIso8601String()),
+                                        builder: (context, expenseSnapshot) {
+                                          if (expenseSnapshot.connectionState == ConnectionState.waiting) {
+                                            return const CircularProgressIndicator(); // Or any loading indicator
+                                          } else if (expenseSnapshot.hasError) {
+                                            return Text("Error: ${expenseSnapshot.error}");
+                                          } else {
+                                            double expense = expenseSnapshot.data ?? 0.0;
+                                            return Text(
+                                              convertToAmount(expense), 
+                                              style: TextStyle(color: kRed, fontWeight: FontWeight.bold, fontSize: 28),
+                                            );
+                                          }
+                                        })
                                     ],
                                   ),
                                 )),
                           ),
                         ],
                       ),
-                      //show percent left
+                      //show Balance percent
                       Container(
                           height: 145.h,
                           width: 145.w,
@@ -162,11 +173,34 @@ class HomePage extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  Text(
-                                    "50%",
-                                    style: TextStyle(color: kViolet, fontWeight: FontWeight.bold, fontSize: 40),
-                                  ),
-                                  Text("355", style: TextStyle(color: kDarkgray, fontWeight: FontWeight.bold))
+                                  FutureBuilder(
+                                        future: calculateMonthlyBalancePercent(dateDay.toIso8601String()),
+                                        builder: (context, balancePercentSnapshot) {
+                                          if (balancePercentSnapshot.connectionState == ConnectionState.waiting) {
+                                            return const CircularProgressIndicator(); // Or any loading indicator
+                                          } else if (balancePercentSnapshot.hasError) {
+                                            return Text("Error: ${balancePercentSnapshot.error}");
+                                          } else {
+                                            double balancePercent= balancePercentSnapshot.data ?? 0.0;
+                                            return Text(
+                                              convertToAmount(balancePercent), 
+                                              style: TextStyle(color: kViolet, fontWeight: FontWeight.bold, fontSize: 28),
+                                            );
+                                          }
+                                        }),
+                                  FutureBuilder(
+                                        future: calculateMonthlyBalance(dateDay.toIso8601String()),
+                                        builder: (context, balanceSnapshot) {
+                                          if (balanceSnapshot.connectionState == ConnectionState.waiting) {
+                                            return const CircularProgressIndicator(); // Or any loading indicator
+                                          } else if (balanceSnapshot.hasError) {
+                                            return Text("Error: ${balanceSnapshot.error}");
+                                          } else {
+                                            double balance= balanceSnapshot.data ?? 0.0;
+                                            return Text(convertToAmount(balance), style: TextStyle(color: kDarkgray, fontWeight: FontWeight.bold));
+                                          }
+                                        }),
+                                  
                                 ],
                               ),
                             ),

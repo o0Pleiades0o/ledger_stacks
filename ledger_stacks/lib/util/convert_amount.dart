@@ -2,6 +2,7 @@ import 'package:intl/intl.dart';
 
 //Change amount to readable format
 String convertToAmount(double amount) {
+
   if (amount >= 1000) {
     var result = NumberFormat.compactCurrency(
       decimalDigits: 2,
@@ -17,6 +18,10 @@ String convertToAmount(double amount) {
     ).format(amount);
     return result;
   } else {
-    return amount.toString();
+    if (amount % 1 == 0) {
+      return amount.toStringAsFixed(0); // Display without decimals
+    } else {
+      return amount.toStringAsFixed(2); // Display with exactly two decimals
+    }
   }
 }
