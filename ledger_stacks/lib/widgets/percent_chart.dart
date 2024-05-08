@@ -25,7 +25,6 @@ class PercentChart extends StatelessWidget {
             return Text("Error: ${chartSnapshot.error}");
           } else {
             double chart = chartSnapshot.data ?? 0.0;
-
             return SemicircularIndicator(
               radius: 100,
               color: kYellow,
