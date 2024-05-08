@@ -14,6 +14,7 @@ class AuthController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   Rx<User?> firebaseUser = Rx<User?>(null);
+  var isLoading = false.obs;
 
   User? _user;
   User? get user => _user;
@@ -26,7 +27,7 @@ class AuthController extends GetxController {
     islogin();
   }
 
-  void register(String email, String password, String username) async {
+  Future register(String email, String password, String username) async {
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
         //await user uid then sead uid to userCredential
@@ -52,20 +53,16 @@ class AuthController extends GetxController {
       debugPrint("Firebase error: $e");
       Get.snackbar(
         "Error creating account",
-        e is FirebaseAuthException
-            ? e.message ?? 'Unknown error'
-            : e.toString(),
+        e is FirebaseAuthException ? e.message ?? 'Unknown error' : e.toString(),
         snackPosition: SnackPosition.BOTTOM,
       );
     }
   }
 
-  void login(String email, String password) async {
+  Future login(String email, String password) async {
     try {
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      UserModel? user =
-          await UserController().getUser(userCredential.user!.uid);
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(email: email, password: password);
+      UserModel? user = await UserController().getUser(userCredential.user!.uid);
       if (user != null) {
         Get.find<UserController>().user = user;
         Get.offAll(() => const HomePage());
@@ -80,9 +77,7 @@ class AuthController extends GetxController {
       debugPrint("Firebase error: $e");
       Get.snackbar(
         "Error login account",
-        e is FirebaseAuthException
-            ? e.message ?? 'Unknown error'
-            : e.toString(),
+        e is FirebaseAuthException ? e.message ?? 'Unknown error' : e.toString(),
         snackPosition: SnackPosition.BOTTOM,
       );
     }
@@ -95,9 +90,7 @@ class AuthController extends GetxController {
     } catch (e) {
       Get.snackbar(
         "Error signing out",
-        e is FirebaseAuthException
-            ? e.message ?? 'Unknown error'
-            : e.toString(),
+        e is FirebaseAuthException ? e.message ?? 'Unknown error' : e.toString(),
         snackPosition: SnackPosition.BOTTOM,
       );
     }
@@ -116,9 +109,7 @@ class AuthController extends GetxController {
       debugPrint("Firebase error: $e");
       Get.snackbar(
         "Error",
-        e is FirebaseAuthException
-            ? e.message ?? 'Unknown error'
-            : e.toString(),
+        e is FirebaseAuthException ? e.message ?? 'Unknown error' : e.toString(),
         snackPosition: SnackPosition.BOTTOM,
       );
     }

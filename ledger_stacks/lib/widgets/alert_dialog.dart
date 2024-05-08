@@ -26,9 +26,9 @@ Future<void> showMyDialogLogout(BuildContext context) async {
             child: const Text('Cancel'),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               authController.signOut();
-              Get.offAll(() => const LoginPage());
+              await Get.offAll(() => const LoginPage());
             },
             child: const Text('OK'),
           ),

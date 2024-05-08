@@ -14,6 +14,7 @@ class UserController extends GetxController {
 
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
+  var isLoading = false.obs;
 
   //Save the user data to Firestore
   Future<bool> createUser(UserModel user) async {
@@ -35,8 +36,7 @@ class UserController extends GetxController {
   //Get user data from Firestore
   Future<UserModel?> getUser(String userId) async {
     try {
-      DocumentSnapshot<Map<String, dynamic>> snapshot =
-          await firestore.collection('users').doc(userId).get();
+      DocumentSnapshot<Map<String, dynamic>> snapshot = await firestore.collection('users').doc(userId).get();
 
       if (snapshot.exists) {
         return UserModel.fromDocumentSnapshot(snapshot);

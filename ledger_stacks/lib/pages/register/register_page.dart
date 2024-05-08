@@ -36,10 +36,7 @@ class RegisterPage extends GetView<AuthController> {
                   children: [
                     Text(
                       "Register",
-                      style: TextStyle(
-                          fontSize: 30.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                      style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                     Text(
                       "Register before login",
@@ -61,8 +58,7 @@ class RegisterPage extends GetView<AuthController> {
                   ),
                 ), //inside for Textfield
                 child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 30.h, horizontal: 35.w),
+                  padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 35.w),
                   child: Column(
                     children: [
                       TextFieldGeneral(
@@ -84,27 +80,34 @@ class RegisterPage extends GetView<AuthController> {
                         icon: Icons.lock,
                       ),
                       TextFieldPassword(
-                        validator: (value) => validateConfirmPasswordField(
-                            value, registerController.passwordController.text),
-                        controller:
-                            registerController.confirmPasswordController,
+                        validator: (value) => validateConfirmPasswordField(value, registerController.passwordController.text),
+                        controller: registerController.confirmPasswordController,
                         labelText: "Confirm password",
                         icon: Icons.lock,
                       ), //end inside for Textfield
                       Padding(
-                        padding: EdgeInsets.only(top: 30.h),
-                        child: ButtonRaL(
-                            buttonText: "Register",
-                            onPressed: () {
-                              if (registerController.formKey.currentState!
-                                  .validate()) {
-                                authController.register(
-                                    registerController.emailController.text,
-                                    registerController.passwordController.text,
-                                    registerController.usernameController.text);
-                              }
-                            }),
-                      ),
+                          padding: EdgeInsets.only(top: 30.h),
+                          child: Obx(
+                            () {
+                              return authController.isLoading.value
+                                  ? const CircularProgressIndicator()
+                                  : ButtonRaL(
+                                      buttonText: "Register",
+                                      onPressed: () {
+                                        if (registerController.formKey.currentState!.validate()) {
+                                          authController.isLoading.value = true;
+                                          authController
+                                              .register(registerController.emailController.text, registerController.passwordController.text,
+                                                  registerController.usernameController.text)
+                                              .then(
+                                            (_) {
+                                              authController.isLoading.value = false;
+                                            },
+                                          );
+                                        }
+                                      });
+                            },
+                          )),
                       Padding(
                         padding: EdgeInsets.only(top: 15.h),
                         child: GestureDetector(

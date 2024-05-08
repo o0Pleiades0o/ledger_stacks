@@ -39,10 +39,7 @@ class LoginPage extends GetView<AuthController> {
                   children: [
                     Text(
                       "Login",
-                      style: TextStyle(
-                          fontSize: 30.sp,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                      style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold, color: Colors.white),
                     ),
                     Text(
                       "Welcome to Ledger Stacks",
@@ -66,8 +63,7 @@ class LoginPage extends GetView<AuthController> {
                 ),
                 //inside for Textfield
                 child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(vertical: 30.h, horizontal: 35.w),
+                  padding: EdgeInsets.symmetric(vertical: 30.h, horizontal: 35.w),
                   child: Column(
                     children: [
                       TextFieldGeneral(
@@ -100,19 +96,30 @@ class LoginPage extends GetView<AuthController> {
                       ),
                       //Button for Login
                       Padding(
-                        padding: EdgeInsets.only(top: 30.h),
-                        child: ButtonRaL(
-                            buttonText: "Login",
-                            onPressed: () {
-                              if (loginController.formKey.currentState!
-                                  .validate()) {
-                                authController.login(
-                                  loginController.emailController.text,
-                                  loginController.passwordController.text,
-                                );
-                              }
-                            }),
-                      ),
+                          padding: EdgeInsets.only(top: 30.h),
+                          child: Obx(
+                            () {
+                              return authController.isLoading.value
+                                  ? const CircularProgressIndicator()
+                                  : ButtonRaL(
+                                      buttonText: "Login",
+                                      onPressed: () {
+                                        if (loginController.formKey.currentState!.validate()) {
+                                          authController.isLoading.value = true;
+                                          authController
+                                              .login(
+                                            loginController.emailController.text,
+                                            loginController.passwordController.text,
+                                          )
+                                              .then(
+                                            (_) {
+                                              authController.isLoading.value = false;
+                                            },
+                                          );
+                                        }
+                                      });
+                            },
+                          )),
                       Padding(
                         padding: EdgeInsets.only(top: 12.h),
                         child: GestureDetector(

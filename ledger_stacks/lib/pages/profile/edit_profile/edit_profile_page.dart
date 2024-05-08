@@ -89,19 +89,29 @@ class EditProflie extends StatelessWidget {
                       icon: Icons.person,
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 25.h),
-                      child: ButtonRaL(
-                          buttonText: 'Update',
-                          onPressed: () async {
-                            if (editProflieController.formKey.currentState!.validate()) {
-                              userController.updateUser(
-                                editProflieController.emailController.text,
-                                editProflieController.usernameController.text,
-                                editProflieController.selectedImage.value,
-                              );
-                            }
-                          }),
-                    )
+                        padding: EdgeInsets.only(top: 25.h),
+                        child: Obx(() {
+                          return userController.isLoading.value
+                              ? const CircularProgressIndicator()
+                              : ButtonRaL(
+                                  buttonText: 'Update',
+                                  onPressed: () async {
+                                    if (editProflieController.formKey.currentState!.validate()) {
+                                      userController.isLoading.value = true;
+                                      userController
+                                          .updateUser(
+                                        editProflieController.emailController.text,
+                                        editProflieController.usernameController.text,
+                                        editProflieController.selectedImage.value,
+                                      )
+                                          .then(
+                                        (_) {
+                                          userController.isLoading.value = false;
+                                        },
+                                      );
+                                    }
+                                  });
+                        }))
                   ],
                 ),
               )
