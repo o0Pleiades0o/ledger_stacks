@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ledger_stacks/pages/myledger/ledger_controller.dart';
 import 'package:ledger_stacks/pages/mylist/mylist_controller.dart';
 import '../auth/auth_controller.dart';
 import '../pages/login/login_page.dart';
@@ -66,6 +67,43 @@ Future<void> showMyDialogDelete(BuildContext context) async {
               myListController.deleteSelectedItems();
               Navigator.pop(context);
               myListController.isMultiSelect.toggle();
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+Future<void> showMyDialogDeleteTransaction(BuildContext context) async {
+  final LedgerController ledgerController = Get.put(LedgerController());
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('Delete?'),
+        content: const SingleChildScrollView(
+          child: ListBody(
+            children: <Widget>[
+              Text('Do you want to delete?'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, 'Cancel');
+              ledgerController.isMultiSelect.toggle();
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              ledgerController.deleteSelectedItems();
+              Navigator.pop(context);
+              ledgerController.isMultiSelect.toggle();
             },
             child: const Text('OK'),
           ),

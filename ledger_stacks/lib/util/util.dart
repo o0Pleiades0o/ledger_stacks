@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:ledger_stacks/util/database/database_service.dart';
 
 //Update the observable value
 class IsObscureController extends GetxController {
@@ -115,4 +116,61 @@ String? validateTransactionAmountField(String? value) {
 String getMonthName(String date) {
   DateTime dateTime = DateTime.parse(date);
   return DateFormat.MMM().format(dateTime);
+}
+
+Future dailyIncomeValue(String date) async {
+  double dailyIncome = await LedgetStackDB.instance.calculateDailyIncome(date);
+  return dailyIncome;
+}
+
+Future dailyExpenseValue(String date) async {
+  double dailyExpense = await LedgetStackDB.instance.calculateDailyExpense(date);
+  return dailyExpense;
+}
+
+Future monthlyIncomeValue(String date) async {
+  double monthlyIncome = await LedgetStackDB.instance.calculateMonthlyIncome(date);
+  return monthlyIncome;
+}
+
+Future monthlyExpenseValue(String date) async {
+  double monthlyExpense = await LedgetStackDB.instance.calculateMonthlyExpense(date);
+  return monthlyExpense;
+}
+
+Future<double> calculateMonthlyBalance(String date) async {
+
+  double monthlyIncome = await monthlyIncomeValue(date);
+  double monthlyExpense = await monthlyExpenseValue(date);
+  double monthlyBalance = monthlyIncome - monthlyExpense;
+
+  return monthlyBalance;
+}
+
+Future<double> calculateMonthlyBalancePercent(String date) async {
+  // คำนวณค่ารายได้รายเดือน
+  double monthlyIncome = await monthlyIncomeValue(date);
+  double monthlyExpense = await monthlyExpenseValue(date);
+  double monthlyBalance = monthlyIncome - monthlyExpense;
+  double monthlyBalancePercent = (monthlyBalance / monthlyIncome) * 100;
+
+  return monthlyBalancePercent;
+}
+
+Future<double> financialRisk(String date) async {
+  // คำนวณค่ารายได้รายเดือน
+  double monthlyIncome = await monthlyIncomeValue(date);
+  double monthlyExpense = await monthlyExpenseValue(date);
+  double financialRisk = (monthlyExpense / monthlyIncome) * 100;
+
+  return financialRisk;
+}
+
+Future<double> financialRiskChart(String date) async {
+  // คำนวณค่ารายได้รายเดือน
+  double monthlyIncome = await monthlyIncomeValue(date);
+  double monthlyExpense = await monthlyExpenseValue(date);
+  double financialRiskChart = (monthlyExpense / monthlyIncome);
+
+  return financialRiskChart;
 }

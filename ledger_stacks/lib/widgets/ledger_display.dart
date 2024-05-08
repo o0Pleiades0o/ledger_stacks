@@ -36,32 +36,44 @@ class LedgerDisplay extends GetView<LedgerController> {
         // Sort the keys (dates) in DESC order
         var sortedDates = groupByDate.keys.toList()..sort((a, b) => b.compareTo(a));
 
-        return ListView.builder(
-          itemCount: sortedDates.length,
-          itemBuilder: (context, index) {
-            var date = sortedDates[index];
-            var transactions = groupByDate[date];
-            TransactionModel headerTransaction = transactions!.first;
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Header
-                HeaderLedger(headerTransaction: headerTransaction),
-                // Items under header
-                ItemLedger(
-                  transactions: transactions,
-                  ledgerController: ledgerController,
-                ),
-              ],
-            );
-          },
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(topRight: Radius.circular(30.r), topLeft: Radius.circular(30.r)),
+          ),
+          child: ListView.builder(
+            itemCount: sortedDates.length + 1, // Add 1 for the SizedBox
+            itemBuilder: (context, index) {
+              if (index == sortedDates.length) {
+                return SizedBox(
+                  height: 80.h, // Adjust the height as needed
+                );
+              } else {
+                var date = sortedDates[index];
+                var transactions = groupByDate[date];
+                TransactionModel headerTransaction = transactions!.first;
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Header
+                    HeaderLedger(headerTransaction: headerTransaction),
+                    // Items under header
+                    ItemLedger(
+                      transactions: transactions,
+                      ledgerController: ledgerController,
+                    ),
+                  ],
+                );
+              }
+            },
+          ),
         );
       }
     });
   }
 }
 
-class ItemLedger extends StatelessWidget {
+class ItemLedger extends GetView {
   const ItemLedger({
     super.key,
     required this.transactions,
@@ -77,55 +89,66 @@ class ItemLedger extends StatelessWidget {
       children: transactions!.map((ledger) {
         return Padding(
           padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 10.h),
-          child: Container(
+          child: SizedBox(
             height: 35.h,
             width: Get.width,
-            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8.r), boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF4b4b4b).withOpacity(0.08),
-                offset: const Offset(0, 8),
-                blurRadius: 10,
-                spreadRadius: 6,
-              ),
-            ]),
-            child: Padding(
-              padding: EdgeInsets.only(left: 40.w, right: 10.w),
-              child: Row(
-                children: [
-                  Text(ledger.name),
-                  const Spacer(),
-                  Text(
-                    ledger.isIncome == 'income' ? "+ ${convertToAmount(ledger.amount)}" : "- ${convertToAmount(ledger.amount)}",
-                    style: TextStyle(
-                      color: ledger.isIncome == 'income' ? kGreen : kRed,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  PopupMenuButton(
-                    iconColor: Colors.grey,
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                        onTap: () {
-                          Get.off(() => EditTransaction(
-                                selectedItem: ledger,
-                              ));
-                        },
-                        child: const Text("Edit"),
+            //decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8.r), ),
+            child: Obx(() {
+              final isMultiTrue = ledgerController.isMultiSelect.isTrue;
+              return Padding(
+                  padding: EdgeInsets.only(left: isMultiTrue ? 15 : 40.w, right: 10.w),
+                  child: Row(
+                    children: [
+                      isMultiTrue
+                          ? Checkbox(
+                              value: ledgerController.selectedItems.contains(ledger),
+                              onChanged: (value) {
+                                ledgerController.toggleSelection(ledger);
+                              },
+                            )
+                          : const SizedBox(),
+                      Expanded(
+                        child: Text(
+                          ledger.name,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 15.sp),
+                        ),
                       ),
-                      PopupMenuItem(
-                        onTap: () {
-                          LedgetStackDB.instance.deleteTransaction(ledger.id!, ledgerController);
-                        },
-                        child: const Text("Delete"),
+                      const Spacer(),
+                      Text(
+                        ledger.isIncome == 'income' ? "+ ${convertToAmount(ledger.amount)}" : "- ${convertToAmount(ledger.amount)}",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 15.sp,
+                          color: ledger.isIncome == 'income' ? kGreen : kRed,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      PopupMenuButton(
+                        iconColor: Colors.grey,
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            onTap: () {
+                              Get.off(() => EditTransaction(
+                                    selectedItem: ledger,
+                                  ));
+                            },
+                            child: const Text("Edit"),
+                          ),
+                          PopupMenuItem(
+                            onTap: () {
+                              LedgetStackDB.instance.deleteTransaction(ledger.id!, ledgerController);
+                            },
+                            child: const Text("Delete"),
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              ),
-            ),
+                  ));
+            }),
           ),
         );
       }).toList(),
@@ -143,112 +166,154 @@ class HeaderLedger extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dateDay = DateTime.parse(headerTransaction.date!);
+    final date = dateDay.toIso8601String().substring(0, 10);
+
     return Padding(
       padding: EdgeInsets.only(bottom: 10.h),
       child: Container(
         height: 150.h,
         width: Get.width,
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(36.r), boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF4b4b4b).withOpacity(0.08),
-            offset: const Offset(0, 8),
-            blurRadius: 10,
-            spreadRadius: 6,
-          ),
-        ]),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(36.r),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF4b4b4b).withOpacity(0.08),
+              offset: const Offset(0, 8),
+              blurRadius: 10,
+              spreadRadius: 6,
+            ),
+          ],
+        ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 45.w, vertical: 20.h),
           child: Column(
             children: [
-              Row(children: [
-                Text(
-                  "${DateTime.parse(headerTransaction.date!).day}",
-                  style: TextStyle(
-                    fontSize: 40.sp,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                SizedBox(
-                  width: 5.w,
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      getMonthName(headerTransaction.date!),
-                      style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Text(
-                      "${DateTime.parse(headerTransaction.date!).year}",
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                )
-              ]),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  Text(
+                    "${DateTime.parse(headerTransaction.date!).day}",
+                    style: TextStyle(
+                      fontSize: 40.sp,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 5.w,
+                  ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Income",
+                        getMonthName(headerTransaction.date!),
+                        style: TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Text(
+                        "${DateTime.parse(headerTransaction.date!).year}",
                         style: TextStyle(
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w700,
-                          color: kGreen,
                         ),
                       ),
-                      Text(
-                        '600',
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w700,
-                          color: kGreen,
-                        ),
-                      )
                     ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        "Expenses",
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w700,
-                          color: kRed,
-                        ),
-                      ),
-                      Text(
-                        '600',
-                        style: TextStyle(
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w700,
-                          color: kRed,
-                        ),
-                      )
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        "Balance",
-                        style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700, color: kDarkviolet),
-                      ),
-                      Text(
-                        '600',
-                        style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w700, color: kDarkviolet),
-                      )
-                    ],
-                  ),
+                  )
                 ],
-              )
+              ),
+              FutureBuilder(
+                future: dailyIncomeValue(date),
+                builder: (context, incomeSnapshot) {
+                  if (incomeSnapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator(); // Or any loading indicator
+                  } else if (incomeSnapshot.hasError) {
+                    return Text("Error: ${incomeSnapshot.error}");
+                  } else {
+                    return FutureBuilder(
+                      future: dailyExpenseValue(date),
+                      builder: (context, expenseSnapshot) {
+                        if (expenseSnapshot.connectionState == ConnectionState.waiting) {
+                          return const CircularProgressIndicator(); // Or any loading indicator
+                        } else if (expenseSnapshot.hasError) {
+                          return Text("Error: ${expenseSnapshot.error}");
+                        } else {
+                          double income = incomeSnapshot.data ?? 0.0;
+                          double expense = expenseSnapshot.data ?? 0.0;
+                          double balance = income - expense;
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                children: [
+                                  Text(
+                                    "Income",
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: kGreen,
+                                    ),
+                                  ),
+                                  Text(
+                                    convertToAmount(income),
+                                    style: TextStyle(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: kGreen,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                    "Expense",
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: kRed,
+                                    ),
+                                  ),
+                                  Text(
+                                    convertToAmount(expense),
+                                    style: TextStyle(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: kRed,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Text(
+                                    "Balance",
+                                    style: TextStyle(
+                                      fontSize: 12.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: kViolet,
+                                    ),
+                                  ),
+                                  Text(
+                                    convertToAmount(balance),
+                                    style: TextStyle(
+                                      fontSize: 20.sp,
+                                      fontWeight: FontWeight.w700,
+                                      color: kViolet,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          );
+                        }
+                      },
+                    );
+                  }
+                },
+              ),
             ],
           ),
         ),

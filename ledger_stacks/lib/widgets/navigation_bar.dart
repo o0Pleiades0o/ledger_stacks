@@ -12,12 +12,7 @@ Widget navigationBar() {
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20.r),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black.withAlpha(20),
-                blurRadius: 20,
-                spreadRadius: 10)
-          ]),
+          boxShadow: [BoxShadow(color: Colors.black.withAlpha(20), blurRadius: 20, spreadRadius: 10)]),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -25,7 +20,7 @@ Widget navigationBar() {
           //Icon go to Ledger
           IconAndText(
             onPressed: () {
-              Get.off(() => const MyLedger());
+              Get.off(() => MyLedger());
             },
             text: 'My Ledger',
             icon: FontAwesomeIcons.solidAddressBook,

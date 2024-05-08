@@ -17,6 +17,14 @@ String convertToAmount(double amount) {
     ).format(amount);
     return result;
   } else {
-    return amount.toString();
+    if (amount % 1 == 0) {
+      return amount.toStringAsFixed(0); // Display without decimals
+    } else {
+      return amount.toStringAsFixed(2); // Display with exactly two decimals
+    }
   }
+}
+
+String convertToPercent(double value) {
+  return (value).toStringAsFixed(0); // แปลงค่าเป็นเปอร์เซ็นต์แบบเต็มจำนวน
 }

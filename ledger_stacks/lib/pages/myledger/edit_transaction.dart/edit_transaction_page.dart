@@ -30,7 +30,7 @@ class EditTransaction extends GetView<EditTransactionController> {
         backgroundColor: Colors.white,
         leading: KBackButton(
           onPressed: () {
-            Get.off(() => const MyLedger());
+            Get.off(() => MyLedger());
           },
         ),
         title: Padding(
