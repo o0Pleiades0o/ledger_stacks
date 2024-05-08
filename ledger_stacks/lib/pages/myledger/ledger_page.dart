@@ -90,7 +90,7 @@ class MyLedger extends StatelessWidget {
           //Content
           Padding(
             padding: EdgeInsets.only(top: Get.height * 0.12, left: 20.w, right: 20.w),
-            child: LedgerDisplay(),
+            child: ClipRRect(borderRadius: BorderRadius.circular(36.r), child: LedgerDisplay()),
           ),
         ],
       ),

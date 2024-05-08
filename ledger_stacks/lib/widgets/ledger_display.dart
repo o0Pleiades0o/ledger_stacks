@@ -37,37 +37,39 @@ class LedgerDisplay extends GetView<LedgerController> {
         var sortedDates = groupByDate.keys.toList()..sort((a, b) => b.compareTo(a));
 
         return Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(topRight: Radius.circular(30.r), topLeft: Radius.circular(30.r)),
-          ),
-          child: ListView.builder(
-            itemCount: sortedDates.length + 1, // Add 1 for the SizedBox
-            itemBuilder: (context, index) {
-              if (index == sortedDates.length) {
-                return SizedBox(
-                  height: 80.h, // Adjust the height as needed
-                );
-              } else {
-                var date = sortedDates[index];
-                var transactions = groupByDate[date];
-                TransactionModel headerTransaction = transactions!.first;
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Header
-                    HeaderLedger(headerTransaction: headerTransaction),
-                    // Items under header
-                    ItemLedger(
-                      transactions: transactions,
-                      ledgerController: ledgerController,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(topRight: Radius.circular(30.r), topLeft: Radius.circular(30.r)),
+            ),
+            child: ListView.builder(
+              itemCount: sortedDates.length + 1, // Add 1 for the SizedBox
+              itemBuilder: (context, index) {
+                if (index == sortedDates.length) {
+                  return SizedBox(
+                    height: 80.h, // Adjust the height as needed
+                  );
+                } else {
+                  var date = sortedDates[index];
+                  var transactions = groupByDate[date];
+                  TransactionModel headerTransaction = transactions!.first;
+                  return Container(
+                    color: Colors.white,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Header
+                        HeaderLedger(headerTransaction: headerTransaction),
+                        // Items under header
+                        ItemLedger(
+                          transactions: transactions,
+                          ledgerController: ledgerController,
+                        ),
+                      ],
                     ),
-                  ],
-                );
-              }
-            },
-          ),
-        );
+                  );
+                }
+              },
+            ));
       }
     });
   }
@@ -92,7 +94,6 @@ class ItemLedger extends GetView {
           child: SizedBox(
             height: 35.h,
             width: Get.width,
-            //decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8.r), ),
             child: Obx(() {
               final isMultiTrue = ledgerController.isMultiSelect.isTrue;
               return Padding(

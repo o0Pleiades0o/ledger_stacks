@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:ledger_stacks/util/database/database_service.dart';
-
 import '../../models/latest_date.dart';
 import '../../models/my_list.dart';
 import '../../models/transaction.dart';
@@ -17,12 +15,10 @@ Future<void> collectDateTime() async {
     final storedDateOnly = DateTime(storedDate.year, storedDate.month, storedDate.day);
 
     final difference = storedDateOnly.difference(currentDateOnly).inDays.abs();
-    debugPrint("Distance between stored date and current date: $difference days");
     if (difference >= 1) {
       await autoAddTransaction();
     }
     await LedgetStackDB.instance.updateLatestDate(currentDate.toIso8601String());
-    debugPrint("If table exist Current Date: $storedDate");
   }
 }
 
@@ -77,5 +73,4 @@ Future<void> addTransaction(MyList item, DateTime date) async {
     date: date.toIso8601String(),
   );
   await LedgetStackDB.instance.addTransactionFromMylist(transactionData);
-  debugPrint('Added transaction for ${item.name} on ${date.toString()}');
 }
