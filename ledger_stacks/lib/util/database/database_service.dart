@@ -253,14 +253,12 @@ CREATE TABLE dailyReport(
       // Iterate through transactions and accumulate amount
       for (var transaction in transactions) {
         var amount = transaction['amount'];
-        debugPrint("amount : $amount");
         // Validate amount before adding
         if (amount is double && amount > 0.0) {
           monthlyAmount += amount;
         }
       }
     }
-    debugPrint("$monthlyAmount");
 
     return monthlyAmount;
   }

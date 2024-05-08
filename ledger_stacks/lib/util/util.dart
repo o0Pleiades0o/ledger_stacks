@@ -156,3 +156,21 @@ Future<double> calculateMonthlyBalancePercent(String date) async {
 
   return monthlyBalancePercent;
 }
+
+Future<double> financialRisk(String date) async {
+  // คำนวณค่ารายได้รายเดือน
+  double monthlyIncome = await monthlyIncomeValue(date);
+  double monthlyExpense = await monthlyExpenseValue(date);
+  double financialRisk = (monthlyExpense / monthlyIncome) * 100;
+
+  return financialRisk;
+}
+
+Future<double> financialRiskChart(String date) async {
+  // คำนวณค่ารายได้รายเดือน
+  double monthlyIncome = await monthlyIncomeValue(date);
+  double monthlyExpense = await monthlyExpenseValue(date);
+  double financialRiskChart = (monthlyExpense / monthlyIncome);
+
+  return financialRiskChart;
+}

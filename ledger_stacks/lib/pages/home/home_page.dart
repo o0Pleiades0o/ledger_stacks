@@ -183,7 +183,7 @@ class HomePage extends StatelessWidget {
                                           } else {
                                             double balancePercent= balancePercentSnapshot.data ?? 0.0;
                                             return Text(
-                                              convertToAmount(balancePercent), 
+                                              '${convertToPercent(balancePercent)}%', 
                                               style: TextStyle(color: kViolet, fontWeight: FontWeight.bold, fontSize: 28),
                                             );
                                           }

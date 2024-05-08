@@ -2,7 +2,6 @@ import 'package:intl/intl.dart';
 
 //Change amount to readable format
 String convertToAmount(double amount) {
-
   if (amount >= 1000) {
     var result = NumberFormat.compactCurrency(
       decimalDigits: 2,
@@ -24,4 +23,8 @@ String convertToAmount(double amount) {
       return amount.toStringAsFixed(2); // Display with exactly two decimals
     }
   }
+}
+
+String convertToPercent(double value) {
+  return (value).toStringAsFixed(0); // แปลงค่าเป็นเปอร์เซ็นต์แบบเต็มจำนวน
 }
