@@ -11,6 +11,7 @@ import 'package:ledger_stacks/util/util.dart';
 import 'package:ledger_stacks/widgets/percent_chart.dart';
 
 import '../../widgets/avatar_user.dart';
+import '../../widgets/column_charts.dart';
 import '../../widgets/floating_action_button.dart';
 import '../../widgets/navigation_bar.dart';
 
@@ -100,7 +101,7 @@ class HomePage extends StatelessWidget {
                                           } else {
                                             double income = incomeSnapshot.data ?? 0.0;
                                             return Text(
-                                              convertToAmount(income), 
+                                              convertToAmount(income),
                                               style: TextStyle(color: kGreen, fontWeight: FontWeight.bold, fontSize: 28),
                                             );
                                           }
@@ -131,20 +132,20 @@ class HomePage extends StatelessWidget {
                                         ),
                                       ),
                                       FutureBuilder(
-                                        future: monthlyExpenseValue(dateDay.toIso8601String()),
-                                        builder: (context, expenseSnapshot) {
-                                          if (expenseSnapshot.connectionState == ConnectionState.waiting) {
-                                            return const CircularProgressIndicator(); // Or any loading indicator
-                                          } else if (expenseSnapshot.hasError) {
-                                            return Text("Error: ${expenseSnapshot.error}");
-                                          } else {
-                                            double expense = expenseSnapshot.data ?? 0.0;
-                                            return Text(
-                                              convertToAmount(expense), 
-                                              style: TextStyle(color: kRed, fontWeight: FontWeight.bold, fontSize: 28),
-                                            );
-                                          }
-                                        })
+                                          future: monthlyExpenseValue(dateDay.toIso8601String()),
+                                          builder: (context, expenseSnapshot) {
+                                            if (expenseSnapshot.connectionState == ConnectionState.waiting) {
+                                              return const CircularProgressIndicator(); // Or any loading indicator
+                                            } else if (expenseSnapshot.hasError) {
+                                              return Text("Error: ${expenseSnapshot.error}");
+                                            } else {
+                                              double expense = expenseSnapshot.data ?? 0.0;
+                                              return Text(
+                                                convertToAmount(expense),
+                                                style: TextStyle(color: kRed, fontWeight: FontWeight.bold, fontSize: 28),
+                                              );
+                                            }
+                                          })
                                     ],
                                   ),
                                 )),
@@ -174,33 +175,32 @@ class HomePage extends StatelessWidget {
                                     ),
                                   ),
                                   FutureBuilder(
-                                        future: calculateMonthlyBalancePercent(dateDay.toIso8601String()),
-                                        builder: (context, balancePercentSnapshot) {
-                                          if (balancePercentSnapshot.connectionState == ConnectionState.waiting) {
-                                            return const CircularProgressIndicator(); // Or any loading indicator
-                                          } else if (balancePercentSnapshot.hasError) {
-                                            return Text("Error: ${balancePercentSnapshot.error}");
-                                          } else {
-                                            double balancePercent= balancePercentSnapshot.data ?? 0.0;
-                                            return Text(
-                                              '${convertToPercent(balancePercent)}%', 
-                                              style: TextStyle(color: kViolet, fontWeight: FontWeight.bold, fontSize: 28),
-                                            );
-                                          }
-                                        }),
+                                      future: calculateMonthlyBalancePercent(dateDay.toIso8601String()),
+                                      builder: (context, balancePercentSnapshot) {
+                                        if (balancePercentSnapshot.connectionState == ConnectionState.waiting) {
+                                          return const CircularProgressIndicator(); // Or any loading indicator
+                                        } else if (balancePercentSnapshot.hasError) {
+                                          return Text("Error: ${balancePercentSnapshot.error}");
+                                        } else {
+                                          double balancePercent = balancePercentSnapshot.data ?? 0.0;
+                                          return Text(
+                                            '${convertToPercent(balancePercent)}%',
+                                            style: TextStyle(color: kViolet, fontWeight: FontWeight.bold, fontSize: 28),
+                                          );
+                                        }
+                                      }),
                                   FutureBuilder(
-                                        future: calculateMonthlyBalance(dateDay.toIso8601String()),
-                                        builder: (context, balanceSnapshot) {
-                                          if (balanceSnapshot.connectionState == ConnectionState.waiting) {
-                                            return const CircularProgressIndicator(); // Or any loading indicator
-                                          } else if (balanceSnapshot.hasError) {
-                                            return Text("Error: ${balanceSnapshot.error}");
-                                          } else {
-                                            double balance= balanceSnapshot.data ?? 0.0;
-                                            return Text(convertToAmount(balance), style: TextStyle(color: kDarkgray, fontWeight: FontWeight.bold));
-                                          }
-                                        }),
-                                  
+                                      future: calculateMonthlyBalance(dateDay.toIso8601String()),
+                                      builder: (context, balanceSnapshot) {
+                                        if (balanceSnapshot.connectionState == ConnectionState.waiting) {
+                                          return const CircularProgressIndicator(); // Or any loading indicator
+                                        } else if (balanceSnapshot.hasError) {
+                                          return Text("Error: ${balanceSnapshot.error}");
+                                        } else {
+                                          double balance = balanceSnapshot.data ?? 0.0;
+                                          return Text(convertToAmount(balance), style: TextStyle(color: kDarkgray, fontWeight: FontWeight.bold));
+                                        }
+                                      }),
                                 ],
                               ),
                             ),
@@ -213,6 +213,7 @@ class HomePage extends StatelessWidget {
                   height: 170.h,
                   width: Get.width,
                   decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(25.r)),
+                  child: const ColumnChart2(),
                 ),
               ],
             ),

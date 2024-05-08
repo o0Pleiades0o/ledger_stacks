@@ -292,4 +292,58 @@ CREATE TABLE dailyReport(
       [latestDate],
     );
   }
+
+  //=============== Query ColumnChart ===============
+  Future getColumnChartData() async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> transactions = await db.rawQuery('''
+    SELECT strftime('%Y-%m', date) AS month, SUM(amount) AS total_amount
+    FROM transactions
+    GROUP BY month
+    ORDER BY month ASC
+  ''');
+
+    Map<String, double> chartData = {};
+    for (var transaction in transactions) {
+      chartData[transaction['month']] = transaction['total_amount'];
+    }
+
+    return chartData;
+  }
+
+  Future<Map<String, double>> getColumnChartDataIncome() async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> transactions = await db.rawQuery('''
+    SELECT strftime('%Y-%m', date) AS month, SUM(amount) AS total_amount
+    FROM transactions
+    WHERE isIncome = 'income'
+    GROUP BY month
+    ORDER BY month ASC
+  ''');
+
+    Map<String, double> chartData = {};
+    for (var transaction in transactions) {
+      chartData[transaction['month']] = transaction['total_amount'];
+    }
+
+    return chartData;
+  }
+
+  Future<Map<String, double>> getColumnChartDataExpense() async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> transactions = await db.rawQuery('''
+    SELECT strftime('%Y-%m', date) AS month, SUM(amount) AS total_amount
+    FROM transactions
+    WHERE isIncome = 'expense'
+    GROUP BY month
+    ORDER BY month ASC
+  ''');
+
+    Map<String, double> chartData = {};
+    for (var transaction in transactions) {
+      chartData[transaction['month']] = transaction['total_amount'];
+    }
+
+    return chartData;
+  }
 }
