@@ -55,27 +55,27 @@ class IconAndText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        GestureDetector(
-          onTap: onPressed,
-          child: Icon(
+    return GestureDetector(
+      onTap: onPressed,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
             icon,
             size: 25.sp,
             color: kViolet,
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 2.h),
-          child: Text(text,
-              style: TextStyle(
-                color: kViolet,
-                fontSize: 10.sp,
-                fontWeight: FontWeight.w700,
-              )),
-        ),
-      ],
+          Padding(
+            padding: EdgeInsets.only(top: 2.h),
+            child: Text(text,
+                style: TextStyle(
+                  color: kViolet,
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.w700,
+                )),
+          ),
+        ],
+      ),
     );
   }
 }

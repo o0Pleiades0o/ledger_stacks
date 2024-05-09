@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:ledger_stacks/constants/color.dart';
 
 import '../auth/user_controller.dart';
 
@@ -60,6 +61,7 @@ class AvatarUser extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: radius.r,
+      backgroundColor: kGray,
       child: Obx(
         () {
           // ignore: unnecessary_null_comparison
@@ -68,20 +70,17 @@ class AvatarUser extends StatelessWidget {
           } else {
             final String? imageAvatar = userController.user.imageAvatar;
             return ClipOval(
-              child: Container(
-                color: Colors.white,
-                child: imageAvatar == null || imageAvatar.isEmpty
-                    ? Image.asset(
-                        'lib/assets/images/user2.png',
-                        fit: BoxFit.cover,
-                      )
-                    : Image.network(
-                        imageAvatar,
-                        fit: BoxFit.cover,
-                        height: height.r,
-                        width: width.r,
-                      ),
-              ),
+              child: imageAvatar == null || imageAvatar.isEmpty
+                  ? Image.asset(
+                      'lib/assets/images/user2.png',
+                      fit: BoxFit.cover,
+                    )
+                  : Image.network(
+                      imageAvatar,
+                      fit: BoxFit.cover,
+                      height: height.r,
+                      width: width.r,
+                    ),
             );
           }
         },

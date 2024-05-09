@@ -19,8 +19,9 @@ class MyLedger extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: kViolet,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         toolbarHeight: 75.h,
         backgroundColor: kViolet,
         leading: KBackButton(
@@ -69,6 +70,12 @@ class MyLedger extends StatelessWidget {
       ),
       body: Stack(
         children: [
+          Padding(
+            padding: EdgeInsets.only(top: 50.h),
+            child: Container(
+              color: Colors.white,
+            ),
+          ),
           Container(
               height: 170.h,
               width: Get.width,
@@ -99,7 +106,7 @@ class MyLedger extends StatelessWidget {
         children: [
           CreateFAB(
             onPressed: () {
-              Get.off(() => AddTransaction());
+              Get.to(AddTransaction());
             },
           ),
         ],

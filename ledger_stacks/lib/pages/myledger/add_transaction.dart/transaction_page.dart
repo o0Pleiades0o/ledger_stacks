@@ -10,7 +10,6 @@ import '../../../util/util.dart';
 import '../../../widgets/button.dart';
 import '../../../widgets/container_select_mylist.dart';
 import '../../../widgets/radio_button/radio_button.dart';
-import '../../home/home_page.dart';
 
 class AddTransaction extends StatelessWidget {
   AddTransaction({super.key});
@@ -28,7 +27,7 @@ class AddTransaction extends StatelessWidget {
           backgroundColor: Colors.white,
           leading: KBackButton(
             onPressed: () {
-              Get.off(() => const HomePage());
+              Get.back();
             },
           ),
           title: Padding(
