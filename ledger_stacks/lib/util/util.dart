@@ -149,28 +149,44 @@ Future<double> calculateMonthlyBalance(String date) async {
 
 Future<double> calculateMonthlyBalancePercent(String date) async {
   // คำนวณค่ารายได้รายเดือน
+  
   double monthlyIncome = await monthlyIncomeValue(date);
   double monthlyExpense = await monthlyExpenseValue(date);
-  double monthlyBalance = monthlyIncome - monthlyExpense;
-  double monthlyBalancePercent = (monthlyBalance / monthlyIncome) * 100;
+  // ignore: unused_local_variable
+  double monthlyBalancePercent = ((monthlyIncome - monthlyExpense) / monthlyIncome) * 100;
 
-  return monthlyBalancePercent;
+  if (monthlyBalancePercent.isInfinite || monthlyBalancePercent.isNaN ||monthlyBalancePercent <=0) {
+    return  monthlyBalancePercent = 0;
+  }else{
+    return monthlyBalancePercent;
+  }
+  
 }
 
 Future<double> financialRisk(String date) async {
   // คำนวณค่ารายได้รายเดือน
   double monthlyIncome = await monthlyIncomeValue(date);
   double monthlyExpense = await monthlyExpenseValue(date);
+  // ignore: unused_local_variable
   double financialRisk = (monthlyExpense / monthlyIncome) * 100;
 
-  return financialRisk;
+  if (financialRisk.isInfinite || financialRisk.isNaN || financialRisk <= 0) {
+    return  financialRisk = 0;
+  }else{
+    return financialRisk;
+  }
 }
 
 Future<double> financialRiskChart(String date) async {
   // คำนวณค่ารายได้รายเดือน
   double monthlyIncome = await monthlyIncomeValue(date);
   double monthlyExpense = await monthlyExpenseValue(date);
+  // ignore: unused_local_variable
   double financialRiskChart = (monthlyExpense / monthlyIncome);
 
-  return financialRiskChart;
+   if (financialRiskChart.isInfinite || financialRiskChart.isNaN || financialRiskChart<= 0) {
+    return  financialRiskChart= 0;
+  }else{
+    return financialRiskChart;
+  }
 }

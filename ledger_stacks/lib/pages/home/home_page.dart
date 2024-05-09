@@ -8,6 +8,7 @@ import 'package:ledger_stacks/pages/myledger/add_transaction.dart/transaction_pa
 import 'package:ledger_stacks/pages/profile/proflie_page.dart';
 import 'package:ledger_stacks/util/convert_amount.dart';
 import 'package:ledger_stacks/util/util.dart';
+import 'package:ledger_stacks/widgets/coins.dart';
 import 'package:ledger_stacks/widgets/percent_chart.dart';
 
 import '../../widgets/avatar_user.dart';
@@ -99,9 +100,15 @@ class HomePage extends StatelessWidget {
                                             return Text("Error: ${incomeSnapshot.error}");
                                           } else {
                                             double income = incomeSnapshot.data ?? 0.0;
-                                            return Text(
-                                              convertToAmount(income), 
-                                              style: TextStyle(color: kGreen, fontWeight: FontWeight.bold, fontSize: 28),
+                                            return Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  convertToAmount(income),
+                                                  style: TextStyle(color: kGreen, fontWeight: FontWeight.bold, fontSize: 28),
+                                                ),
+                                                const Coins()
+                                              ],
                                             );
                                           }
                                         })
@@ -131,20 +138,26 @@ class HomePage extends StatelessWidget {
                                         ),
                                       ),
                                       FutureBuilder(
-                                        future: monthlyExpenseValue(dateDay.toIso8601String()),
-                                        builder: (context, expenseSnapshot) {
-                                          if (expenseSnapshot.connectionState == ConnectionState.waiting) {
-                                            return const CircularProgressIndicator(); // Or any loading indicator
-                                          } else if (expenseSnapshot.hasError) {
-                                            return Text("Error: ${expenseSnapshot.error}");
-                                          } else {
-                                            double expense = expenseSnapshot.data ?? 0.0;
-                                            return Text(
-                                              convertToAmount(expense), 
-                                              style: TextStyle(color: kRed, fontWeight: FontWeight.bold, fontSize: 28),
-                                            );
-                                          }
-                                        })
+                                          future: monthlyExpenseValue(dateDay.toIso8601String()),
+                                          builder: (context, expenseSnapshot) {
+                                            if (expenseSnapshot.connectionState == ConnectionState.waiting) {
+                                              return const CircularProgressIndicator(); // Or any loading indicator
+                                            } else if (expenseSnapshot.hasError) {
+                                              return Text("Error: ${expenseSnapshot.error}");
+                                            } else {
+                                              double expense = expenseSnapshot.data ?? 0.0;
+                                              return Row(
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    convertToAmount(expense),
+                                                    style: TextStyle(color: kRed, fontWeight: FontWeight.bold, fontSize: 28),
+                                                  ),
+                                                  const Center(child: Coins())
+                                                ],
+                                              );
+                                            }
+                                          })
                                     ],
                                   ),
                                 )),
@@ -156,54 +169,53 @@ class HomePage extends StatelessWidget {
                           height: 145.h,
                           width: 145.w,
                           decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(18.r)),
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 15.h),
-                            child: Padding(
-                              padding: EdgeInsets.only(top: 30.h),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 60.r),
-                                    child: const Column(
-                                      children: [
-                                        Text(
-                                          "Balance",
-                                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                                        ),
-                                      ],
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(right: 60.r),
+                                child: const Column(
+                                  children: [
+                                    Text(
+                                      "Balance",
+                                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                                     ),
-                                  ),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
                                   FutureBuilder(
-                                        future: calculateMonthlyBalancePercent(dateDay.toIso8601String()),
-                                        builder: (context, balancePercentSnapshot) {
-                                          if (balancePercentSnapshot.connectionState == ConnectionState.waiting) {
-                                            return const CircularProgressIndicator(); // Or any loading indicator
-                                          } else if (balancePercentSnapshot.hasError) {
-                                            return Text("Error: ${balancePercentSnapshot.error}");
-                                          } else {
-                                            double balancePercent= balancePercentSnapshot.data ?? 0.0;
-                                            return Text(
-                                              '${convertToPercent(balancePercent)}%', 
-                                              style: TextStyle(color: kViolet, fontWeight: FontWeight.bold, fontSize: 28),
-                                            );
-                                          }
-                                        }),
+                                      future: calculateMonthlyBalancePercent(dateDay.toIso8601String()),
+                                      builder: (context, balancePercentSnapshot) {
+                                        if (balancePercentSnapshot.connectionState == ConnectionState.waiting) {
+                                          return const CircularProgressIndicator(); // Or any loading indicator
+                                        } else if (balancePercentSnapshot.hasError) {
+                                          return Text("Error: ${balancePercentSnapshot.error}");
+                                        } else {
+                                          double balancePercent = balancePercentSnapshot.data ?? 0.0;
+                                          return Text(
+                                            '${convertToPercent(balancePercent)}%',
+                                            style: TextStyle(color: kViolet, fontWeight: FontWeight.bold, fontSize: 40),
+                                          );
+                                        }
+                                      }),
                                   FutureBuilder(
-                                        future: calculateMonthlyBalance(dateDay.toIso8601String()),
-                                        builder: (context, balanceSnapshot) {
-                                          if (balanceSnapshot.connectionState == ConnectionState.waiting) {
-                                            return const CircularProgressIndicator(); // Or any loading indicator
-                                          } else if (balanceSnapshot.hasError) {
-                                            return Text("Error: ${balanceSnapshot.error}");
-                                          } else {
-                                            double balance= balanceSnapshot.data ?? 0.0;
-                                            return Text(convertToAmount(balance), style: TextStyle(color: kDarkgray, fontWeight: FontWeight.bold));
-                                          }
-                                        }),
-                                  
+                                      future: calculateMonthlyBalance(dateDay.toIso8601String()),
+                                      builder: (context, balanceSnapshot) {
+                                        if (balanceSnapshot.connectionState == ConnectionState.waiting) {
+                                          return const CircularProgressIndicator(); // Or any loading indicator
+                                        } else if (balanceSnapshot.hasError) {
+                                          return Text("Error: ${balanceSnapshot.error}");
+                                        } else {
+                                          double balance = balanceSnapshot.data ?? 0.0;
+                                          return Text(convertToAmount(balance), style: TextStyle(color: kDarkgray, fontWeight: FontWeight.bold));
+                                        }
+                                      }),
                                 ],
                               ),
-                            ),
+                            ],
                           )),
                     ],
                   ),
