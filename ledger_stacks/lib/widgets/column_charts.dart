@@ -42,9 +42,6 @@ class ColumnChart2 extends StatelessWidget {
                   expense.forEach((key, value) {
                     dbexpense.add({'month_year': key, 'total_amount': value});
                   });
-                } else {
-                  // If expense data is empty or null, set default value
-                  dbexpense.add({'month_year': DateTime.now(), 'total_amount': 0});
                 }
 
                 return Container(
