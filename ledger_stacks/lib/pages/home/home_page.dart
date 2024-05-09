@@ -42,15 +42,15 @@ class HomePage extends StatelessWidget {
             child: AvatarUser(
               userController: userController,
               radius: 40,
-              height: 60,
-              width: 60,
+              height: 40,
+              width: 40,
             ),
           ),
         ),
         title: Text('Hello! ${userController.user.username}', style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold)),
       ),
       body: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.only(right: 20 , left: 20 , bottom: 20),
           child: Stack(children: [
             Column(
               children: [
@@ -236,7 +236,7 @@ class HomePage extends StatelessWidget {
             )
           ])),
       floatingActionButton: CustomFloatingActionButton(onPressed: () {
-        Get.off(() => AddTransaction());
+        Get.to(AddTransaction());
       }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
