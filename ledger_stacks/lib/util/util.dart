@@ -170,6 +170,8 @@ Future<double> financialRisk(String date) async {
 
   if (financialRisk.isInfinite || financialRisk.isNaN || financialRisk <= 0) {
     return financialRisk = 0;
+  } else if (monthlyIncome < monthlyExpense) {
+    return financialRisk = 100;
   } else {
     return financialRisk;
   }
@@ -181,9 +183,7 @@ Future<double> financialRiskChart(String date) async {
   double monthlyExpense = await monthlyExpenseValue(date);
   double financialRiskChart = (monthlyExpense / monthlyIncome);
 
-  debugPrint("financialRiskChart: ${financialRiskChart.toString()}");
-
-  if (financialRiskChart.isInfinite || financialRiskChart.isNaN || financialRiskChart <= 0) {
+  if (financialRiskChart.isInfinite || financialRiskChart.isNaN || financialRiskChart > 1 || financialRiskChart.isNegative) {
     return financialRiskChart = 0;
   } else {
     return financialRiskChart;
