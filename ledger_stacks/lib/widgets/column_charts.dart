@@ -54,9 +54,7 @@ class ColumnChart2 extends StatelessWidget {
                     primaryXAxis: DateTimeCategoryAxis(
                       dateFormat: DateFormat.yMMM(),
                     ),
-                    primaryYAxis: const NumericAxis(
-                      labelFormat: '{value}',
-                    ),
+                    primaryYAxis: const NumericAxis(),
                     legend: const Legend(isVisible: true),
                     series: <ColumnSeries>[
                       ColumnSeries<Map<String, dynamic>, DateTime>(
