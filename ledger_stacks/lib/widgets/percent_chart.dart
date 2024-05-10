@@ -25,7 +25,44 @@ class PercentChart extends StatelessWidget {
             return Text("Error: ${chartSnapshot.error}");
           } else {
             double chart = chartSnapshot.data ?? 0.0;
-            return SemicircularIndicator(
+            if (chart > 1) {
+               return SemicircularIndicator(
+              radius: 100,
+              color: kRed,
+              backgroundColor: kRed,
+              progress: 1, // Assigning the double value here
+              strokeWidth: 20,
+              strokeCap: StrokeCap.butt,
+              child: Padding(
+                padding: EdgeInsets.only(top: 15.h),
+                child: Column(
+                  children: [
+                    FutureBuilder<double>(
+                      future: financialRisk(dateDay.toIso8601String()),
+                      builder: (context, riskSnapshot) {
+                        if (riskSnapshot.connectionState == ConnectionState.waiting) {
+                          return const CircularProgressIndicator(); // Or any loading indicator
+                        } else if (riskSnapshot.hasError) {
+                          return Text("Error: ${riskSnapshot.error}");
+                        } else {
+                          double risk = riskSnapshot.data ?? 0.0;
+                          return Text(
+                            '${convertToPercent(risk)}%',
+                            style: TextStyle(fontSize: 45.sp, fontWeight: FontWeight.w600),
+                          );
+                        }
+                      },
+                    ),
+                    Text(
+                      'Financial Risk',
+                      style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600, color: Colors.black26),
+                    ),
+                  ],
+                ),
+              ),
+            );
+            }else{
+               return SemicircularIndicator(
               radius: 100,
               color: kYellow,
               backgroundColor: kViolet,
@@ -60,6 +97,7 @@ class PercentChart extends StatelessWidget {
                 ),
               ),
             );
+            }
           }
         },
       ),

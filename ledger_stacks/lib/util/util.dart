@@ -154,7 +154,7 @@ Future<double> calculateMonthlyBalancePercent(String date) async {
   // ignore: unused_local_variable
   double monthlyBalancePercent = ((monthlyIncome - monthlyExpense) / monthlyIncome) * 100;
 
-  if (monthlyBalancePercent.isInfinite || monthlyBalancePercent.isNaN || monthlyBalancePercent <= 0) {
+  if (monthlyBalancePercent.isInfinite || monthlyBalancePercent.isNaN ) {
     return monthlyBalancePercent = 0;
   } else {
     return monthlyBalancePercent;
@@ -170,8 +170,6 @@ Future<double> financialRisk(String date) async {
 
   if (financialRisk.isInfinite || financialRisk.isNaN || financialRisk <= 0) {
     return financialRisk = 0;
-  } else if (monthlyIncome < monthlyExpense) {
-    return financialRisk = 100;
   } else {
     return financialRisk;
   }
@@ -184,9 +182,9 @@ Future<double> financialRiskChart(String date) async {
   // ignore: unused_local_variable
   double financialRiskChart = (monthlyExpense / monthlyIncome);
 
-  if (financialRiskChart.isInfinite || financialRiskChart.isNaN || financialRiskChart > 1 || financialRiskChart.isNegative) {
-      return financialRiskChart = 0;
-  }else {
-      return financialRiskChart;
+  if (financialRiskChart.isInfinite || financialRiskChart.isNaN || financialRiskChart.isNegative ) {
+    return financialRiskChart = 0;
+  } else {
+    return financialRiskChart;
   }
 }
