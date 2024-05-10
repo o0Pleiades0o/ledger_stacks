@@ -18,6 +18,8 @@ class AddTransaction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final nameController = addTransactionController.nameController;
+    final amountController = addTransactionController.amountController;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: kGray,
@@ -62,8 +64,8 @@ class AddTransaction extends StatelessWidget {
                       onPressed: () async {
                         if (addTransactionController.formKey.currentState!.validate()) {
                           await addTransactionController.createTransaction();
-                          debugPrint('All ${addTransactionController.nameController}');
-                          debugPrint('All ${addTransactionController.amountController}');
+                          nameController.text = "";
+                          amountController.text = "";
                         }
                       },
                     ),

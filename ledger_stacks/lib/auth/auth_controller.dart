@@ -9,6 +9,7 @@ import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/models/user.dart';
 
 import '../pages/home/home_page.dart';
+import '../widgets/snackbar.dart';
 
 class AuthController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -51,10 +52,9 @@ class AuthController extends GetxController {
       }
     } catch (e) {
       debugPrint("Firebase error: $e");
-      Get.snackbar(
-        "Error creating account",
-        e is FirebaseAuthException ? e.message ?? 'Unknown error' : e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
+      ErrorSnackbar.show(
+        title: "Error creating account",
+        message: e is FirebaseAuthException ? e.message ?? 'Unknown error' : e.toString(),
       );
     }
   }
@@ -67,18 +67,16 @@ class AuthController extends GetxController {
         Get.find<UserController>().user = user;
         Get.offAll(() => const HomePage());
       } else {
-        Get.snackbar(
-          "Error",
-          "User not found",
-          snackPosition: SnackPosition.BOTTOM,
+        ErrorSnackbar.show(
+          title: "Error",
+          message: "User not found",
         );
       }
     } catch (e) {
       debugPrint("Firebase error: $e");
-      Get.snackbar(
-        "Error login account",
-        e is FirebaseAuthException ? e.message ?? 'Unknown error' : e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
+      ErrorSnackbar.show(
+        title: "Error login account",
+        message: e is FirebaseAuthException ? e.message ?? 'Unknown error' : e.toString(),
       );
     }
   }
@@ -88,10 +86,9 @@ class AuthController extends GetxController {
       await auth.signOut();
       Get.find<UserController>().clear();
     } catch (e) {
-      Get.snackbar(
-        "Error signing out",
-        e is FirebaseAuthException ? e.message ?? 'Unknown error' : e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
+      ErrorSnackbar.show(
+        title: "Error signing out",
+        message: e is FirebaseAuthException ? e.message ?? 'Unknown error' : e.toString(),
       );
     }
   }
@@ -100,17 +97,15 @@ class AuthController extends GetxController {
     debugPrint("Email : $email");
     try {
       await auth.sendPasswordResetEmail(email: email);
-      Get.snackbar(
-        "Success",
-        "Password reset email has been sent",
-        snackPosition: SnackPosition.BOTTOM,
+      SuccessSnackbar.show(
+        title: "Success",
+        message: "Password reset email has been sent",
       );
     } catch (e) {
       debugPrint("Firebase error: $e");
-      Get.snackbar(
-        "Error",
-        e is FirebaseAuthException ? e.message ?? 'Unknown error' : e.toString(),
-        snackPosition: SnackPosition.BOTTOM,
+      ErrorSnackbar.show(
+        title: "Error",
+        message: e is FirebaseAuthException ? e.message ?? 'Unknown error' : e.toString(),
       );
     }
   }

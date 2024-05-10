@@ -88,12 +88,7 @@ CREATE TABLE dailyReport(
     myListController.updateList();
     final db = await database;
     final id = await db.insert('mylist', myList.toMap());
-    if (id > 0) {
-      SuccessSnackbar.show(
-        title: 'Success',
-        message: '"${myList.name}" added successfully',
-      );
-    }
+    if (id > 0) {}
     return id;
   }
 
@@ -152,12 +147,6 @@ CREATE TABLE dailyReport(
     final Database db = await database;
     final int id = await db.insert('transactions', transaction.toMap());
     ledgerController.fetchMyLedger();
-    if (id > 0) {
-      SuccessSnackbar.show(
-        title: 'Success',
-        message: '"${transaction.name}" added successfully',
-      );
-    }
     return id;
   }
 
@@ -179,7 +168,6 @@ CREATE TABLE dailyReport(
     final Database db = await database;
     final rowsDeleted = await db.delete('transactions', where: 'id = ?', whereArgs: [id]);
     ledgerController.fetchMyLedger();
-    if (rowsDeleted > 0) {}
     return rowsDeleted;
   }
 

@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/constants/color.dart';
 import 'package:ledger_stacks/pages/myledger/add_transaction.dart/transaction_page.dart';
-//import 'package:ledger_stacks/pages/profile/edit_profile/edit_profile_page.dart';
 import 'package:ledger_stacks/pages/profile/proflie_page.dart';
 import 'package:ledger_stacks/util/convert_amount.dart';
 import 'package:ledger_stacks/util/util.dart';
@@ -15,8 +14,6 @@ import '../../widgets/avatar_user.dart';
 import '../../widgets/column_charts.dart';
 import '../../widgets/floating_action_button.dart';
 import '../../widgets/navigation_bar.dart';
-
-//import 'package:ledger_stacks/widgets/button.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({
@@ -50,7 +47,7 @@ class HomePage extends StatelessWidget {
         title: Text('Hello! ${userController.user.username}', style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold)),
       ),
       body: Padding(
-          padding: const EdgeInsets.only(right: 20 , left: 20 , bottom: 20),
+          padding: const EdgeInsets.only(right: 20, left: 20, bottom: 20),
           child: Stack(children: [
             Column(
               children: [

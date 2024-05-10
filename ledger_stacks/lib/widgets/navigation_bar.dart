@@ -10,9 +10,9 @@ Widget navigationBar() {
   return Container(
       height: 55.h,
       decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(20.r),
-          boxShadow: [BoxShadow(color: Colors.black.withAlpha(20), blurRadius: 20, spreadRadius: 10)]),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20.r),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
