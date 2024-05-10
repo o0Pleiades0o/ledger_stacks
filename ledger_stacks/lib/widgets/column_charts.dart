@@ -23,9 +23,6 @@ class ColumnChart2 extends StatelessWidget {
             income.forEach((key, value) {
               dbincome.add({'month_year': key, 'total_amount': value});
             });
-          } else {
-            // If income data is empty or null, set default value
-            dbincome.add({'month_year': DateTime.now(), 'total_amount': 0});
           }
 
           return FutureBuilder(

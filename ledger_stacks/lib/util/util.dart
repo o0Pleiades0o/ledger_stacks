@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ledger_stacks/util/database/database_service.dart';
@@ -182,8 +181,6 @@ Future<double> financialRiskChart(String date) async {
   double monthlyIncome = await monthlyIncomeValue(date);
   double monthlyExpense = await monthlyExpenseValue(date);
   double financialRiskChart = (monthlyExpense / monthlyIncome);
-
-  debugPrint("financialRiskChart: ${financialRiskChart.toString()}");
 
   if (financialRiskChart.isInfinite || financialRiskChart.isNaN || financialRiskChart.isNegative) {
     return financialRiskChart = 0;
