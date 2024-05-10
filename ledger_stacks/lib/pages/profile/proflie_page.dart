@@ -42,13 +42,9 @@ class Proflie extends StatelessWidget {
               ),
               Text(
                 userController.user.username!,
-                style: TextStyle(
-                    fontSize: 25.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87),
+                style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold, color: Colors.black87),
               ),
-              Text(userController.user.email!,
-                  style: TextStyle(fontSize: 18.sp, color: kDarkgray)),
+              Text(userController.user.email!, style: TextStyle(fontSize: 18.sp, color: kDarkgray)),
               CusNavigationBotton(
                 onPressed: () {
                   Get.off(() => const EditProflie());

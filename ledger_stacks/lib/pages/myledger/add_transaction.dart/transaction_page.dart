@@ -15,7 +15,6 @@ class AddTransaction extends StatelessWidget {
   AddTransaction({super.key});
   final RadioButtonController radioButtonController = Get.put(RadioButtonController());
   final AddTransactionController addTransactionController = Get.put(AddTransactionController());
-
   @override
   Widget build(BuildContext context) {
     final nameController = addTransactionController.nameController;
