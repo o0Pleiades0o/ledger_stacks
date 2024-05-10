@@ -77,12 +77,6 @@ class EditProflie extends StatelessWidget {
                 child: Column(
                   children: [
                     TextFieldGeneral(
-                      validator: validateEmailField,
-                      controller: editProflieController.emailController,
-                      labelText: 'Email',
-                      icon: Icons.mail,
-                    ),
-                    TextFieldGeneral(
                       validator: validateUsernameField,
                       controller: editProflieController.usernameController,
                       labelText: 'Username',
@@ -100,7 +94,6 @@ class EditProflie extends StatelessWidget {
                                       userController.isLoading.value = true;
                                       userController
                                           .updateUser(
-                                        editProflieController.emailController.text,
                                         editProflieController.usernameController.text,
                                         editProflieController.selectedImage.value,
                                       )

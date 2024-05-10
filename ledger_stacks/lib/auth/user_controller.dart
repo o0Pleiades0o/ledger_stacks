@@ -7,6 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/models/user.dart';
 
+import '../widgets/snackbar.dart';
+
 class UserController extends GetxController {
   Rx<UserModel> userModel = UserModel().obs;
   UserModel get user => userModel.value;
@@ -55,7 +57,7 @@ class UserController extends GetxController {
   }
 
   Future<bool> updateUser(
-    String email,
+    //String email,
     String username,
     File? selectedImage,
   ) async {
@@ -73,24 +75,26 @@ class UserController extends GetxController {
 
       await firestore.collection('users').doc(user.id).update({
         'username': username,
-        'email': email,
+        //'email': email,
         'imageAvatar': imageUrl ?? user.imageAvatar,
       });
 
       userModel.update((userModel) {
         userModel?.username = username;
-        userModel?.email = email;
+        //userModel?.email = email;
         userModel?.imageAvatar = imageUrl ?? userModel.imageAvatar;
       });
-
-      Get.snackbar(
-        "Success",
-        "Update successfully",
-        snackPosition: SnackPosition.BOTTOM,
+      SuccessSnackbar.show(
+        title: "Success",
+        message: "Update successfully",
       );
       return true;
     } catch (e) {
       debugPrint('Error updating user: $e');
+      ErrorSnackbar.show(
+        title: "Error",
+        message: e is FirebaseAuthException ? e.message ?? 'Unknown error' : e.toString(),
+      );
       return false;
     }
   }
