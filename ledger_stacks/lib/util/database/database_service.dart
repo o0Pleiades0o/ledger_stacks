@@ -179,12 +179,7 @@ CREATE TABLE dailyReport(
     final Database db = await database;
     final rowsDeleted = await db.delete('transactions', where: 'id = ?', whereArgs: [id]);
     ledgerController.fetchMyLedger();
-    if (rowsDeleted > 0) {
-      SuccessSnackbar.show(
-        title: 'Success',
-        message: 'deleted successfully',
-      );
-    }
+    if (rowsDeleted > 0) {}
     return rowsDeleted;
   }
 
