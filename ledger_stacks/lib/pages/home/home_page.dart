@@ -7,7 +7,6 @@ import 'package:ledger_stacks/pages/home/Home_pages_content/main_content.dart';
 import 'package:ledger_stacks/pages/myledger/add_transaction.dart/transaction_page.dart';
 import 'package:ledger_stacks/pages/profile/proflie_page.dart';
 import 'package:ledger_stacks/util/convert_amount.dart';
-//import 'package:ledger_stacks/util/util.dart';
 import 'package:ledger_stacks/widgets/coins.dart';
 import 'package:ledger_stacks/widgets/percent_chart.dart';
 
@@ -24,7 +23,6 @@ class HomePage extends GetView {
   Widget build(BuildContext context) {
     final userController = Get.find<UserController>();
     final homeController = Get.put(HomePageController());
-    //final dateDay = DateTime.now();
 
     return Scaffold(
       appBar: AppBar(
@@ -100,28 +98,6 @@ class HomePage extends GetView {
                                         ],
                                       );
                                     })
-
-                                    // FutureBuilder(
-                                    //     future: monthlyIncomeValue(dateDay.toIso8601String()),
-                                    //     builder: (context, incomeSnapshot) {
-                                    //       if (incomeSnapshot.connectionState == ConnectionState.waiting) {
-                                    //         return const CircularProgressIndicator(); // Or any loading indicator
-                                    //       } else if (incomeSnapshot.hasError) {
-                                    //         return Text("Error: ${incomeSnapshot.error}");
-                                    //       } else {
-                                    //         double income = incomeSnapshot.data ?? 0.0;
-                                    //         return Row(
-                                    //           mainAxisAlignment: MainAxisAlignment.center,
-                                    //           children: [
-                                    //             Text(
-                                    //               convertToAmount(income),
-                                    //               style: TextStyle(color: kGreen, fontWeight: FontWeight.bold, fontSize: 28),
-                                    //             ),
-                                    //             const Coins()
-                                    //           ],
-                                    //         );
-                                    //       }
-                                    //     })
                                   ],
                                 ),
                               )),
@@ -142,7 +118,7 @@ class HomePage extends GetView {
                                           children: [
                                             Text(
                                               "Expense",
-                                              style: TextStyle( fontWeight: FontWeight.bold, fontSize: 12),
+                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                                             ),
                                           ],
                                         ),
@@ -157,27 +133,6 @@ class HomePage extends GetView {
                                           ],
                                         );
                                       })
-                                      // FutureBuilder(
-                                      //     future: monthlyExpenseValue(dateDay.toIso8601String()),
-                                      //     builder: (context, expenseSnapshot) {
-                                      //       if (expenseSnapshot.connectionState == ConnectionState.waiting) {
-                                      //         return const CircularProgressIndicator(); // Or any loading indicator
-                                      //       } else if (expenseSnapshot.hasError) {
-                                      //         return Text("Error: ${expenseSnapshot.error}");
-                                      //       } else {
-                                      //         double expense = expenseSnapshot.data ?? 0.0;
-                                      //         return Row(
-                                      //           mainAxisAlignment: MainAxisAlignment.center,
-                                      //           children: [
-                                      //             Text(
-                                      //               convertToAmount(expense),
-                                      //               style: TextStyle(color: kRed, fontWeight: FontWeight.bold, fontSize: 28),
-                                      //             ),
-                                      //             const Center(child: Coins())
-                                      //           ],
-                                      //         );
-                                      //       }
-                                      //     })
                                     ],
                                   ),
                                 )),
@@ -216,34 +171,6 @@ class HomePage extends GetView {
                                     return Text(convertToAmount(homeController.monthlyBalance.value),
                                         style: TextStyle(color: kDarkgray, fontWeight: FontWeight.bold));
                                   })
-                                  // FutureBuilder(
-                                  //     future: calculateMonthlyBalancePercent(dateDay.toIso8601String()),
-                                  //     builder: (context, balancePercentSnapshot) {
-                                  //       if (balancePercentSnapshot.connectionState == ConnectionState.waiting) {
-                                  //         return const CircularProgressIndicator(); // Or any loading indicator
-                                  //       } else if (balancePercentSnapshot.hasError) {
-                                  //         return Text("Error: ${balancePercentSnapshot.error}");
-                                  //       } else {
-                                  //         double balancePercent = balancePercentSnapshot.data ?? 0.0;
-                                  //         return Text(
-                                  //           '${convertToPercent(balancePercent)}%',
-                                  //           style: TextStyle(color: kViolet, fontWeight: FontWeight.bold, fontSize: 40),
-                                  //         );
-                                  //       }
-                                  //     }),
-
-                                  // FutureBuilder(
-                                  //     future: calculateMonthlyBalance(dateDay.toIso8601String()),
-                                  //     builder: (context, balanceSnapshot) {
-                                  //       if (balanceSnapshot.connectionState == ConnectionState.waiting) {
-                                  //         return const CircularProgressIndicator(); // Or any loading indicator
-                                  //       } else if (balanceSnapshot.hasError) {
-                                  //         return Text("Error: ${balanceSnapshot.error}");
-                                  //       } else {
-                                  //         double balance = balanceSnapshot.data ?? 0.0;
-                                  //         return Text(convertToAmount(balance), style: TextStyle(color: kDarkgray, fontWeight: FontWeight.bold));
-                                  //       }
-                                  //     }),
                                 ],
                               ),
                             ],
