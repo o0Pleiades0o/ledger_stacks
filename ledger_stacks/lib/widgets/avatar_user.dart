@@ -5,62 +5,17 @@ import 'package:ledger_stacks/constants/color.dart';
 
 import '../auth/user_controller.dart';
 
-// class AvatarUser extends StatelessWidget {
-//   const AvatarUser({
-//     super.key,
-//     required this.userController,
-//     required this.radius,
-//     required this.height,
-//     required this.width,
-//   });
-
-//   final UserController userController;
-//   final int radius, height, width;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return CircleAvatar(
-//         radius: radius.r,
-//         child: Obx(() {
-//           // ignore: unnecessary_null_comparison
-//           return userController.user == null
-//               ? const CircularProgressIndicator()
-//               : ClipOval(
-//                   child: Container(
-//                   color: Colors.white,
-//                   child: userController.user.imageAvatar == ""
-//                       ? Image.asset(
-//                           'lib/assets/images/user2.png',
-//                           fit: BoxFit.cover,
-//                         )
-//                       : Obx(
-//                           () => Image.network(
-//                             userController.user.imageAvatar ?? "",
-//                             fit: BoxFit.cover,
-//                             height: height.r,
-//                             width: width.r,
-//                           ),
-//                         ),
-//                 ));
-//         }));
-//   }
-// }
 class AvatarUser extends StatelessWidget {
-  const AvatarUser({
-    super.key,
-    required this.userController,
-    required this.radius,
-    required this.height,
-    required this.width,
-  });
+  const AvatarUser(
+      {super.key, required this.userController, required this.radius, required this.height, required this.width, this.assetheight, this.assetwidth});
 
   final UserController userController;
-  final int radius, height, width;
+  final int? radius, height, width, assetheight, assetwidth;
 
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
-      radius: radius.r,
+      radius: radius?.r,
       backgroundColor: kGray,
       child: Obx(
         () {
@@ -74,12 +29,14 @@ class AvatarUser extends StatelessWidget {
                   ? Image.asset(
                       'lib/assets/images/user2.png',
                       fit: BoxFit.cover,
+                      height: assetheight?.r,
+                      width: assetwidth?.r,
                     )
                   : Image.network(
                       imageAvatar,
                       fit: BoxFit.cover,
-                      height: height.r,
-                      width: width.r,
+                      height: height?.r,
+                      width: width?.r,
                     ),
             );
           }

@@ -37,6 +37,8 @@ class HomePage extends GetView {
             },
             child: AvatarUser(
               userController: userController,
+              assetheight: 40,
+              assetwidth: 40,
               radius: 40,
               height: 40,
               width: 40,
