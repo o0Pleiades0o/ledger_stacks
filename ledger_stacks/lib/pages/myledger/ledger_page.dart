@@ -8,14 +8,13 @@ import '../../constants/color.dart';
 import '../../widgets/alert_dialog.dart';
 import '../../widgets/button.dart';
 import '../../widgets/ledger_display.dart';
-import '../home/Home_pages_content/main_content.dart';
 import 'add_transaction.dart/transaction_page.dart';
 
 class MyLedger extends StatelessWidget {
   MyLedger({super.key});
 
   final LedgerController ledgerController = Get.put(LedgerController());
-  final HomePageController homePageController = Get.put(HomePageController());
+  //final HomePageController homePageController = Get.put(HomePageController());
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +26,6 @@ class MyLedger extends StatelessWidget {
         backgroundColor: kViolet,
         leading: KBackButton(
           onPressed: () {
-            homePageController.fetchData();
             Get.back();
           },
         ),

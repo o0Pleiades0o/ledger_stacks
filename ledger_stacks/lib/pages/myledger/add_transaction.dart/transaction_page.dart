@@ -30,7 +30,6 @@ class AddTransaction extends StatelessWidget {
           backgroundColor: Colors.white,
           leading: KBackButton(
             onPressed: () {
-              homePageController.fetchData();
               Get.back();
             },
           ),
@@ -68,6 +67,7 @@ class AddTransaction extends StatelessWidget {
                           await addTransactionController.createTransaction();
                           nameController.text = "";
                           amountController.text = "";
+                          homePageController.fetchData();
                         }
                       },
                     ),

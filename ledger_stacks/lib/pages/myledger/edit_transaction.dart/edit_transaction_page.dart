@@ -10,6 +10,7 @@ import '../../../constants/color.dart';
 import '../../../util/util.dart';
 import '../../../widgets/button.dart';
 import '../../../widgets/textform.dart';
+import '../../home/Home_pages_content/main_content.dart';
 
 class EditTransaction extends GetView<EditTransactionController> {
   final TransactionModel selectedItem;
@@ -21,6 +22,7 @@ class EditTransaction extends GetView<EditTransactionController> {
       selectedItem: selectedItem,
       ledgerController: Get.find<LedgerController>(),
     ));
+    final HomePageController homePageController = Get.put(HomePageController());
 
     return Scaffold(
       backgroundColor: kGray,
@@ -66,6 +68,7 @@ class EditTransaction extends GetView<EditTransactionController> {
                     onPressed: () {
                       if (controller.formKey.currentState!.validate()) {
                         controller.updateTransaction();
+                        homePageController.fetchData();
                       }
                     }),
               ],
