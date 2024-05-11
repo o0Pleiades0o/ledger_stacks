@@ -3,11 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/constants/color.dart';
+import 'package:ledger_stacks/pages/home/Home_pages_content/main_content.dart';
 import 'package:ledger_stacks/pages/myledger/add_transaction.dart/transaction_page.dart';
-//import 'package:ledger_stacks/pages/profile/edit_profile/edit_profile_page.dart';
 import 'package:ledger_stacks/pages/profile/proflie_page.dart';
 import 'package:ledger_stacks/util/convert_amount.dart';
-import 'package:ledger_stacks/util/util.dart';
+//import 'package:ledger_stacks/util/util.dart';
 import 'package:ledger_stacks/widgets/coins.dart';
 import 'package:ledger_stacks/widgets/percent_chart.dart';
 
@@ -16,17 +16,15 @@ import '../../widgets/column_charts.dart';
 import '../../widgets/floating_action_button.dart';
 import '../../widgets/navigation_bar.dart';
 
-//import 'package:ledger_stacks/widgets/button.dart';
-
-class HomePage extends StatelessWidget {
+class HomePage extends GetView {
   const HomePage({
     super.key,
   });
-
   @override
   Widget build(BuildContext context) {
     final userController = Get.find<UserController>();
-    final dateDay = DateTime.now();
+    final homeController = Get.put(HomePageController());
+    //final dateDay = DateTime.now();
 
     return Scaffold(
       appBar: AppBar(
@@ -50,7 +48,7 @@ class HomePage extends StatelessWidget {
         title: Text('Hello! ${userController.user.username}', style: TextStyle(fontSize: 25.sp, fontWeight: FontWeight.bold)),
       ),
       body: Padding(
-          padding: const EdgeInsets.only(right: 20 , left: 20 , bottom: 20),
+          padding: const EdgeInsets.only(right: 20, left: 20, bottom: 20),
           child: Stack(children: [
             Column(
               children: [
@@ -92,27 +90,38 @@ class HomePage extends StatelessWidget {
                                         ],
                                       ),
                                     ),
-                                    FutureBuilder(
-                                        future: monthlyIncomeValue(dateDay.toIso8601String()),
-                                        builder: (context, incomeSnapshot) {
-                                          if (incomeSnapshot.connectionState == ConnectionState.waiting) {
-                                            return const CircularProgressIndicator(); // Or any loading indicator
-                                          } else if (incomeSnapshot.hasError) {
-                                            return Text("Error: ${incomeSnapshot.error}");
-                                          } else {
-                                            double income = incomeSnapshot.data ?? 0.0;
-                                            return Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  convertToAmount(income),
-                                                  style: TextStyle(color: kGreen, fontWeight: FontWeight.bold, fontSize: 28),
-                                                ),
-                                                const Coins()
-                                              ],
-                                            );
-                                          }
-                                        })
+                                    Obx(() {
+                                      return Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(convertToAmount(homeController.monthlyIncome.value),
+                                              style: TextStyle(color: kGreen, fontWeight: FontWeight.bold, fontSize: 28)),
+                                          const Coins()
+                                        ],
+                                      );
+                                    })
+
+                                    // FutureBuilder(
+                                    //     future: monthlyIncomeValue(dateDay.toIso8601String()),
+                                    //     builder: (context, incomeSnapshot) {
+                                    //       if (incomeSnapshot.connectionState == ConnectionState.waiting) {
+                                    //         return const CircularProgressIndicator(); // Or any loading indicator
+                                    //       } else if (incomeSnapshot.hasError) {
+                                    //         return Text("Error: ${incomeSnapshot.error}");
+                                    //       } else {
+                                    //         double income = incomeSnapshot.data ?? 0.0;
+                                    //         return Row(
+                                    //           mainAxisAlignment: MainAxisAlignment.center,
+                                    //           children: [
+                                    //             Text(
+                                    //               convertToAmount(income),
+                                    //               style: TextStyle(color: kGreen, fontWeight: FontWeight.bold, fontSize: 28),
+                                    //             ),
+                                    //             const Coins()
+                                    //           ],
+                                    //         );
+                                    //       }
+                                    //     })
                                   ],
                                 ),
                               )),
@@ -138,27 +147,37 @@ class HomePage extends StatelessWidget {
                                           ],
                                         ),
                                       ),
-                                      FutureBuilder(
-                                          future: monthlyExpenseValue(dateDay.toIso8601String()),
-                                          builder: (context, expenseSnapshot) {
-                                            if (expenseSnapshot.connectionState == ConnectionState.waiting) {
-                                              return const CircularProgressIndicator(); // Or any loading indicator
-                                            } else if (expenseSnapshot.hasError) {
-                                              return Text("Error: ${expenseSnapshot.error}");
-                                            } else {
-                                              double expense = expenseSnapshot.data ?? 0.0;
-                                              return Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    convertToAmount(expense),
-                                                    style: TextStyle(color: kRed, fontWeight: FontWeight.bold, fontSize: 28),
-                                                  ),
-                                                  const Center(child: Coins())
-                                                ],
-                                              );
-                                            }
-                                          })
+                                      Obx(() {
+                                        return Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Text(convertToAmount(homeController.monthlyExpense.value),
+                                                style: TextStyle(color: kGreen, fontWeight: FontWeight.bold, fontSize: 28)),
+                                            const Coins()
+                                          ],
+                                        );
+                                      })
+                                      // FutureBuilder(
+                                      //     future: monthlyExpenseValue(dateDay.toIso8601String()),
+                                      //     builder: (context, expenseSnapshot) {
+                                      //       if (expenseSnapshot.connectionState == ConnectionState.waiting) {
+                                      //         return const CircularProgressIndicator(); // Or any loading indicator
+                                      //       } else if (expenseSnapshot.hasError) {
+                                      //         return Text("Error: ${expenseSnapshot.error}");
+                                      //       } else {
+                                      //         double expense = expenseSnapshot.data ?? 0.0;
+                                      //         return Row(
+                                      //           mainAxisAlignment: MainAxisAlignment.center,
+                                      //           children: [
+                                      //             Text(
+                                      //               convertToAmount(expense),
+                                      //               style: TextStyle(color: kRed, fontWeight: FontWeight.bold, fontSize: 28),
+                                      //             ),
+                                      //             const Center(child: Coins())
+                                      //           ],
+                                      //         );
+                                      //       }
+                                      //     })
                                     ],
                                   ),
                                 )),
@@ -187,33 +206,44 @@ class HomePage extends StatelessWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  FutureBuilder(
-                                      future: calculateMonthlyBalancePercent(dateDay.toIso8601String()),
-                                      builder: (context, balancePercentSnapshot) {
-                                        if (balancePercentSnapshot.connectionState == ConnectionState.waiting) {
-                                          return const CircularProgressIndicator(); // Or any loading indicator
-                                        } else if (balancePercentSnapshot.hasError) {
-                                          return Text("Error: ${balancePercentSnapshot.error}");
-                                        } else {
-                                          double balancePercent = balancePercentSnapshot.data ?? 0.0;
-                                          return Text(
-                                            '${convertToPercent(balancePercent)}%',
-                                            style: TextStyle(color: kViolet, fontWeight: FontWeight.bold, fontSize: 40),
-                                          );
-                                        }
-                                      }),
-                                  FutureBuilder(
-                                      future: calculateMonthlyBalance(dateDay.toIso8601String()),
-                                      builder: (context, balanceSnapshot) {
-                                        if (balanceSnapshot.connectionState == ConnectionState.waiting) {
-                                          return const CircularProgressIndicator(); // Or any loading indicator
-                                        } else if (balanceSnapshot.hasError) {
-                                          return Text("Error: ${balanceSnapshot.error}");
-                                        } else {
-                                          double balance = balanceSnapshot.data ?? 0.0;
-                                          return Text(convertToAmount(balance), style: TextStyle(color: kDarkgray, fontWeight: FontWeight.bold));
-                                        }
-                                      }),
+                                  Obx(() {
+                                    return Text(
+                                      '${convertToPercent(homeController.monthlybalancePercent.value)}%',
+                                      style: TextStyle(color: kViolet, fontWeight: FontWeight.bold, fontSize: 40),
+                                    );
+                                  }),
+                                  Obx(() {
+                                    return Text(convertToAmount(homeController.monthlyBalance.value),
+                                        style: TextStyle(color: kDarkgray, fontWeight: FontWeight.bold));
+                                  })
+                                  // FutureBuilder(
+                                  //     future: calculateMonthlyBalancePercent(dateDay.toIso8601String()),
+                                  //     builder: (context, balancePercentSnapshot) {
+                                  //       if (balancePercentSnapshot.connectionState == ConnectionState.waiting) {
+                                  //         return const CircularProgressIndicator(); // Or any loading indicator
+                                  //       } else if (balancePercentSnapshot.hasError) {
+                                  //         return Text("Error: ${balancePercentSnapshot.error}");
+                                  //       } else {
+                                  //         double balancePercent = balancePercentSnapshot.data ?? 0.0;
+                                  //         return Text(
+                                  //           '${convertToPercent(balancePercent)}%',
+                                  //           style: TextStyle(color: kViolet, fontWeight: FontWeight.bold, fontSize: 40),
+                                  //         );
+                                  //       }
+                                  //     }),
+
+                                  // FutureBuilder(
+                                  //     future: calculateMonthlyBalance(dateDay.toIso8601String()),
+                                  //     builder: (context, balanceSnapshot) {
+                                  //       if (balanceSnapshot.connectionState == ConnectionState.waiting) {
+                                  //         return const CircularProgressIndicator(); // Or any loading indicator
+                                  //       } else if (balanceSnapshot.hasError) {
+                                  //         return Text("Error: ${balanceSnapshot.error}");
+                                  //       } else {
+                                  //         double balance = balanceSnapshot.data ?? 0.0;
+                                  //         return Text(convertToAmount(balance), style: TextStyle(color: kDarkgray, fontWeight: FontWeight.bold));
+                                  //       }
+                                  //     }),
                                 ],
                               ),
                             ],
@@ -236,7 +266,7 @@ class HomePage extends StatelessWidget {
             )
           ])),
       floatingActionButton: CustomFloatingActionButton(onPressed: () {
-        Get.to(AddTransaction());
+        Get.to(() => AddTransaction());
       }),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

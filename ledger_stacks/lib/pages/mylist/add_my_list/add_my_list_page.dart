@@ -16,17 +16,15 @@ import 'add_my_list_controller.dart';
 
 class AddMyList extends GetView {
   AddMyList({super.key});
-  final RadioButtonController radioButtonController =
-      Get.put(RadioButtonController());
-  final AddMyListController addMyListController =
-      Get.put(AddMyListController());
-  final DropDownTypeController dropDownTypeController =
-      Get.put(DropDownTypeController());
-  final DropDownFrequencyController dropDownFrequencyController =
-      Get.put(DropDownFrequencyController());
+  final RadioButtonController radioButtonController = Get.put(RadioButtonController());
+  final AddMyListController addMyListController = Get.put(AddMyListController());
+  final DropDownTypeController dropDownTypeController = Get.put(DropDownTypeController());
+  final DropDownFrequencyController dropDownFrequencyController = Get.put(DropDownFrequencyController());
 
   @override
   Widget build(BuildContext context) {
+    final nameController = addMyListController.listNameController;
+    final amountController = addMyListController.listAmountController;
     return Scaffold(
       backgroundColor: kGray,
       appBar: AppBar(
@@ -86,16 +84,12 @@ class AddMyList extends GetView {
                   ButtonRaL(
                     buttonText: "Add",
                     onPressed: () async {
-                      if (addMyListController.formKey.currentState!
-                          .validate()) {
-                        if (dropDownTypeController.selectedValue.value ==
-                                'Daily' ||
-                            (dropDownTypeController.selectedValue.value ==
-                                    'Auto' &&
-                                dropDownFrequencyController
-                                        .selectedValue.value !=
-                                    null)) {
+                      if (addMyListController.formKey.currentState!.validate()) {
+                        if (dropDownTypeController.selectedValue.value == 'Daily' ||
+                            (dropDownTypeController.selectedValue.value == 'Auto' && dropDownFrequencyController.selectedValue.value != null)) {
                           await addMyListController.createMylist();
+                          nameController.text = "";
+                          amountController.text = "";
                         } else {
                           ErrorSnackbar.show(
                             title: 'Error',
