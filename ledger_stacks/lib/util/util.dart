@@ -137,10 +137,3 @@ Future monthlyExpenseValue(String date) async {
   double monthlyExpense = await LedgetStackDB.instance.calculateMonthlyExpense(date);
   return monthlyExpense;
 }
-
-
-
-
-
-
-
