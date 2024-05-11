@@ -165,7 +165,6 @@ Future<double> financialRisk(String date) async {
   // คำนวณค่ารายได้รายเดือน
   double monthlyIncome = await monthlyIncomeValue(date);
   double monthlyExpense = await monthlyExpenseValue(date);
-  // ignore: unused_local_variable
   double financialRisk = (monthlyExpense / monthlyIncome) * 100;
 
   if (financialRisk.isInfinite || financialRisk.isNaN || financialRisk <= 0) {
@@ -179,7 +178,6 @@ Future<double> financialRiskChart(String date) async {
   // คำนวณค่ารายได้รายเดือน
   double monthlyIncome = await monthlyIncomeValue(date);
   double monthlyExpense = await monthlyExpenseValue(date);
-  // ignore: unused_local_variable
   double financialRiskChart = (monthlyExpense / monthlyIncome);
 
   if (financialRiskChart.isInfinite || financialRiskChart.isNaN || financialRiskChart.isNegative ) {

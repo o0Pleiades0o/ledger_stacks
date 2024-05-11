@@ -5,7 +5,7 @@ class SuccessSnackbar {
   static void show({
     String title = 'Success',
     String message = '',
-    Duration duration = const Duration(seconds: 2),
+    Duration duration = const Duration(seconds: 1),
     SnackPosition snackPosition = SnackPosition.BOTTOM,
     Color backgroundColor = Colors.green,
     Color textColor = Colors.white,
@@ -25,7 +25,7 @@ class ErrorSnackbar {
   static void show({
     String title = 'Error',
     String message = '',
-    Duration duration = const Duration(seconds: 2),
+    Duration duration = const Duration(seconds: 1),
     SnackPosition snackPosition = SnackPosition.BOTTOM,
     Color backgroundColor = Colors.red,
     Color textColor = Colors.white,

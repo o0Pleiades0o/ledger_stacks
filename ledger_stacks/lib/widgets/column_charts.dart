@@ -23,9 +23,6 @@ class ColumnChart2 extends StatelessWidget {
             income.forEach((key, value) {
               dbincome.add({'month_year': key, 'total_amount': value});
             });
-          } else {
-            // If income data is empty or null, set default value
-            dbincome.add({'month_year': DateTime.now(), 'total_amount': 0});
           }
 
           return FutureBuilder(
@@ -42,9 +39,6 @@ class ColumnChart2 extends StatelessWidget {
                   expense.forEach((key, value) {
                     dbexpense.add({'month_year': key, 'total_amount': value});
                   });
-                } else {
-                  // If expense data is empty or null, set default value
-                  dbexpense.add({'month_year': DateTime.now(), 'total_amount': 0});
                 }
 
                 return Container(
@@ -54,9 +48,7 @@ class ColumnChart2 extends StatelessWidget {
                     primaryXAxis: DateTimeCategoryAxis(
                       dateFormat: DateFormat.yMMM(),
                     ),
-                    primaryYAxis: const NumericAxis(
-                      labelFormat: '{value}',
-                    ),
+                    primaryYAxis: const NumericAxis(),
                     legend: const Legend(isVisible: true),
                     series: <ColumnSeries>[
                       ColumnSeries<Map<String, dynamic>, DateTime>(
