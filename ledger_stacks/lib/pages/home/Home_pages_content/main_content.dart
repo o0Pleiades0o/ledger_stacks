@@ -8,6 +8,8 @@ class HomePageController extends GetxController {
   final monthlyExpense = 0.0.obs;
   final monthlybalancePercent = 0.0.obs;
   final monthlyBalance = 0.0.obs;
+  final financialRiskPercent = 0.0.obs;
+  final financialRiskChartValue = 0.0.obs;
   RxList<Map<String, dynamic>> dbincomeColumn = <Map<String, dynamic>>[].obs;
   RxList<Map<String, dynamic>> dbexpenseColumn = <Map<String, dynamic>>[].obs;
 
@@ -22,6 +24,8 @@ class HomePageController extends GetxController {
     fetchMonthlyExpense();
     fetchbalancePercent();
     fetchbalance();
+    fetchfinancialRisk();
+    fetchfinancialRiskChart();
     fetchColumnChartDataIncome();
     fetchColumnChartDataExpense();
   }
@@ -40,7 +44,7 @@ class HomePageController extends GetxController {
     double income = await LedgetStackDB.instance.calculateMonthlyIncome(dateDay.toIso8601String());
     double expense = await LedgetStackDB.instance.calculateMonthlyExpense(dateDay.toIso8601String());
     double balancePercent = ((income - expense) / income) * 100;
-    if (balancePercent.isInfinite || balancePercent.isNaN || balancePercent <= 0) {
+    if (balancePercent.isInfinite || balancePercent.isNaN) {
       monthlybalancePercent(0.0);
     } else {
       monthlybalancePercent(balancePercent);
@@ -53,6 +57,30 @@ class HomePageController extends GetxController {
     double balance = income - expense;
     monthlyBalance(balance);
   }
+
+  void fetchfinancialRisk() async {
+  double monthlyIncome = await LedgetStackDB.instance.calculateMonthlyIncome(dateDay.toIso8601String());
+  double monthlyExpense = await LedgetStackDB.instance.calculateMonthlyExpense(dateDay.toIso8601String());
+  double financialRisk = (monthlyExpense / monthlyIncome) * 100;
+
+  if (financialRisk.isInfinite || financialRisk.isNaN || financialRisk <= 0) {
+    financialRiskPercent(0.0);
+  } else {
+    financialRiskPercent(financialRisk);
+  }
+}
+
+void fetchfinancialRiskChart() async {
+  double monthlyIncome = await LedgetStackDB.instance.calculateMonthlyIncome(dateDay.toIso8601String());
+  double monthlyExpense =await LedgetStackDB.instance.calculateMonthlyExpense(dateDay.toIso8601String());
+  double financialRiskChart = (monthlyExpense / monthlyIncome);
+
+  if (financialRiskChart.isInfinite || financialRiskChart.isNaN || financialRiskChart.isNegative ) {
+    financialRiskChartValue(0.0);
+  }else {
+    financialRiskChartValue(financialRiskChart);
+  }
+}
 
   void fetchColumnChartDataIncome() async {
     final Map<DateTime, double> income = await LedgetStackDB.instance.getColumnChartDataIncome();

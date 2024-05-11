@@ -142,7 +142,7 @@ class HomePage extends GetView {
                                           children: [
                                             Text(
                                               "Expense",
-                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                                              style: TextStyle( fontWeight: FontWeight.bold, fontSize: 12),
                                             ),
                                           ],
                                         ),
@@ -152,7 +152,7 @@ class HomePage extends GetView {
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Text(convertToAmount(homeController.monthlyExpense.value),
-                                                style: TextStyle(color: kGreen, fontWeight: FontWeight.bold, fontSize: 28)),
+                                                style: TextStyle(color: kRed, fontWeight: FontWeight.bold, fontSize: 28)),
                                             const Coins()
                                           ],
                                         );
