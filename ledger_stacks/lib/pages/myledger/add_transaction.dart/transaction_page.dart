@@ -10,11 +10,13 @@ import '../../../util/util.dart';
 import '../../../widgets/button.dart';
 import '../../../widgets/container_select_mylist.dart';
 import '../../../widgets/radio_button/radio_button.dart';
+import '../../home/Home_pages_content/main_content.dart';
 
 class AddTransaction extends StatelessWidget {
   AddTransaction({super.key});
   final RadioButtonController radioButtonController = Get.put(RadioButtonController());
   final AddTransactionController addTransactionController = Get.put(AddTransactionController());
+  final HomePageController homePageController = Get.put(HomePageController());
   @override
   Widget build(BuildContext context) {
     final nameController = addTransactionController.nameController;
@@ -28,6 +30,7 @@ class AddTransaction extends StatelessWidget {
           backgroundColor: Colors.white,
           leading: KBackButton(
             onPressed: () {
+              homePageController.fetchData();
               Get.back();
             },
           ),

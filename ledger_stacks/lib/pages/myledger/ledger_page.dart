@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ledger_stacks/pages/home/home_page.dart';
 import 'package:ledger_stacks/pages/myledger/ledger_controller.dart';
 import 'package:ledger_stacks/widgets/floating_action_button.dart';
 
@@ -9,12 +8,14 @@ import '../../constants/color.dart';
 import '../../widgets/alert_dialog.dart';
 import '../../widgets/button.dart';
 import '../../widgets/ledger_display.dart';
+import '../home/Home_pages_content/main_content.dart';
 import 'add_transaction.dart/transaction_page.dart';
 
 class MyLedger extends StatelessWidget {
   MyLedger({super.key});
 
   final LedgerController ledgerController = Get.put(LedgerController());
+  final HomePageController homePageController = Get.put(HomePageController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,8 @@ class MyLedger extends StatelessWidget {
         backgroundColor: kViolet,
         leading: KBackButton(
           onPressed: () {
-            Get.off(() => const HomePage());
+            homePageController.fetchData();
+            Get.back();
           },
         ),
         actions: [
@@ -106,7 +108,7 @@ class MyLedger extends StatelessWidget {
         children: [
           CreateFAB(
             onPressed: () {
-              Get.to(AddTransaction());
+              Get.to(() => AddTransaction());
             },
           ),
         ],

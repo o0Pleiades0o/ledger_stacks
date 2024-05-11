@@ -20,7 +20,7 @@ Widget navigationBar() {
           //Icon go to Ledger
           IconAndText(
             onPressed: () {
-              Get.off(() => MyLedger());
+              Get.to(() => MyLedger());
             },
             text: 'My Ledger',
             icon: FontAwesomeIcons.solidAddressBook,
@@ -33,7 +33,7 @@ Widget navigationBar() {
           //Icon go to MyList
           IconAndText(
             onPressed: () {
-              Get.off(() => Mylist());
+              Get.to(() => Mylist());
             },
             text: 'My List',
             icon: FontAwesomeIcons.clipboardList,
