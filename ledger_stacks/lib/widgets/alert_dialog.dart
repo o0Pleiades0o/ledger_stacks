@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ledger_stacks/pages/myledger/ledger_controller.dart';
 import 'package:ledger_stacks/pages/mylist/mylist_controller.dart';
 import '../auth/auth_controller.dart';
+import '../pages/home/Home_pages_content/main_content.dart';
 import '../pages/login/login_page.dart';
 
 Future<void> showMyDialogLogout(BuildContext context) async {
@@ -78,6 +79,8 @@ Future<void> showMyDialogDelete(BuildContext context) async {
 
 Future<void> showMyDialogDeleteTransaction(BuildContext context) async {
   final LedgerController ledgerController = Get.put(LedgerController());
+  final HomePageController homePageController = Get.put(HomePageController());
+
   return showDialog<void>(
     context: context,
     barrierDismissible: false,
@@ -102,6 +105,7 @@ Future<void> showMyDialogDeleteTransaction(BuildContext context) async {
           TextButton(
             onPressed: () {
               ledgerController.deleteSelectedItems();
+              homePageController.fetchData();
               Navigator.pop(context);
               ledgerController.isMultiSelect.toggle();
             },

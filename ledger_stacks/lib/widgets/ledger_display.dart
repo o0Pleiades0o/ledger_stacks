@@ -7,6 +7,7 @@ import 'package:ledger_stacks/pages/myledger/ledger_controller.dart';
 import 'package:ledger_stacks/util/convert_amount.dart';
 
 import '../constants/color.dart';
+import '../pages/home/Home_pages_content/main_content.dart';
 import '../pages/myledger/edit_transaction.dart/edit_transaction_page.dart';
 import '../util/database/database_service.dart';
 import '../util/util.dart';
@@ -76,7 +77,7 @@ class LedgerDisplay extends GetView<LedgerController> {
 }
 
 class ItemLedger extends GetView {
-  const ItemLedger({
+  ItemLedger({
     super.key,
     required this.transactions,
     required this.ledgerController,
@@ -84,6 +85,7 @@ class ItemLedger extends GetView {
 
   final List<TransactionModel>? transactions;
   final LedgerController ledgerController;
+  final HomePageController homePageController = Get.put(HomePageController());
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +144,7 @@ class ItemLedger extends GetView {
                           PopupMenuItem(
                             onTap: () {
                               LedgetStackDB.instance.deleteTransaction(ledger.id!, ledgerController);
+                              homePageController.fetchData();
                             },
                             child: const Text("Delete"),
                           ),

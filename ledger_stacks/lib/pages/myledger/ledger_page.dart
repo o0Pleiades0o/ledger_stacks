@@ -14,7 +14,6 @@ class MyLedger extends StatelessWidget {
   MyLedger({super.key});
 
   final LedgerController ledgerController = Get.put(LedgerController());
-  //final HomePageController homePageController = Get.put(HomePageController());
 
   @override
   Widget build(BuildContext context) {
