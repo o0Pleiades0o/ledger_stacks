@@ -37,40 +37,46 @@ class LedgerDisplay extends GetView<LedgerController> {
         // Sort the keys (dates) in DESC order
         var sortedDates = groupByDate.keys.toList()..sort((a, b) => b.compareTo(a));
 
-        return Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(topRight: Radius.circular(30.r), topLeft: Radius.circular(30.r)),
+        return Stack(
+          children: [
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: 15.w),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(30.r), topRight: Radius.circular(30.r)),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(30.r), topRight: Radius.circular(30.r)),
+                child: ListView.builder(
+                  itemCount: sortedDates.length + 1, // Add 1 for the SizedBox
+                  itemBuilder: (context, index) {
+                    if (index == sortedDates.length) {
+                      return SizedBox(
+                        height: 80.h, // Adjust the height as needed
+                      );
+                    } else {
+                      var date = sortedDates[index];
+                      var transactions = groupByDate[date];
+                      TransactionModel headerTransaction = transactions!.first;
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Header
+                          HeaderLedger(headerTransaction: headerTransaction),
+                          // Items under header
+                          ItemLedger(
+                            transactions: transactions,
+                            ledgerController: ledgerController,
+                          ),
+                        ],
+                      );
+                    }
+                  },
+                ),
+              ),
             ),
-            child: ListView.builder(
-              itemCount: sortedDates.length + 1, // Add 1 for the SizedBox
-              itemBuilder: (context, index) {
-                if (index == sortedDates.length) {
-                  return SizedBox(
-                    height: 80.h, // Adjust the height as needed
-                  );
-                } else {
-                  var date = sortedDates[index];
-                  var transactions = groupByDate[date];
-                  TransactionModel headerTransaction = transactions!.first;
-                  return Container(
-                    color: Colors.white,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Header
-                        HeaderLedger(headerTransaction: headerTransaction),
-                        // Items under header
-                        ItemLedger(
-                          transactions: transactions,
-                          ledgerController: ledgerController,
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              },
-            ));
+          ],
+        );
       }
     });
   }
@@ -92,7 +98,7 @@ class ItemLedger extends GetView {
     return Column(
       children: transactions!.map((ledger) {
         return Padding(
-          padding: EdgeInsets.only(left: 20.w, right: 20.w, bottom: 10.h),
+          padding: EdgeInsets.only(left: 10.w, right: 10.w, bottom: 10.h),
           child: SizedBox(
             height: 35.h,
             width: Get.width,
@@ -111,6 +117,7 @@ class ItemLedger extends GetView {
                             )
                           : const SizedBox(),
                       Expanded(
+                        flex: 3,
                         child: Text(
                           ledger.name,
                           overflow: TextOverflow.ellipsis,
@@ -176,149 +183,154 @@ class HeaderLedger extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 10.h),
       child: Container(
-        height: 150.h,
-        width: Get.width,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(36.r),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF4b4b4b).withOpacity(0.08),
-              offset: const Offset(0, 8),
-              blurRadius: 10,
-              spreadRadius: 6,
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            blurRadius: 50,
+            spreadRadius: -10,
+            offset: const Offset(
+              0,
+              4,
             ),
-          ],
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 45.w, vertical: 20.h),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Text(
-                    "${DateTime.parse(headerTransaction.date!).day}",
-                    style: TextStyle(
-                      fontSize: 40.sp,
-                      fontWeight: FontWeight.w700,
+          ),
+        ]),
+        child: Card(
+          //margin: EdgeInsets.zero,
+          surfaceTintColor: Colors.white,
+          color: Colors.white,
+          elevation: 8,
+          shadowColor: Colors.black54,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 45.w, vertical: 20.h),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      "${DateTime.parse(headerTransaction.date!).day}",
+                      style: TextStyle(
+                        fontSize: 40.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 5.w,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        getMonthName(headerTransaction.date!),
-                        style: TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w700,
+                    SizedBox(
+                      width: 5.w,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          getMonthName(headerTransaction.date!),
+                          style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                      ),
-                      Text(
-                        "${DateTime.parse(headerTransaction.date!).year}",
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w700,
+                        Text(
+                          "${DateTime.parse(headerTransaction.date!).year}",
+                          style: TextStyle(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              FutureBuilder(
-                future: dailyIncomeValue(date),
-                builder: (context, incomeSnapshot) {
-                  if (incomeSnapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator(); // Or any loading indicator
-                  } else if (incomeSnapshot.hasError) {
-                    return Text("Error: ${incomeSnapshot.error}");
-                  } else {
-                    return FutureBuilder(
-                      future: dailyExpenseValue(date),
-                      builder: (context, expenseSnapshot) {
-                        if (expenseSnapshot.connectionState == ConnectionState.waiting) {
-                          return const CircularProgressIndicator(); // Or any loading indicator
-                        } else if (expenseSnapshot.hasError) {
-                          return Text("Error: ${expenseSnapshot.error}");
-                        } else {
-                          double income = incomeSnapshot.data ?? 0.0;
-                          double expense = expenseSnapshot.data ?? 0.0;
-                          double balance = income - expense;
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                children: [
-                                  Text(
-                                    "Income",
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w700,
-                                      color: kGreen,
+                      ],
+                    )
+                  ],
+                ),
+                FutureBuilder(
+                  future: dailyIncomeValue(date),
+                  builder: (context, incomeSnapshot) {
+                    if (incomeSnapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator(); // Or any loading indicator
+                    } else if (incomeSnapshot.hasError) {
+                      return Text("Error: ${incomeSnapshot.error}");
+                    } else {
+                      return FutureBuilder(
+                        future: dailyExpenseValue(date),
+                        builder: (context, expenseSnapshot) {
+                          if (expenseSnapshot.connectionState == ConnectionState.waiting) {
+                            return const CircularProgressIndicator(); // Or any loading indicator
+                          } else if (expenseSnapshot.hasError) {
+                            return Text("Error: ${expenseSnapshot.error}");
+                          } else {
+                            double income = incomeSnapshot.data ?? 0.0;
+                            double expense = expenseSnapshot.data ?? 0.0;
+                            double balance = income - expense;
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(
+                                      "Income",
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: kGreen,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    convertToAmount(income),
-                                    style: TextStyle(
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.w700,
-                                      color: kGreen,
+                                    Text(
+                                      convertToAmount(income),
+                                      style: TextStyle(
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: kGreen,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      "Expense",
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: kRed,
+                                      ),
                                     ),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    "Expense",
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w700,
-                                      color: kRed,
+                                    Text(
+                                      convertToAmount(expense),
+                                      style: TextStyle(
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: kRed,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      "Balance",
+                                      style: TextStyle(
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: kViolet,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    convertToAmount(expense),
-                                    style: TextStyle(
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.w700,
-                                      color: kRed,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    "Balance",
-                                    style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w700,
-                                      color: kViolet,
-                                    ),
-                                  ),
-                                  Text(
-                                    convertToAmount(balance),
-                                    style: TextStyle(
-                                      fontSize: 20.sp,
-                                      fontWeight: FontWeight.w700,
-                                      color: kViolet,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          );
-                        }
-                      },
-                    );
-                  }
-                },
-              ),
-            ],
+                                    Text(
+                                      convertToAmount(balance),
+                                      style: TextStyle(
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.w700,
+                                        color: kViolet,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            );
+                          }
+                        },
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
