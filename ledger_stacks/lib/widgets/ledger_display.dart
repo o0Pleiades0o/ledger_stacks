@@ -7,7 +7,7 @@ import 'package:ledger_stacks/pages/myledger/ledger_controller.dart';
 import 'package:ledger_stacks/util/convert_amount.dart';
 
 import '../constants/color.dart';
-import '../pages/home/Home_pages_content/main_content.dart';
+import '../pages/home/home_page_controller.dart';
 import '../pages/myledger/edit_transaction.dart/edit_transaction_page.dart';
 import '../util/database/database_service.dart';
 import '../util/util.dart';

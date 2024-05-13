@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/auth/user_controller.dart';
 import 'package:ledger_stacks/constants/color.dart';
-import 'package:ledger_stacks/pages/home/Home_pages_content/main_content.dart';
+import 'package:ledger_stacks/pages/home/home_page_controller.dart';
 import 'package:ledger_stacks/pages/myledger/add_transaction.dart/transaction_page.dart';
 import 'package:ledger_stacks/pages/profile/proflie_page.dart';
 import 'package:ledger_stacks/util/convert_amount.dart';

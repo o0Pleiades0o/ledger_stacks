@@ -10,7 +10,7 @@ import '../../../constants/color.dart';
 import '../../../util/util.dart';
 import '../../../widgets/button.dart';
 import '../../../widgets/textform.dart';
-import '../../home/Home_pages_content/main_content.dart';
+import '../../home/home_page_controller.dart';
 
 class EditTransaction extends GetView<EditTransactionController> {
   final TransactionModel selectedItem;

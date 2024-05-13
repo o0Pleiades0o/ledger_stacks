@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:ledger_stacks/pages/myledger/ledger_controller.dart';
 import 'package:ledger_stacks/pages/mylist/mylist_controller.dart';
 import '../auth/auth_controller.dart';
-import '../pages/home/Home_pages_content/main_content.dart';
+import '../pages/home/home_page_controller.dart';
 import '../pages/login/login_page.dart';
 
 Future<void> showMyDialogLogout(BuildContext context) async {

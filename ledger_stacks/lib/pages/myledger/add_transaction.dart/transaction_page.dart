@@ -10,7 +10,7 @@ import '../../../util/util.dart';
 import '../../../widgets/button.dart';
 import '../../../widgets/container_select_mylist.dart';
 import '../../../widgets/radio_button/radio_button.dart';
-import '../../home/Home_pages_content/main_content.dart';
+import '../../home/home_page_controller.dart';
 
 class AddTransaction extends StatelessWidget {
   AddTransaction({super.key});

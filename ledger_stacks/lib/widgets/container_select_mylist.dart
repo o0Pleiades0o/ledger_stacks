@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:ledger_stacks/pages/myledger/add_transaction.dart/transaction_controller.dart';
 import 'package:ledger_stacks/pages/mylist/mylist_controller.dart';
@@ -78,14 +77,6 @@ class Header extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          IconButton(
-              onPressed: () {
-                debugPrint("change to temporary list");
-              },
-              icon: const Icon(
-                FontAwesomeIcons.angleLeft,
-                color: Colors.grey,
-              )),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Text(
@@ -93,14 +84,6 @@ class Header extends StatelessWidget {
               style: TextStyle(color: Colors.grey, fontSize: 20.sp),
             ),
           ),
-          IconButton(
-              onPressed: () {
-                debugPrint("Pressed");
-              },
-              icon: const Icon(
-                FontAwesomeIcons.angleRight,
-                color: Colors.grey,
-              )),
         ],
       ),
     );

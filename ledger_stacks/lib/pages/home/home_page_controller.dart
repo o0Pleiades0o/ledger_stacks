@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../util/database/database_service.dart';
+import '../../util/database/database_service.dart';
 
 class HomePageController extends GetxController {
   final dateDay = DateTime.now();
@@ -59,28 +59,28 @@ class HomePageController extends GetxController {
   }
 
   void fetchfinancialRisk() async {
-  double monthlyIncome = await LedgetStackDB.instance.calculateMonthlyIncome(dateDay.toIso8601String());
-  double monthlyExpense = await LedgetStackDB.instance.calculateMonthlyExpense(dateDay.toIso8601String());
-  double financialRisk = (monthlyExpense / monthlyIncome) * 100;
+    double monthlyIncome = await LedgetStackDB.instance.calculateMonthlyIncome(dateDay.toIso8601String());
+    double monthlyExpense = await LedgetStackDB.instance.calculateMonthlyExpense(dateDay.toIso8601String());
+    double financialRisk = (monthlyExpense / monthlyIncome) * 100;
 
-  if (financialRisk.isInfinite || financialRisk.isNaN || financialRisk <= 0) {
-    financialRiskPercent(0.0);
-  } else {
-    financialRiskPercent(financialRisk);
+    if (financialRisk.isInfinite || financialRisk.isNaN || financialRisk <= 0) {
+      financialRiskPercent(0.0);
+    } else {
+      financialRiskPercent(financialRisk);
+    }
   }
-}
 
-void fetchfinancialRiskChart() async {
-  double monthlyIncome = await LedgetStackDB.instance.calculateMonthlyIncome(dateDay.toIso8601String());
-  double monthlyExpense =await LedgetStackDB.instance.calculateMonthlyExpense(dateDay.toIso8601String());
-  double financialRiskChart = (monthlyExpense / monthlyIncome);
+  void fetchfinancialRiskChart() async {
+    double monthlyIncome = await LedgetStackDB.instance.calculateMonthlyIncome(dateDay.toIso8601String());
+    double monthlyExpense = await LedgetStackDB.instance.calculateMonthlyExpense(dateDay.toIso8601String());
+    double financialRiskChart = (monthlyExpense / monthlyIncome);
 
-  if (financialRiskChart.isInfinite || financialRiskChart.isNaN || financialRiskChart.isNegative ) {
-    financialRiskChartValue(0.0);
-  }else {
-    financialRiskChartValue(financialRiskChart);
+    if (financialRiskChart.isInfinite || financialRiskChart.isNaN || financialRiskChart.isNegative) {
+      financialRiskChartValue(0.0);
+    } else {
+      financialRiskChartValue(financialRiskChart);
+    }
   }
-}
 
   void fetchColumnChartDataIncome() async {
     final Map<DateTime, double> income = await LedgetStackDB.instance.getColumnChartDataIncome();

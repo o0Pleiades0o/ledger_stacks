@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ledger_stacks/pages/home/Home_pages_content/main_content.dart';
+import 'package:ledger_stacks/pages/home/home_page_controller.dart';
 import 'package:ledger_stacks/util/convert_amount.dart';
 import 'package:semicircle_indicator/semicircle_indicator.dart';
 import 'package:ledger_stacks/constants/color.dart';

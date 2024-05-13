@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:ledger_stacks/constants/color.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../pages/home/Home_pages_content/main_content.dart';
+import '../pages/home/home_page_controller.dart';
 
 class ColumnChart2 extends StatelessWidget {
   const ColumnChart2({super.key});
