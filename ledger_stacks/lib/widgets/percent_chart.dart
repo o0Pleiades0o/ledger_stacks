@@ -30,7 +30,7 @@ class PercentChart extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    '${convertToAmount(homeController.financialRiskPercent.value)}%',
+                    '${convertToPercent(homeController.financialRiskPercent.value)}%',
                     style: const TextStyle(fontSize: 45, fontWeight: FontWeight.w600),
                   ),
                   const Text(
