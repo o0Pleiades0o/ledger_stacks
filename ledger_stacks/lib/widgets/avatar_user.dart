@@ -31,6 +31,7 @@ class AvatarUser extends StatelessWidget {
                       fit: BoxFit.cover,
                       height: assetheight?.r,
                       width: assetwidth?.r,
+                      color: Colors.grey.shade400,
                     )
                   : Image.network(
                       imageAvatar,

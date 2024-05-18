@@ -26,12 +26,18 @@ dependencies:
   collection: ^1.18.0
   semicircle_indicator: ^1.1.1
   syncfusion_flutter_charts: ^25.2.3
-
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^3.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "lib/assets/Icon/Icon-Ledger-Stack.png"
 
 flutter:
   uses-material-design: true
