@@ -14,11 +14,11 @@ Future<void> showMyDialogLogout(BuildContext context) async {
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('Sign out?'),
+        title: const Text('Logout?'),
         content: const SingleChildScrollView(
           child: ListBody(
             children: <Widget>[
-              Text('Do you want to sign out?'),
+              Text('Do you want to logout?'),
             ],
           ),
         ),

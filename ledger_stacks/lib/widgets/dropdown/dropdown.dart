@@ -6,8 +6,7 @@ import 'package:ledger_stacks/widgets/dropdown/dropdown_controller.dart';
 
 //DropDownType
 class DropDownType extends StatelessWidget {
-  final DropDownTypeController dropDownTypeController =
-      Get.put(DropDownTypeController());
+  final DropDownTypeController dropDownTypeController = Get.put(DropDownTypeController());
 
   DropDownType({super.key});
 
@@ -43,17 +42,14 @@ class DropDownType extends StatelessWidget {
               width: Get.width,
             ),
             dropdownStyleData: DropdownStyleData(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF4b4b4b).withOpacity(0.08),
-                    offset: const Offset(0, 8),
-                    blurRadius: 10,
-                    spreadRadius: 6,
-                  )
-                ])),
+                decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15), boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF4b4b4b).withOpacity(0.08),
+                offset: const Offset(0, 8),
+                blurRadius: 10,
+                spreadRadius: 6,
+              )
+            ])),
             menuItemStyleData: const MenuItemStyleData(
               height: 40,
             ),
@@ -66,8 +62,7 @@ class DropDownType extends StatelessWidget {
 class DropDownFrequency extends StatelessWidget {
   DropDownFrequency({super.key});
 
-  final DropDownFrequencyController dropDownFrequencyController =
-      Get.put(DropDownFrequencyController());
+  final DropDownFrequencyController dropDownFrequencyController = Get.put(DropDownFrequencyController());
   @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
@@ -75,7 +70,7 @@ class DropDownFrequency extends StatelessWidget {
         () => DropdownButton2<String>(
           isExpanded: true,
           hint: Text(
-            'Select Item',
+            'Select Frequency',
             style: TextStyle(
               fontSize: 14.sp,
               color: Colors.grey,
